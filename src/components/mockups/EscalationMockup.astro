@@ -1,0 +1,51 @@
+---
+// mockups/EscalationMockup.astro
+// Step 5 visual — failure case: internal tracker issue linked to upstream issue.
+---
+<div class="split">
+  <div class="split-card">
+    <div class="sc-head">
+      <div class="sc-source">
+        <span class="logo logo-github">⌥</span>
+        <span>your-org/your-app</span>
+        <span class="pill pill-muted">issue #842</span>
+      </div>
+    </div>
+    <div class="sc-title">[Ube] Cannot patch: race in expo-av session unmount</div>
+    <div class="sc-body">
+      <div><span class="label">repro:</span> open video → background → foreground &lt; 200ms</div>
+      <div><span class="label">freq:</span> 0.31% of sessions on iOS 17.4+</div>
+      <div><span class="label">narrowed to:</span> AVAudioSession.setActive(false)</div>
+      <div><span class="label">attempted:</span> 3 patches · all regressed</div>
+      <div style="margin-top:6px"><span class="label">blocked by →</span> <span style="color:var(--accent)">expo/expo#28104</span></div>
+    </div>
+    <div class="sc-foot">
+      <span>tracking · auto-bump on upstream change</span>
+      <span>opened 3d ago</span>
+    </div>
+  </div>
+
+  <div class="split-connector">blocked by →</div>
+
+  <div class="split-card">
+    <div class="sc-head">
+      <div class="sc-source">
+        <span class="logo logo-github">⌥</span>
+        <span>expo/expo</span>
+        <span class="pill pill-warn">Blocked upstream</span>
+      </div>
+    </div>
+    <div class="sc-title">[expo-av] AVAudioSession setActive(false) races with unmount on iOS 17.4+</div>
+    <div class="sc-body">
+      <div><span class="label">filed by:</span> ube[bot] on behalf of your-org</div>
+      <div><span class="label">minimal repro:</span> attached · 42 LOC</div>
+      <div><span class="label">affected:</span> expo-av@13.4.0 – 13.10.x</div>
+      <div><span class="label">suggested:</span> guard session.deactivate() with mounted flag</div>
+      <div style="margin-top:6px"><span class="label">status:</span> filed 3d ago · no response</div>
+    </div>
+    <div class="sc-foot">
+      <span>watching for label / comment</span>
+      <span>auto-bump enabled</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+---
+// mockups/IntakeMockup.astro
+// Step 1 visual — multi-source "issue inbox" with 6 source cards.
+// Source logo classes live in /src/styles/mockups.css under `.logo-*`.
+const items = [
+  { logo: 'crashlytics', label: 'C', src: 'Crashlytics', summary: 'NullPointerException · WidgetUnmount.kt:87', tag: 'crash', time: '2m' },
+  { logo: 'sentry',      label: 'S', src: 'Sentry',       summary: 'TypeError: cannot read property "uri" of null', tag: '8 events', time: '14m' },
+  { logo: 'play',        label: 'P', src: 'Play Console', summary: 'ANR · com.app/.MainActivity · 0.4% sessions',    tag: 'ANR', time: '32m' },
+  { logo: 'appstore',    label: 'A', src: 'App Store',    summary: '★ "App crashes whenever I tap on a video review…"', tag: '1★', time: '1h', sans: true },
+  { logo: 'email',       label: '✉', src: 'Support inbox', summary: 'sarah.k@…: "Camera stops working after 5 min"',     tag: 'email', time: '2h', sans: true },
+  { logo: 'deps',        label: 'D', src: 'Dependencies', summary: 'react-native  0.76.3  →  0.77.0',                 tag: 'minor', time: '4h' },
+];
+---
+<div class="intake">
+  {items.map((i) => (
+    <div class="intake-card">
+      <span class={`logo logo-${i.logo}`}>{i.label}</span>
+      <div class="ic-body">
+        <div class="ic-source">{i.src} <span class="ic-tag">{i.tag}</span></div>
+        <div class={`ic-summary${i.sans ? ' sans' : ''}`}>{i.summary}</div>
+      </div>
+      <div class="ic-meta">
+        <span class="ic-time">{i.time}</span>
+        <span class="captured">captured</span>
+      </div>
+    </div>
+  ))}
+</div>

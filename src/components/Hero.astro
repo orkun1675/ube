@@ -1,0 +1,74 @@
+---
+// Hero.astro — top of the homepage. Headline + PR composite.
+// The PR/crash composite lives here (not in a separate component) because
+// it's only used on the homepage hero and its layout is tightly coupled.
+---
+<header class="hero">
+  <div class="container hero-inner">
+    <div class="hero-copy reveal">
+      <div class="eyebrow hero-eyebrow">Ube Maintainer</div>
+      <h1 class="display-mega">Maintenance, <span class="acc">on autopilot.</span></h1>
+      <p class="hero-sub">Ube reads your crash feeds, error logs, dependency upgrades, and user reviews — then triages, reproduces, fixes, and ships. Your team gets a sprint back.</p>
+      <div class="hero-ctas">
+        <button class="btn btn-primary js-open-modal">Request Access</button>
+        <a href="#how" class="btn btn-secondary">See how it works</a>
+      </div>
+    </div>
+
+    {/* PR + Crash composite */}
+    <div class="hero-composite reveal">
+      <div class="pr-card">
+        <div class="pr-header">
+          <div class="pr-meta">
+            <span class="pill pill-open">● Open</span>
+            <span class="pill pill-purple">Ube · auto</span>
+            <span class="caption mono">#1284 · main ← ube/fix-widget-unmount</span>
+          </div>
+          <div class="pr-title">Fix: NullPointerException in WidgetUnmount (Crashlytics #4821)</div>
+          <div class="pr-byline">
+            <span class="avatar">U</span>
+            <span><span class="ink">ube[bot]</span> opened this PR · 23 minutes ago</span>
+          </div>
+        </div>
+        <div class="pr-tabs">
+          <span class="pr-tab"><span>Conversation</span><span class="count">4</span></span>
+          <span class="pr-tab"><span>Commits</span><span class="count">3</span></span>
+          <span class="pr-tab active">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--success)">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Checks</span><span class="count">12</span>
+          </span>
+          <span class="pr-tab"><span>Files</span><span class="count">6</span></span>
+        </div>
+        <div class="pr-checks">
+          <div class="check-row"><span class="ok">✓</span><span class="path">build / android</span><span class="dur">2m 14s</span></div>
+          <div class="check-row"><span class="ok">✓</span><span class="path">build / ios</span><span class="dur">3m 02s</span></div>
+          <div class="check-row"><span class="ok">✓</span><span class="path">test / unit</span><span class="dur">48s</span></div>
+          <div class="check-row"><span class="ok">✓</span><span class="path">test / e2e (regression)</span><span class="dur">5m 21s</span></div>
+          <div class="check-row"><span class="ok">✓</span><span class="path">lint / format</span><span class="dur">12s</span></div>
+        </div>
+      </div>
+
+      <div class="crash-card">
+        <div class="crash-head">
+          <div class="crash-source">
+            <span class="logo logo-crashlytics">C</span>
+            Crashlytics · Issue #4821
+          </div>
+          <span class="pill pill-purple">Linked</span>
+        </div>
+        <div class="crash-stack">
+          <div>java.lang.<span class="keyword">NullPointerException</span></div>
+          <div>&nbsp;&nbsp;at WidgetView.onDetach<span style="color:var(--muted)">(WidgetView.kt:142)</span></div>
+          <div class="err-line">&nbsp;&nbsp;at WidgetUnmount.cleanup<span style="color:var(--muted)">(WidgetUnmount.kt:87)</span></div>
+          <div>&nbsp;&nbsp;at LifecycleHandler.dispose<span style="color:var(--muted)">(LifecycleHandler.kt:54)</span></div>
+        </div>
+        <div class="crash-meta">
+          <span><span class="v">3,418</span> users · 0.9% sessions</span>
+          <span>v2.4.1, v2.4.2</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

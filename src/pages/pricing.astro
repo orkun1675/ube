@@ -1,0 +1,27 @@
+---
+// pages/pricing.astro — stub for now. Pricing is "coming soon" per the brief.
+// Once real pricing exists, swap the body for a <Pricing /> component.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FinalCta   from '../components/FinalCta.astro';
+---
+<BaseLayout
+  title="Pricing — Ube"
+  description="Pricing details for Ube are coming soon. Request early access to be notified."
+  currentProduct="none"
+>
+  <section class="section" style="padding-top:160px;text-align:center">
+    <div class="container">
+      <div class="eyebrow" style="margin-bottom:16px">Pricing</div>
+      <h1 class="display-mega" style="margin:0 auto 24px;max-width:14ch;text-wrap:balance">Pricing is coming soon.</h1>
+      <p class="body-md" style="max-width:48ch;margin:0 auto 32px;font-size:17px">
+        We're still working out what fair pricing looks like for agentic maintenance. Request access and we'll share details as soon as they're ready.
+      </p>
+      <button class="btn btn-primary js-open-modal">Request Access</button>
+    </div>
+  </section>
+
+  <FinalCta
+    headline="Be first to know when pricing lands."
+    body="Early-access teams get founding-customer pricing. Tell us about your stack."
+  />
+</BaseLayout>

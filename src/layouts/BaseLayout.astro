@@ -1,0 +1,70 @@
+---
+// BaseLayout.astro — every page renders inside this.
+// Owns: <head>, fonts, global stylesheets, nav, footer, modal, page JS.
+//
+// Per-page knobs:
+//   - title:          <title> + og:title
+//   - description:    meta description + og:description
+//   - currentProduct: "maintainer" | "publisher" | "none" — which
+//                     product-switcher pill is highlighted in the nav.
+//
+// Page-specific CSS (e.g. mockups.css) should be imported from the page
+// file itself — Astro will scope it to that route's build.
+import '../styles/tokens.css';
+import '../styles/components.css';
+import '../styles/layout.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import RequestAccessModal from '../components/RequestAccessModal.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  currentProduct?: 'maintainer' | 'publisher' | 'none';
+}
+
+const {
+  title,
+  description = "Ube reads your crash feeds, error logs, dependency upgrades, and user reviews — then triages, reproduces, fixes, and ships.",
+  currentProduct = 'maintainer',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+
+  <link rel="canonical" href={canonical} />
+
+  {/* Open Graph */}
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:site_name" content="Ube" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  {/* Fonts */}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <Nav currentProduct={currentProduct} />
+
+  <slot />
+
+  <Footer />
+  <RequestAccessModal />
+
+  <script src="/page.js" is:inline></script>
+</body>
+</html>

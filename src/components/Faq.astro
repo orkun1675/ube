@@ -1,0 +1,44 @@
+---
+// Faq.astro — 4-question accordion. First item open by default.
+// Open/close toggle is wired up in /public/page.js.
+const faqs = [
+  {
+    q: 'Does Ube auto-merge, or does it only open PRs for review?',
+    a: 'Always opens PRs. You stay in control of what ships. Auto-merge is opt-in per repository, and even then only for changes that pass the full regression suite plus a configurable risk policy.',
+  },
+  {
+    q: 'Where does my code go?',
+    a: "We process your code in ephemeral environments isolated per repository. We don't train on your code. Self-hosted is on the roadmap for teams that need it.",
+  },
+  {
+    q: 'Which frameworks and platforms does Ube support?',
+    a: 'React Native, Expo, Flutter, native iOS, native Android, and Capacitor/Ionic at launch. Other stacks supported on request — tell us what you ship and we can usually fast-track it.',
+  },
+  {
+    q: 'What if Ube makes a bad fix?',
+    a: "Every PR runs your tests plus a regression suite before it's opened. You review the diff. If a fix is wrong, marking it rejected teaches Ube to avoid that approach for the same issue — and Ube re-tries with a different one.",
+  },
+];
+---
+<section class="section" style="background:var(--canvas-soft)">
+  <div class="container">
+    <div class="sec-head reveal" style="text-align:left;">
+      <div class="eyebrow">FAQ</div>
+      <h2 class="display-lg">Honest questions, straight answers.</h2>
+    </div>
+    <div class="faq-wrap reveal">
+      {faqs.map((f, i) => (
+        <div class={`faq-item${i === 0 ? ' open' : ''}`}>
+          <button class="faq-q" aria-expanded={i === 0 ? 'true' : 'false'}>
+            <span>{f.q}</span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">{f.a}</div></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

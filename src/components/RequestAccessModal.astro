@@ -1,0 +1,103 @@
+---
+// RequestAccessModal.astro — global overlay triggered by any
+// `.js-open-modal` button on the page (nav, hero, final CTA).
+// Form behavior + open/close logic live in /public/page.js.
+---
+<div
+  class="modal-backdrop"
+  id="modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-title"
+>
+  <div class="modal">
+    <button class="modal-close js-close-modal" aria-label="Close">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </button>
+
+    <div id="modal-form">
+      <h2 id="modal-title" class="display-sm">Request access</h2>
+      <p class="modal-sub">Tell us a bit about what you're building. We'll be in touch as we open up access.</p>
+
+      <form id="access-form" novalidate>
+        <div class="field">
+          <label>Email <span class="req"></span></label>
+          <input type="email" required name="email" placeholder="you@company.com" />
+        </div>
+
+        <div class="field">
+          <label>What are you building with? <span class="req"></span></label>
+          <select required name="stack">
+            <option value="">Select a stack…</option>
+            <option>React Native</option>
+            <option>Expo</option>
+            <option>Flutter</option>
+            <option>iOS (Swift / Obj-C)</option>
+            <option>Android (Kotlin / Java)</option>
+            <option>Capacitor / Ionic</option>
+            <option value="other">Other…</option>
+          </select>
+        </div>
+
+        <div class="field" id="other-stack-field" style="display:none">
+          <label>Tell us your stack <span class="req"></span></label>
+          <input type="text" name="stack_other" placeholder="e.g. NativeScript, Kotlin Multiplatform" />
+        </div>
+
+        <div class="field">
+          <label>Which product matters more to you? <span class="req"></span></label>
+          <div class="radio-group">
+            <label class="radio-row selected">
+              <input type="radio" name="product" value="maintainer" checked />
+              <span>
+                <span class="label-main">Ube Maintainer</span>
+                <span class="label-sub">Automated triage, fixes, and PRs for production issues.</span>
+              </span>
+            </label>
+            <label class="radio-row">
+              <input type="radio" name="product" value="publisher" />
+              <span>
+                <span class="label-main">Ube Publisher</span>
+                <span class="label-sub">Ship faster and reach more users.</span>
+              </span>
+            </label>
+            <label class="radio-row">
+              <input type="radio" name="product" value="both" />
+              <span>
+                <span class="label-main">Both equally.</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Team size <span style="color:var(--muted-soft);font-weight:500;">(optional)</span></label>
+          <select name="team">
+            <option value="">Select…</option>
+            <option>Just me</option>
+            <option>2–5</option>
+            <option>6–20</option>
+            <option>21–100</option>
+            <option>100+</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-submit">Request Access</button>
+      </form>
+    </div>
+
+    <div id="modal-success" class="success-state" style="display:none">
+      <div class="ck-circle">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      </div>
+      <h2 class="display-sm">You're on the list.</h2>
+      <p>We'll be in touch as we open up access.</p>
+      <a href="#" class="plink js-close-modal">Close</a>
+    </div>
+  </div>
+</div>

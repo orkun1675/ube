@@ -1,0 +1,167 @@
+/* ============================================================
+   tokens.css — design tokens, reset, base type, layout primitives
+   The only file that owns CSS custom properties.
+   ============================================================ */
+
+:root {
+  /* Surfaces */
+  --canvas: #0E0E11;
+  --canvas-soft: #131318;
+  --surface-card: #17171E;
+  --surface-elevated: #1E1E26;
+  --hairline: #25252E;
+  --hairline-soft: #1C1C24;
+  --hairline-strong: #2E2E38;
+
+  /* Accent — ube purple. Inline-only voltage. */
+  --accent: #6B3FA0;
+  --accent-soft: #2A1C40;
+  --accent-hover: #7E50B8;
+
+  /* CTAs */
+  --cta-fill: #FFFFFF;
+  --cta-fill-hover: #EAEAEA;
+  --cta-text: #0E0E11;
+  --cta-secondary-border: #2E2E38;
+
+  /* Ink */
+  --ink: #F5F5F2;
+  --body: #B6B6BE;
+  --muted: #7A7A85;
+  --muted-soft: #545460;
+
+  /* Semantic (mockup-internal only) */
+  --success: #3BB67A;
+  --error: #E15F6B;
+  --warning: #D8A24B;
+
+  /* Radii */
+  --r-xs: 4px;
+  --r-sm: 6px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+  --r-pill: 9999px;
+
+  /* Layout */
+  --max-w: 1200px;
+
+  /* Type stacks */
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+
+/* -------- Reset / Base -------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'ss01', 'cv11';
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  color: inherit;
+}
+
+/* -------- Type scale -------- */
+.eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.88px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-family: var(--sans);
+}
+.eyebrow-muted { color: var(--muted); }
+
+.display-mega { font-size: 64px; line-height: 1.02; letter-spacing: -1.92px; font-weight: 400; margin: 0; }
+.display-xl   { font-size: 48px; line-height: 1.04; letter-spacing: -1.44px; font-weight: 400; margin: 0; }
+.display-lg   { font-size: 36px; line-height: 1.10; letter-spacing: -1.08px; font-weight: 450; margin: 0; }
+.display-md   { font-size: 28px; line-height: 1.15; letter-spacing: -0.84px; font-weight: 500; margin: 0; }
+.display-sm   { font-size: 22px; line-height: 1.20; letter-spacing: -0.50px; font-weight: 500; margin: 0; }
+.title-md     { font-size: 18px; line-height: 1.35; font-weight: 600; margin: 0; }
+.body-md      { font-size: 16px; line-height: 1.55; color: var(--body); margin: 0; }
+.body-sm      { font-size: 14px; line-height: 1.55; color: var(--body); margin: 0; }
+.caption      { font-size: 13px; line-height: 1.50; color: var(--muted); margin: 0; }
+.mono         { font-family: var(--mono); font-size: 13px; }
+.ink          { color: var(--ink); }
+.muted        { color: var(--muted); }
+
+/* Purple inline link */
+.plink {
+  color: var(--accent);
+  font-weight: 500;
+  transition: color 100ms ease-out;
+}
+.plink:hover { color: var(--accent-hover); }
+
+/* -------- Layout primitives -------- */
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.section { padding: 96px 0; }
+@media (max-width: 1024px) { .section { padding: 64px 0; } }
+@media (max-width: 640px)  { .section { padding: 48px 0; } }
+
+.sec-head { margin-bottom: 48px; max-width: 720px; }
+.sec-head .eyebrow { margin-bottom: 16px; display: inline-block; }
+.sec-head h2 { margin-bottom: 16px; }
+.sec-head p { font-size: 17px; color: var(--body); max-width: 56ch; margin: 0; }
+
+/* Reveal-on-scroll utility */
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 600ms ease-out, transform 600ms ease-out;
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile type compression */
+@media (max-width: 640px) {
+  .display-mega { font-size: 44px; letter-spacing: -1.3px; }
+  .display-lg   { font-size: 28px; letter-spacing: -0.84px; }
+}
