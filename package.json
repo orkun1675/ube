@@ -1,16 +1,13 @@
 {
   "name": "ube-landing",
-  "version": "0.1.0",
-  "type": "module",
+  "version": "0.2.0",
   "private": true,
+  "type": "module",
+  "description": "Static landing for ube.dev. Local: open index.html. CI: npm run build.",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "build": "node build.mjs"
   },
-  "dependencies": {
-    "astro": "^6.3.7"
+  "devDependencies": {
+    "esbuild": "^0.28.0"
   }
 }

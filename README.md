@@ -1,47 +1,44 @@
 # Ube — Landing site
 
-Static marketing site for [ube.dev](https://ube.dev). Astro + plain CSS, no client-side framework, deploys to GitHub Pages on every push to `main`.
+Static landing for [ube.dev](https://ube.dev). React + JSX rendered in a single page, served from GitHub Pages.
 
-## Running locally
+## Local edits (no tooling)
 
-```bash
+Just open `index.html` in a browser. React and `@babel/standalone` come from
+unpkg and compile the JSX in the page. Edit any `.jsx` or `styles.css` and
+reload — no install step, no dev server.
+
+If you want a local HTTP server (so relative paths behave like prod):
+
+```
+python3 -m http.server
+```
+
+## Production build
+
+GitHub Actions runs this on every push to `main`; you generally don't need to
+run it by hand. If you want to:
+
+```
 npm install
-npm run dev      # http://localhost:4321
-npm run build    # builds to ./dist
-npm run preview  # serves the built site locally
+npm run build
+# ./dist/ gets deployed
 ```
 
-## Project layout
+`build.mjs` pre-compiles the five JSX files into one minified `bundle.js`,
+minifies `styles.css`, and rewrites `index.html` to load React's
+`*.production.min.js` builds without the Babel runtime.
+
+## Layout
 
 ```
-src/
-  layouts/                    # <head>, fonts, Nav, Footer, Modal, etc.
-  components/
-    Nav.astro                 # top nav + product switcher
-    Footer.astro
-    Wordmark.astro            # `ube` lockup with purple accent dot
-    RequestAccessModal.astro  # global waitlist form
-    xyz.astro                 # Site sections
-    mockups/                  # Mock UIs
-  pages/
-    index.astro               # /
-    pricing.astro             # /pricing/  (placeholder)
-    publisher.astro           # /publisher/ (placeholder)
-  styles/
-    tokens.css                # :root tokens, reset, type scale, layout primitives
-    components.css            # buttons, pills, wordmark, cards, FAQ, modal, form
-    layout.css                # nav, hero, how-it-works frame, final CTA, footer
-    mockups.css               # in-page product mockups — only loaded on /
-public/
-  page.js                     # served at /page.js
-  CNAME                       # domain name
+index.html               # dev entry — loads JSX via @babel/standalone
+app.jsx                  # mount + page composition
+components.jsx           # Nav, Hero, Footer, sections
+mockups.jsx              # in-page product mockups
+logos.jsx                # brand/integration logos
+tweaks-panel.jsx         # design tweak overlay (dev affordance)
+styles.css               # tokens, layout, components, mockups
+build.mjs                # esbuild-based production build
+.github/workflows/       # Pages deploy workflow
 ```
-
-## TODOs before publishing
-
-- [ ] Real `og-image.png` (1200×630) — drop in `public/`, add `<meta property="og:image">` in `BaseLayout`.
-- [ ] Favicon set.
-- [ ] Wire `#access-form` submit to a real backend (Formspark / Netlify Forms / Cloudflare Worker).
-- [ ] Headline + sub-headline copy review (currently first-draft per the design brief).
-- [ ] Swap mockup tool chrome (Crashlytics, Sentry, GitHub icons) to real brand marks icons.
-- [ ] Analytics

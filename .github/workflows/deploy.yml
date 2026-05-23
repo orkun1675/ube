@@ -10,7 +10,7 @@ permissions:
   pages: write
   id-token: write
 
-# Allow one concurrent deployment; cancel in-progress ones so the latest commit wins.
+# One deployment at a time; newer commits supersede in-flight runs.
 concurrency:
   group: pages
   cancel-in-progress: true
@@ -23,8 +23,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install, build, and upload site
-        uses: withastro/action@v6
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (pre-compile JSX, minify, swap to production React)
+        run: npm run build
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
 
   deploy:
     name: Deploy

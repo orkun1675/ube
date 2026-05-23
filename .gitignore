@@ -1,10 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/macos,git,astro,node,visualstudiocode
-# Edit at https://www.toptal.com/developers/gitignore?templates=macos,git,astro,node,visualstudiocode
-
-### Astro ###
-# Gitignore template for Astro projects
-# Ignore content collection generated files
-.astro
+# Created by https://www.toptal.com/developers/gitignore/api/macos,git,node,visualstudiocode
+# Edit at https://www.toptal.com/developers/gitignore?templates=macos,git,node,visualstudiocode
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:
@@ -213,4 +208,4 @@ dist
 .history
 .ionide
 
-# End of https://www.toptal.com/developers/gitignore/api/macos,git,astro,node,visualstudiocode
+# End of https://www.toptal.com/developers/gitignore/api/macos,git,node,visualstudiocode
