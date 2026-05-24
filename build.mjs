@@ -9,13 +9,47 @@ import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises"
 import { join } from "node:path"
 import { transform } from "esbuild"
 
+// Files we don't ship to production: the in-page Tweaks panel + its hue
+// picker UI exist only to iterate on design locally. app.jsx falls back to
+// no-ops via `globalThis.X ??= ...` when these globals are absent, so prod
+// renders with TWEAK_DEFAULTS baked in.
+const DEV_ONLY_JSX_FILES = new Set([
+  "dev/tweaks-panel.jsx",
+  "dev/tweaks-config.jsx",
+])
+
 // Load order matches the <script> tags in index.html. Earlier files define
 // globals (constants, helpers, components) that later ones reference.
 const JSX_FILES = [
-  "tweaks-panel.jsx",
-  "assets.jsx",
-  "mockups.jsx",
-  "components.jsx",
+  "dev/tweaks-panel.jsx",
+  "constants.jsx",
+  "lib/analytics.jsx",
+  "lib/assets.jsx",
+  "lib/modal.jsx",
+  "lib/palette.jsx",
+  "dev/tweaks-config.jsx",
+  "mockups/hero-pr.jsx",
+  "mockups/hero-minimal.jsx",
+  "mockups/hero-split.jsx",
+  "mockups/intake.jsx",
+  "mockups/triage.jsx",
+  "mockups/fix.jsx",
+  "mockups/report-success.jsx",
+  "mockups/report-failure.jsx",
+  "sections/wordmark.jsx",
+  "sections/nav.jsx",
+  "sections/footer.jsx",
+  "sections/trusted-by.jsx",
+  "sections/problems.jsx",
+  "sections/benefits.jsx",
+  "sections/faq.jsx",
+  "sections/final-cta.jsx",
+  "sections/hero.jsx",
+  "modals/sources-modal.jsx",
+  "modals/dedupe-modal.jsx",
+  "modals/fix-loop-modal.jsx",
+  "modals/request-access-modal.jsx",
+  "sections/how-it-works.jsx",
   "app.jsx",
 ]
 
@@ -27,6 +61,7 @@ await mkdir(DIST, { recursive: true })
 // --- JS bundle: concat → JSX transform → minify -----------------------------
 let source = ""
 for (const file of JSX_FILES) {
+  if (DEV_ONLY_JSX_FILES.has(file)) continue
   source += `\n// ===== ${file} =====\n`
   source += await readFile(file, "utf8")
 }
