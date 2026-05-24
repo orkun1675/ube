@@ -1,0 +1,99 @@
+---
+// Footer — static markup rendered on every page. Lives in BaseLayout.astro.
+// Reads wordmarkAccent from TWEAK_DEFAULTS so the brand mark in the footer
+// matches the tweak panel's saved default at build time.
+//
+// The Wordmark is still a React component (.tsx) at this slice; it renders
+// server-side here with no client:* directive, so it ships zero JS. Slice
+// 0004 promotes Wordmark to .astro.
+//
+// Note: Astro's `style={{...}}` object syntax does NOT auto-append `px` to
+// numeric values (unlike React). Length values below are explicit strings.
+import { CONTACT_EMAIL, GITHUB_URL } from "../../constants"
+import { TWEAK_DEFAULTS } from "../../data/tweak-defaults"
+import { GitHubLogo, LinkedInLogo, MailIcon } from "../../lib/assets"
+import { Wordmark } from "./wordmark"
+
+const wordmarkAccent = TWEAK_DEFAULTS.wordmarkAccent
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <Wordmark accent={wordmarkAccent} size={24} />
+        <p
+          class="t-body-sm muted"
+          style={{ marginTop: "18px", maxWidth: "320px", lineHeight: "1.6" }}
+        >
+          Your app's agentic watchdog that keeps dependencies up to date and
+          users happy.
+        </p>
+        <p class="t-caption muted" style={{ marginTop: "24px" }}>
+          © 2026 Ube · Chunky Tofu Studios, LLC
+        </p>
+        <p
+          class="t-caption muted footer-legal-links"
+          style={{ marginTop: "8px" }}
+        >
+          <a href="/terms-of-service">Terms of Service</a>
+          <span aria-hidden="true"> · </span>
+          <a href="/privacy-policy">Privacy Policy</a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>PRODUCTS</h4>
+        <ul>
+          <li>
+            <a href="#how">Ube Maintainer</a>
+          </li>
+          <li>
+            <span class="coming-soon">
+              Ube Publisher
+              <span class="tooltip">Coming soon</span>
+            </span>
+          </li>
+          <li>
+            <span class="coming-soon">
+              Pricing
+              <span class="tooltip">Coming soon</span>
+            </span>
+          </li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li>
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
+            >
+              <MailIcon size={14} /> {CONTACT_EMAIL}
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://www.linkedin.com/in/orkun-duman/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
+            >
+              <LinkedInLogo size={13} /> Orkun Duman
+            </a>
+          </li>
+          <li>
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
+            >
+              <GitHubLogo size={13} /> github.com/orkun1675/ube
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>

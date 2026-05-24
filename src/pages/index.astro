@@ -1,9 +1,29 @@
 ---
-// Landing page — the demand-probe homepage. Mounts the entire Nav + sections
-// + Footer tree as one big React island for now (spec 0001); slices 0003–0008
-// will gradually convert per-section .astro components.
+// Landing page — the demand-probe homepage.
+//
+// Architecture (post-spec-0003):
+// - Static `.astro` sections (TrustedBy / Problems / Benefits) render as
+//   plain HTML; Footer lives in BaseLayout.astro.
+// - The remaining React sections (Nav, Hero, HowItWorks, FAQ, FinalCTA)
+//   each mount as their own `client:load` island, slotted between the
+//   static sections so DOM order matches the pre-slice visual flow.
+// - `<LandingPageApp />` is now a tiny side-effects island: it applies
+//   tweak-driven CSS variables to <html>, runs engagement/scroll-depth
+//   tracking, and (in dev only) renders the floating tweaks panel.
+// Slices 0005–0008 progressively peel Nav / FinalCTA / Hero / HowItWorks /
+// FAQ out into `.astro` (or thinner per-section islands), at which point
+// LandingPageApp itself goes away.
+import { FinalCTA } from "../components/sections/final-cta"
+import { FAQ } from "../components/sections/faq"
+import { Hero } from "../components/sections/hero"
+import { HowItWorks } from "../components/sections/how-it-works"
+import { TopNav } from "../components/sections/nav"
+import Benefits from "../components/sections/Benefits.astro"
+import Problems from "../components/sections/Problems.astro"
+import TrustedBy from "../components/sections/TrustedBy.astro"
 import { LandingPageApp } from "../components/pages/LandingPageApp"
 import { FAQ_ITEMS } from "../data/faq-items"
+import { TWEAK_DEFAULTS } from "../data/tweak-defaults"
 import BaseLayout from "../layouts/BaseLayout.astro"
 
 const title = "Ube — An agent that maintains your app"
@@ -59,5 +79,23 @@ const jsonLd = [
   canonical={canonical}
   jsonLd={jsonLd}
 >
+  <TopNav
+    client:load
+    isLandingPage
+    wordmarkAccent={TWEAK_DEFAULTS.wordmarkAccent}
+  />
+  <main>
+    <Hero
+      client:load
+      heroVariant={TWEAK_DEFAULTS.heroVariant}
+      heroCopy={TWEAK_DEFAULTS.heroCopy}
+    />
+    <TrustedBy />
+    <Problems />
+    <HowItWorks client:load />
+    <Benefits />
+    <FAQ client:load />
+    <FinalCTA client:load />
+  </main>
   <LandingPageApp client:load />
 </BaseLayout>

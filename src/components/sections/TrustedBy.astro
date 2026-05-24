@@ -1,0 +1,53 @@
+---
+// TrustedBy — expo.dev-style logo marquee. Static markup; the marquee scroll
+// is pure CSS animation (see .trusted-track in styles.css), no JS required.
+//
+// The original .tsx version computed the doubled sequence inside React.useMemo;
+// here we precompute it at build time in the frontmatter — the output is
+// identical bytes.
+type TrustedApp = { src: string; name: string }
+
+const TRUSTED_APPS: TrustedApp[] = [
+  {
+    src: "/assets/customers/beehive.webp",
+    name: "Beehive — Word Puzzle Challenge",
+  },
+  { src: "/assets/customers/dozy.webp", name: "Dozy — Commute Companion" },
+  {
+    src: "/assets/customers/pixel-buddy.webp",
+    name: "Pixel Buddy — Coloring Book",
+  },
+]
+
+// Repeat the 3-app set, then double the whole strip so translateX(-50%) loops seamlessly.
+const halfRepeats = 6
+const half: TrustedApp[] = []
+for (let i = 0; i < halfRepeats; i++) half.push(...TRUSTED_APPS)
+const sequence: TrustedApp[] = [...half, ...half]
+---
+
+<section class="trusted-band" aria-label="Apps using Ube in production">
+  <div class="trusted-band-grid" aria-hidden="true"></div>
+  <div class="container" style={{ position: "relative", zIndex: "1" }}>
+    <span class="trusted-label">Trusted in production by:</span>
+  </div>
+  <div
+    class="trusted-marquee"
+    style={{ position: "relative", zIndex: "1" }}
+  >
+    <div class="trusted-track">
+      {
+        sequence.map((app) => (
+          <div class="trusted-icon" title={app.name}>
+            <img
+              src={app.src}
+              alt={app.name}
+              loading="lazy"
+              draggable="false"
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

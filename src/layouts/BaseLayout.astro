@@ -9,7 +9,11 @@
 // The Request Access modal is mounted at the bottom (ADR 0002) and
 // hydrates on every route so any island's `openRequestAccess(source)`
 // call wires through the nano store to a shared modal instance.
+//
+// Footer is on every route (per spec 0003) so it lives here, after the
+// page <slot/> and before the modal island.
 import { RequestAccessIsland } from "../components/modals/request-access-island"
+import Footer from "../components/sections/Footer.astro"
 import "../styles.css"
 
 export interface Props {
@@ -138,6 +142,7 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
   </head>
   <body>
     <slot />
+    <Footer />
     <RequestAccessIsland client:load />
   </body>
 </html>
