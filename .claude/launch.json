@@ -4,7 +4,10 @@
     {
       "name": "dev",
       "runtimeExecutable": "sh",
-      "runtimeArgs": ["-c", "exec python3 -m http.server \"${PORT:?PORT not set by autoPort}\""],
+      "runtimeArgs": [
+        "-c",
+        "exec python3 -m http.server \"${PORT:?PORT not set by autoPort}\""
+      ],
       "autoPort": true
     },
     {
