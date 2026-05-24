@@ -4,17 +4,18 @@
 import React from "react"
 import ReactDOM from "react-dom"
 
+import type { WordmarkAccent } from "../../data/tweak-defaults"
 import { ArrowRight, PlusIcon } from "../../lib/assets"
 import { openRequestAccess } from "../../stores/request-access"
-import { Wordmark } from "./wordmark"
+import { Wordmark } from "../Wordmark"
 
 type TopNavProps = {
-  wordmarkAccent?: string
+  wordmarkAccent?: WordmarkAccent
   isLandingPage?: boolean
 }
 
 export const TopNav = ({
-  wordmarkAccent,
+  wordmarkAccent = "cursor",
   isLandingPage = true,
 }: TopNavProps) => {
   const [scrolled, setScrolled] = React.useState(false)

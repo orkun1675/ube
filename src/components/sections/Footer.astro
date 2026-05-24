@@ -3,16 +3,15 @@
 // Reads wordmarkAccent from TWEAK_DEFAULTS so the brand mark in the footer
 // matches the tweak panel's saved default at build time.
 //
-// The Wordmark is still a React component (.tsx) at this slice; it renders
-// server-side here with no client:* directive, so it ships zero JS. Slice
-// 0004 promotes Wordmark to .astro.
+// Wordmark is now an `.astro` component (slice 0004) — same DOM as before,
+// just hoisted out of `sections/` and consumed natively here.
 //
 // Note: Astro's `style={{...}}` object syntax does NOT auto-append `px` to
 // numeric values (unlike React). Length values below are explicit strings.
+import Wordmark from "../Wordmark.astro"
 import { CONTACT_EMAIL, GITHUB_URL } from "../../constants"
 import { TWEAK_DEFAULTS } from "../../data/tweak-defaults"
 import { GitHubLogo, LinkedInLogo, MailIcon } from "../../lib/assets"
-import { Wordmark } from "./wordmark"
 
 const wordmarkAccent = TWEAK_DEFAULTS.wordmarkAccent
 ---

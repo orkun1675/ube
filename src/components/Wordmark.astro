@@ -1,0 +1,55 @@
+---
+// Wordmark — the brand mark. Used by Nav (top of every page) and Footer
+// (bottom of every page). Promoted out of `components/sections/` in slice
+// 0004 because it isn't a page section — it's a top-level brand primitive
+// consumed by both `.astro` and `.tsx` callers (Footer is `.astro` after
+// slice 0003; Nav is converted in slice 0005).
+//
+// Renders zero JS — all three accent variants are static markup styled by
+// `.wordmark-*` rules in `styles.css`. The `accent` value also flows
+// through the className so existing CSS keeps matching.
+//
+// Note: Astro's `style={{...}}` object syntax does NOT auto-append `px` to
+// numeric values (unlike React), so `fontSize` is serialized as an explicit
+// string with units.
+//
+// Note: unlike JSX, Astro preserves whitespace-only text nodes between elements
+// and around bare text literals. The umlaut variant mixes raw `u`/`be` text
+// with element children, so those characters are written flush against their
+// neighboring tags (no surrounding newlines) to match the React Wordmark.tsx
+// DOM exactly — otherwise we ship `"\nu\n"` / `"\nbe\n"` text nodes that render
+// as visible width.
+import type { WordmarkAccent } from "../data/tweak-defaults"
+
+export interface Props {
+  accent: WordmarkAccent
+  size?: number
+}
+
+const { accent, size = 30 } = Astro.props
+const style = { fontSize: `${size}px` }
+---
+
+{
+  accent === "umlaut" && (
+    <span class="wordmark wordmark-umlaut" style={style}>
+      <span class="wm-u-wrap">u<span class="wm-umlaut" aria-hidden="true"><i /><i /></span></span>be</span>
+  )
+}
+{
+  accent === "cursor" && (
+    <span class="wordmark wordmark-cursor" style={style}>
+      <span class="wm-word">ube</span>
+      <span class="wm-cursor" aria-hidden="true" />
+    </span>
+  )
+}
+{
+  accent === "bracket" && (
+    <span class="wordmark wordmark-bracket" style={style}>
+      <span class="wm-bracket wm-bracket-l" aria-hidden="true" />
+      <span class="wm-word">ube</span>
+      <span class="wm-bracket wm-bracket-r" aria-hidden="true" />
+    </span>
+  )
+}
