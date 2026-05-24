@@ -6,7 +6,8 @@ Landing page at [ube.dev](https://ube.dev) whose sole job is to **measure intere
 ## Working alongside other agents
 Other Claude Code sessions may be running in this repo in parallel.
 - Treat uncommitted working-tree changes as possibly belonging to another agent.
-- Don't reuse another agent's preview server. `preview_start` silently attaches to an already-running instance with the same name, pick a random port and use that when starting the preview server.
+- Don't reuse another agent's preview server. `preview_start` silently attaches to an existing instance with the same name. Call `preview_list` to see which slots are in use, then pick an unused one from the `dev-a` … `dev-f` pool in [.claude/launch.json](.claude/launch.json).
+- If there are no slots available, STOP.
 
 ## Build / run
 - **Dev server:** use the `preview_*` tools with the `dev` config in [.claude/launch.json](.claude/launch.json).
