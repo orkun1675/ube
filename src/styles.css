@@ -2623,7 +2623,7 @@ select.input {
 }
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
   gap: 48px;
 }
 @media (max-width: 768px) {
@@ -3434,13 +3434,4 @@ select.input {
 }
 .legal-content ul li::marker {
   color: var(--muted);
-}
-
-/* Footer legal-links row — same muted styling as copyright text. */
-.footer-legal-links a {
-  color: inherit;
-  text-decoration: none;
-}
-.footer-legal-links a:hover {
-  color: var(--body);
 }
