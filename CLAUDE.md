@@ -32,4 +32,5 @@ JSX load order matters — `tweaks-panel → assets → mockups → components �
 - **The Request Access form is a stub.** `components.jsx:1085` simulates success with `setTimeout` — nothing is sent anywhere. If interest needs to actually be captured, wire this up (Formspree, a Worker, etc.) — it's the highest-leverage missing piece given the project's goal.
 - **Tweaks panel persists into source.** `app.jsx` has `EDITMODE-BEGIN/END` markers around `TWEAK_DEFAULTS`; the in-page tweaks panel writes back to that block. Don't reformat that region by hand.
 - **Two-product positioning is intentional.** Hero currently leans Maintainer, but the modal surfaces both — preserve both signals unless explicitly narrowing focus.
+- **Amplitude is gated to production.** [index.html](index.html) loads `@amplitude/unified` from unpkg and calls `initAll(...)`, but only when `location.hostname` is `ube.dev` or a subdomain. On `localhost` the SDK loads but stays inert. Escape hatch for local verification: append `?amplitude=1` to the URL. **Only test Amplitude locally if explicitly asked.**
 - No test suite, no linter config, no TypeScript. Don't add tooling unless asked.

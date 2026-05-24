@@ -21,7 +21,13 @@
   <!-- Amplitude Analytics + Session Replay (Unified Browser SDK) -->
   <script src="https://unpkg.com/@amplitude/unified@1.1.9/lib/scripts/amplitude-min.umd.js"></script>
   <script>
-    window.amplitude.initAll('7fdbc1ae75a64eb50d90f29ac9721390', {"analytics":{"autocapture":true},"sessionReplay":{"sampleRate":1}});
+    {
+      const h = location.hostname
+      const enabled = h === "ube.dev" || h.endsWith(".ube.dev") || location.search.includes("amplitude=1")
+      if (enabled) {
+        window.amplitude.initAll('7fdbc1ae75a64eb50d90f29ac9721390', {"analytics":{"autocapture":true},"sessionReplay":{"sampleRate":1}})
+      }
+    }
   </script>
 </head>
 <body>
