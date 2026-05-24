@@ -1,4 +1,4 @@
-// Astro shell for ube.dev — see docs/adr/0001-astro-with-react-islands.md.
+// Astro shell for ube.dev.
 //
 // Static SSG output (no server runtime — GitHub Pages serves dist/). Each
 // route in src/pages/ becomes a real HTML file. React islands hydrate on the
