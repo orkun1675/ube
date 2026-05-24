@@ -4,55 +4,37 @@
     {
       "name": "dev-a",
       "runtimeExecutable": "sh",
-      "runtimeArgs": [
-        "-c",
-        "exec python3 dev-server.py"
-      ],
+      "runtimeArgs": ["-c", "exec python3 dev-server.py"],
       "autoPort": true
     },
     {
       "name": "dev-b",
       "runtimeExecutable": "sh",
-      "runtimeArgs": [
-        "-c",
-        "exec python3 dev-server.py"
-      ],
+      "runtimeArgs": ["-c", "exec python3 dev-server.py"],
       "autoPort": true
     },
     {
       "name": "dev-c",
       "runtimeExecutable": "sh",
-      "runtimeArgs": [
-        "-c",
-        "exec python3 dev-server.py"
-      ],
+      "runtimeArgs": ["-c", "exec python3 dev-server.py"],
       "autoPort": true
     },
     {
       "name": "dev-d",
       "runtimeExecutable": "sh",
-      "runtimeArgs": [
-        "-c",
-        "exec python3 dev-server.py"
-      ],
+      "runtimeArgs": ["-c", "exec python3 dev-server.py"],
       "autoPort": true
     },
     {
       "name": "dev-e",
       "runtimeExecutable": "sh",
-      "runtimeArgs": [
-        "-c",
-        "exec python3 dev-server.py"
-      ],
+      "runtimeArgs": ["-c", "exec python3 dev-server.py"],
       "autoPort": true
     },
     {
       "name": "dev-f",
       "runtimeExecutable": "sh",
-      "runtimeArgs": [
-        "-c",
-        "exec python3 dev-server.py"
-      ],
+      "runtimeArgs": ["-c", "exec python3 dev-server.py"],
       "autoPort": true
     },
     {

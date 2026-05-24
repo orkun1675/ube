@@ -113,6 +113,8 @@ globalThis.ReactDOM = {
 }
 // Indirect eval runs in global scope, so `const X = …` followed by
 // `Object.assign(window, { X })` correctly publishes X to globalThis.
+// biome-ignore lint/security/noGlobalEval: SSR pre-render requires evaluating the bundled JSX in this Node script's global scope; no untrusted input.
+// biome-ignore lint/complexity/noCommaOperator: `(0, eval)` is the indirect-eval idiom — the comma is what forces global-scope evaluation.
 ;(0, eval)(js.code)
 const appHtml = renderToString(React.createElement(globalThis.App))
 
@@ -190,13 +192,10 @@ const legalRoutes = [
 
 for (const { path: routePath, title, description } of legalRoutes) {
   const canonical = `https://ube.dev/${routePath}/`
-  let routeHtml = html
+  const routeHtml = html
     // Replace document <title>. The source HTML's first <title> tag is the
     // landing-page one; swap it for the route-specific title.
-    .replace(
-      /<title>[^<]*<\/title>/,
-      `<title>${escapeHtml(title)}</title>`,
-    )
+    .replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(title)}</title>`)
     // Description is duplicated across <meta name=description>, og:description,
     // twitter:description. Swap them all together so a single source of truth
     // covers SEO, social, and AI answer engines.

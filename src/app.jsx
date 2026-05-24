@@ -115,68 +115,70 @@ const App = () => {
       <Footer wordmarkAccent={tweaks.wordmarkAccent} />
       <RequestAccessModal open={modalOpen} onClose={close} />
 
-      {route === "landing" && <TweaksPanel title="Tweaks">
-        <TweakSection title="Brand">
-          <TweakRadio
-            label="Accent strategy — A/B"
-            value={tweaks.accentStrategy}
-            onChange={(v) => setTweak("accentStrategy", v)}
-            options={[
-              { value: "single", label: "Purple only" },
-              { value: "split", label: "Purple + coconut" },
-            ]}
-          />
-          <UbeHuePicker
-            value={tweaks.accent}
-            onChange={(v) => setTweak("accent", v)}
-          />
-          <TweakRadio
-            label="Wordmark accent"
-            value={tweaks.wordmarkAccent}
-            onChange={(v) => setTweak("wordmarkAccent", v)}
-            options={[
-              { value: "umlaut", label: "Umlaut" },
-              { value: "cursor", label: "Cursor" },
-              { value: "bracket", label: "Brackets" },
-            ]}
-          />
-        </TweakSection>
-        <TweakSection title="Hero">
-          <TweakRadio
-            label="Hero visual"
-            value={tweaks.heroVariant}
-            onChange={(v) => setTweak("heroVariant", v)}
-            options={[
-              { value: "pr", label: "PR + crash" },
-              { value: "minimal", label: "Minimal" },
-              { value: "split", label: "Split" },
-            ]}
-          />
-          <TweakSelect
-            label="Headline"
-            value={tweaks.heroCopy}
-            onChange={(v) => setTweak("heroCopy", v)}
-            options={[
-              { value: "agent", label: "An agent that maintains your app…" },
-              { value: "autopilot", label: "App maintenance, on autopilot." },
-            ]}
-          />
-        </TweakSection>
-        <TweakSection title="Cards">
-          <TweakSelect
-            label="Card tone"
-            value={tweaks.cardTone}
-            onChange={(v) => setTweak("cardTone", v)}
-            options={[
-              { value: "warm", label: "Warm — brown (Cursor)" },
-              { value: "neutral", label: "Neutral — charcoal" },
-              { value: "slate", label: "Slate — cool blue" },
-              { value: "plum", label: "Plum — violet (matches accent)" },
-              { value: "forest", label: "Forest — deep green" },
-            ]}
-          />
-        </TweakSection>
-      </TweaksPanel>}
+      {route === "landing" && (
+        <TweaksPanel title="Tweaks">
+          <TweakSection title="Brand">
+            <TweakRadio
+              label="Accent strategy — A/B"
+              value={tweaks.accentStrategy}
+              onChange={(v) => setTweak("accentStrategy", v)}
+              options={[
+                { value: "single", label: "Purple only" },
+                { value: "split", label: "Purple + coconut" },
+              ]}
+            />
+            <UbeHuePicker
+              value={tweaks.accent}
+              onChange={(v) => setTweak("accent", v)}
+            />
+            <TweakRadio
+              label="Wordmark accent"
+              value={tweaks.wordmarkAccent}
+              onChange={(v) => setTweak("wordmarkAccent", v)}
+              options={[
+                { value: "umlaut", label: "Umlaut" },
+                { value: "cursor", label: "Cursor" },
+                { value: "bracket", label: "Brackets" },
+              ]}
+            />
+          </TweakSection>
+          <TweakSection title="Hero">
+            <TweakRadio
+              label="Hero visual"
+              value={tweaks.heroVariant}
+              onChange={(v) => setTweak("heroVariant", v)}
+              options={[
+                { value: "pr", label: "PR + crash" },
+                { value: "minimal", label: "Minimal" },
+                { value: "split", label: "Split" },
+              ]}
+            />
+            <TweakSelect
+              label="Headline"
+              value={tweaks.heroCopy}
+              onChange={(v) => setTweak("heroCopy", v)}
+              options={[
+                { value: "agent", label: "An agent that maintains your app…" },
+                { value: "autopilot", label: "App maintenance, on autopilot." },
+              ]}
+            />
+          </TweakSection>
+          <TweakSection title="Cards">
+            <TweakSelect
+              label="Card tone"
+              value={tweaks.cardTone}
+              onChange={(v) => setTweak("cardTone", v)}
+              options={[
+                { value: "warm", label: "Warm — brown (Cursor)" },
+                { value: "neutral", label: "Neutral — charcoal" },
+                { value: "slate", label: "Slate — cool blue" },
+                { value: "plum", label: "Plum — violet (matches accent)" },
+                { value: "forest", label: "Forest — deep green" },
+              ]}
+            />
+          </TweakSection>
+        </TweaksPanel>
+      )}
     </>
   )
 }

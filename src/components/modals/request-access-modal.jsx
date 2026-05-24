@@ -320,8 +320,8 @@ const RequestAccessModal = ({ open, onClose }) => {
                 fontSize: 12,
               }}
             >
-              We'll only use this to contact you about Ube access. This
-              site is protected by reCAPTCHA.
+              We'll only use this to contact you about Ube access. This site is
+              protected by reCAPTCHA.
             </p>
           </form>
         </>
