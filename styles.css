@@ -480,8 +480,8 @@ section[id] {
   transform: translate(-50%, -4px);
   background: var(--surface-elevated);
   border: 1px solid var(--hairline-strong);
-  color: var(--body);
-  font-size: 11px;
+  color: var(--ink);
+  font-size: 12px;
   padding: 6px 10px;
   border-radius: var(--r-sm);
   white-space: nowrap;
@@ -2207,7 +2207,10 @@ select.input {
   border: 1px solid var(--hairline-strong);
   border-radius: var(--r-md);
   cursor: pointer;
+  color: var(--ink);
+  font-family: var(--font-sans);
   font-size: 14px;
+  text-align: left;
   transition: border-color 120ms ease-out;
 }
 .radio-item:hover {
@@ -2220,7 +2223,7 @@ select.input {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  border: 1.5px solid var(--hairline-strong);
+  border: 1.5px solid var(--muted);
   flex-shrink: 0;
   position: relative;
 }
@@ -2654,9 +2657,16 @@ select.input {
 .footer-col a:hover {
   color: var(--ink);
 }
-.footer-col a.disabled {
-  color: var(--muted-soft);
-  cursor: not-allowed;
+.footer-col .coming-soon {
+  font-size: 14px;
+}
+.footer-col .tooltip {
+  top: auto;
+  bottom: calc(100% + 8px);
+  transform: translate(-50%, 4px);
+}
+.footer-col .coming-soon:hover .tooltip {
+  transform: translate(-50%, 0);
 }
 
 /* Specific scaling utilities */

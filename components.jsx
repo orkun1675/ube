@@ -1691,10 +1691,16 @@ const Footer = ({ wordmarkAccent }) => (
               <a href="#how">Ube Maintainer</a>
             </li>
             <li>
-              <span className="disabled">Ube Publisher · soon</span>
+              <span className="coming-soon">
+                Ube Publisher
+                <span className="tooltip">Coming soon</span>
+              </span>
             </li>
             <li>
-              <span className="disabled">Pricing · soon</span>
+              <span className="coming-soon">
+                Pricing
+                <span className="tooltip">Coming soon</span>
+              </span>
             </li>
           </ul>
         </div>
