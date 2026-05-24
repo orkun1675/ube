@@ -6,4 +6,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ube.dev/sitemap.xml
+Sitemap: https://ube.dev/sitemap-index.xml
