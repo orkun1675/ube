@@ -71,22 +71,14 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
 
-    <!-- Favicons. Light default; dark variant served via media query on
-         browsers that honor `media` on <link rel="icon"> (Firefox; recent
-         Chromium). The white "u" in the dark PNG is invisible on light
-         tabs, which is why light is the safer default. -->
+    <!-- Favicon: off-white "u" between purple brackets on charcoal —
+         same tokens as the live site, shipped as one opaque tile so it
+         reads identically on light and dark tabs. -->
     <link
       rel="icon"
       type="image/png"
       sizes="192x192"
-      href="/assets/favicons/favicon-light.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="192x192"
-      href="/assets/favicons/favicon-dark.png"
-      media="(prefers-color-scheme: dark)"
+      href="/assets/favicons/favicon.png"
     />
     <link
       rel="apple-touch-icon"

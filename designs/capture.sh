@@ -15,9 +15,8 @@
 # style consumer either, since the pipe stays open until Chrome dies.
 #
 # Output:
-#   public/assets/favicons/favicon-light.png      (192x192)
-#   public/assets/favicons/favicon-dark.png       (192x192)
-#   public/assets/favicons/apple-touch-icon.png   (180x180, dark variant)
+#   public/assets/favicons/favicon.png            (192x192)
+#   public/assets/favicons/apple-touch-icon.png   (180x180)
 #   public/assets/social/og-image.jpg             (1200x630)
 
 set -euo pipefail
@@ -69,17 +68,15 @@ shoot() {
   [[ -s "$out" ]] || { echo "✗ $name: screenshot not produced" >&2; return 1; }
 }
 
-# Favicons render at 512x512 logical; 4x DPR gives us 2048x2048 to downsample
+# Favicon renders at 512x512 logical; 4x DPR gives us 2048x2048 to downsample
 # cleanly to 192 (browser tab / Android home) and 180 (apple-touch-icon).
 # Social preview captures at native 1200x630.
-shoot favicon-dark   512  512  4
-shoot favicon-light  512  512  4
+shoot favicon       512  512  4
 shoot social-preview 1200 630  1
 
 mkdir -p "$OUT_FAVICONS" "$OUT_SOCIAL"
-sips -s format png -z 192 192 "$TMP/favicon-dark.png"  --out "$OUT_FAVICONS/favicon-dark.png"      >/dev/null
-sips -s format png -z 192 192 "$TMP/favicon-light.png" --out "$OUT_FAVICONS/favicon-light.png"     >/dev/null
-sips -s format png -z 180 180 "$TMP/favicon-dark.png"  --out "$OUT_FAVICONS/apple-touch-icon.png"  >/dev/null
+sips -s format png -z 192 192 "$TMP/favicon.png" --out "$OUT_FAVICONS/favicon.png"           >/dev/null
+sips -s format png -z 180 180 "$TMP/favicon.png" --out "$OUT_FAVICONS/apple-touch-icon.png"  >/dev/null
 sips -s format jpeg -s formatOptions 90 "$TMP/social-preview.png" --out "$OUT_SOCIAL/og-image.jpg" >/dev/null
 
-echo "✓ regenerated favicons/{favicon-light,favicon-dark,apple-touch-icon}.png + social/og-image.jpg"
+echo "✓ regenerated favicons/{favicon,apple-touch-icon}.png + social/og-image.jpg"
