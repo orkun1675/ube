@@ -3281,3 +3281,10 @@ select.input {
     display: none;
   }
 }
+
+/* --- Hide reCAPTCHA v3 badge; disclosure text lives in the
+   request-access form per Google's branding requirement.
+   https://docs.cloud.google.com/recaptcha/docs/faq#hiding-the-badge --- */
+.grecaptcha-badge {
+  visibility: hidden;
+}

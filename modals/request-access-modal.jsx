@@ -296,6 +296,18 @@ const RequestAccessModal = ({ open, onClose }) => {
             >
               We'll only use this to contact you about Ube access.
             </p>
+            <p
+              className="muted"
+              style={{
+                marginTop: 10,
+                marginBottom: 0,
+                textAlign: "center",
+                fontSize: 11,
+                lineHeight: 1.45,
+              }}
+            >
+              This site is protected by reCAPTCHA.
+            </p>
           </form>
         </>
       ) : (
