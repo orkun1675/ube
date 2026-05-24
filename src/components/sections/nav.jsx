@@ -1,7 +1,7 @@
 // =====================================================================
 //  Top Nav
 // =====================================================================
-const TopNav = ({ onRequestAccess, wordmarkAccent }) => {
+const TopNav = ({ onRequestAccess, wordmarkAccent, isLandingPage = true }) => {
   const [scrolled, setScrolled] = React.useState(false)
   const [menuOpen, setMenuOpen] = React.useState(false)
 
@@ -34,7 +34,10 @@ const TopNav = ({ onRequestAccess, wordmarkAccent }) => {
           className="container topnav-inner"
           style={{ position: "relative" }}
         >
-          <a href="#top" style={{ textDecoration: "none" }}>
+          <a
+            href={isLandingPage ? "#top" : "/"}
+            style={{ textDecoration: "none" }}
+          >
             <Wordmark accent={wordmarkAccent} size={30} />
           </a>
 

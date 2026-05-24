@@ -20,9 +20,29 @@ globalThis.TweakRadio ??= () => null
 globalThis.TweakSelect ??= () => null
 globalThis.UbeHuePicker ??= () => null
 
+// Path-based "router". Each route is its own static HTML file in dist/ that
+// loads the same bundle; this function picks which page body to render.
+// Defensive against SSR (window.location is undefined in Node) — defaults
+// to "landing", which matches what build.mjs SSR's into dist/index.html.
+const ROUTES = {
+  "/terms-of-service": "terms",
+  "/privacy-policy": "privacy",
+}
+const currentRoute = () => {
+  const p = window.location?.pathname?.replace(/\/+$/, "") || "/"
+  return ROUTES[p] || "landing"
+}
+
 const App = () => {
   const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS)
   const [modalOpen, setModalOpen] = React.useState(false)
+  const [route, setRoute] = React.useState(currentRoute)
+
+  React.useEffect(() => {
+    const onPop = () => setRoute(currentRoute())
+    window.addEventListener("popstate", onPop)
+    return () => window.removeEventListener("popstate", onPop)
+  }, [])
 
   // Apply accent from the chosen ube swatch — use its sampled L/C/H so the
   // picker actually changes the brand color, not just its hue angle.
@@ -70,29 +90,32 @@ const App = () => {
   useEngagementTracking()
   useScrollDepthTracking()
 
+  const page =
+    route === "terms" ? (
+      <TermsPage />
+    ) : route === "privacy" ? (
+      <PrivacyPage />
+    ) : (
+      <LandingPage
+        onRequestAccess={openFromHero}
+        onRequestAccessFromFinalCta={openFromFinalCta}
+        heroVariant={tweaks.heroVariant}
+        heroCopy={tweaks.heroCopy}
+      />
+    )
+
   return (
     <>
       <TopNav
         onRequestAccess={openFromNav}
         wordmarkAccent={tweaks.wordmarkAccent}
+        isLandingPage={route === "landing"}
       />
-      <main>
-        <Hero
-          onRequestAccess={openFromHero}
-          heroVariant={tweaks.heroVariant}
-          heroCopy={tweaks.heroCopy}
-        />
-        <TrustedBy />
-        <Problems />
-        <HowItWorks />
-        <Benefits />
-        <FAQ />
-        <FinalCTA onRequestAccess={openFromFinalCta} />
-      </main>
+      {page}
       <Footer wordmarkAccent={tweaks.wordmarkAccent} />
       <RequestAccessModal open={modalOpen} onClose={close} />
 
-      <TweaksPanel title="Tweaks">
+      {route === "landing" && <TweaksPanel title="Tweaks">
         <TweakSection title="Brand">
           <TweakRadio
             label="Accent strategy — A/B"
@@ -153,7 +176,7 @@ const App = () => {
             ]}
           />
         </TweakSection>
-      </TweaksPanel>
+      </TweaksPanel>}
     </>
   )
 }

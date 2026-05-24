@@ -17,6 +17,14 @@ const Footer = ({ wordmarkAccent }) => (
           <p className="t-caption muted" style={{ marginTop: 24 }}>
             © 2026 Ube · Chunky Tofu Studios, LLC
           </p>
+          <p
+            className="t-caption muted footer-legal-links"
+            style={{ marginTop: 8 }}
+          >
+            <a href="/terms-of-service">Terms of Service</a>
+            <span aria-hidden="true"> · </span>
+            <a href="/privacy-policy">Privacy Policy</a>
+          </p>
         </div>
         <div className="footer-col">
           <h4>PRODUCTS</h4>

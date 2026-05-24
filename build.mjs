@@ -52,6 +52,9 @@ const JSX_FILES = [
   "src/components/modals/fix-loop-modal.jsx",
   "src/components/modals/request-access-modal.jsx",
   "src/components/sections/how-it-works.jsx",
+  "src/components/pages/landing-page.jsx",
+  "src/components/pages/terms-page.jsx",
+  "src/components/pages/privacy-page.jsx",
   "src/app.jsx",
 ]
 
@@ -141,7 +144,7 @@ const faqLdScript = `<script type="application/ld+json">\n${JSON.stringify(faqJs
 let html = await readFile("index.html", "utf8")
 
 html = html
-  .replace('href="src/styles.css"', 'href="styles.css"')
+  .replace('href="/src/styles.css"', 'href="/styles.css"')
   .replace("react.development.js", "react.production.min.js")
   .replace("react-dom.development.js", "react-dom.production.min.js")
   .replace(/\s+integrity="sha384-[^"]*"/g, "")
@@ -151,14 +154,91 @@ html = html
   )
   .replace(
     /\s*<!-- Component scripts[^>]*-->\n(\s*<script type="text\/babel"[^>]*><\/script>\s*\n?)+/,
-    '\n  <script src="bundle.js" defer></script>\n',
+    '\n  <script src="/bundle.js" defer></script>\n',
   )
-  .replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`)
   // Placeholder comment (not magic insertion before </head>) so the source
   // index.html shows future maintainers exactly where the FAQPage JSON-LD lands.
   .replace("<!-- FAQPAGE_JSON_LD -->", faqLdScript)
 
-await writeFile(join(DIST, "index.html"), html)
+// Landing page — inject SSR'd markup into the root div.
+const landingHtml = html.replace(
+  '<div id="root"></div>',
+  `<div id="root">${appHtml}</div>`,
+)
+await writeFile(join(DIST, "index.html"), landingHtml)
+
+// --- Per-route HTML shells --------------------------------------------------
+// Terms and Privacy reuse the same template + bundle but ship with an empty
+// <div id="root"> so the client renders fresh (no SSR'd content for these
+// routes today — acceptable trade-off; see CLAUDE.md). Each gets a distinct
+// <title>, meta description, og/twitter title, and canonical link so search
+// engines and browser tabs see the right metadata.
+const legalRoutes = [
+  {
+    path: "terms-of-service",
+    title: "Terms of Service — Ube",
+    description:
+      "Terms of Service for Ube, a software platform by Chunky Tofu Studios, LLC.",
+  },
+  {
+    path: "privacy-policy",
+    title: "Privacy Policy — Ube",
+    description:
+      "Privacy Policy for Ube, a software platform by Chunky Tofu Studios, LLC.",
+  },
+]
+
+for (const { path: routePath, title, description } of legalRoutes) {
+  const canonical = `https://ube.dev/${routePath}/`
+  let routeHtml = html
+    // Replace document <title>. The source HTML's first <title> tag is the
+    // landing-page one; swap it for the route-specific title.
+    .replace(
+      /<title>[^<]*<\/title>/,
+      `<title>${escapeHtml(title)}</title>`,
+    )
+    // Description is duplicated across <meta name=description>, og:description,
+    // twitter:description. Swap them all together so a single source of truth
+    // covers SEO, social, and AI answer engines.
+    .replace(
+      /<meta name="description" content="[^"]*"\/>/,
+      `<meta name="description" content="${escapeHtml(description)}"/>`,
+    )
+    .replace(
+      /<meta property="og:title" content="[^"]*"\/>/,
+      `<meta property="og:title" content="${escapeHtml(title)}"/>`,
+    )
+    .replace(
+      /<meta property="og:description" content="[^"]*"\/>/,
+      `<meta property="og:description" content="${escapeHtml(description)}"/>`,
+    )
+    .replace(
+      /<meta property="og:url" content="[^"]*"\/>/,
+      `<meta property="og:url" content="${canonical}"/>`,
+    )
+    .replace(
+      /<meta name="twitter:title" content="[^"]*"\/>/,
+      `<meta name="twitter:title" content="${escapeHtml(title)}"/>`,
+    )
+    .replace(
+      /<meta name="twitter:description" content="[^"]*"\/>/,
+      `<meta name="twitter:description" content="${escapeHtml(description)}"/>`,
+    )
+    .replace(
+      /<link rel="canonical" href="[^"]*"\/>/,
+      `<link rel="canonical" href="${canonical}"/>`,
+    )
+  await mkdir(join(DIST, routePath), { recursive: true })
+  await writeFile(join(DIST, routePath, "index.html"), routeHtml)
+}
+
+function escapeHtml(s) {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+}
 
 // --- sitemap.xml ------------------------------------------------------------
 // Single-URL site, but the sitemap gives Google a freshness signal and pairs
@@ -171,6 +251,18 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://ube.dev/terms-of-service/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://ube.dev/privacy-policy/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 </urlset>
 `
