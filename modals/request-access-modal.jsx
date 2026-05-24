@@ -292,21 +292,14 @@ const RequestAccessModal = ({ open, onClose }) => {
             </button>
             <p
               className="t-caption muted"
-              style={{ marginTop: 14, textAlign: "center" }}
-            >
-              We'll only use this to contact you about Ube access.
-            </p>
-            <p
-              className="muted"
               style={{
-                marginTop: 10,
-                marginBottom: 0,
+                marginTop: 22,
                 textAlign: "center",
-                fontSize: 11,
-                lineHeight: 1.45,
+                fontSize: 12,
               }}
             >
-              This site is protected by reCAPTCHA.
+              We'll only use this to contact you about Ube access. This
+              site is protected by reCAPTCHA.
             </p>
           </form>
         </>
