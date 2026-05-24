@@ -1,7 +1,9 @@
 // Tweak defaults — the in-page dev panel mutates the EDITMODE-marked block
-// below; the host rewrites it on disk via the `__edit_mode_set_keys` message
-// (slice 0009 wires the writeback for the Astro build; until then the panel
-// edits are in-memory only).
+// below. The Vite dev middleware at `POST /__tweaks` (see
+// `src/dev/tweaks-writeback-plugin.ts` and ADR 0005) rewrites this region on
+// disk; Vite HMR then re-renders the page with the new defaults. The
+// middleware's parser expects each line in the block to be `key: "value",`,
+// so don't reformat it by hand.
 export type AccentValue = "lift" | "flesh" | "heart" | "deep" | "core" | "wine"
 export type WordmarkAccent = "umlaut" | "cursor" | "bracket"
 export type HeroVariant = "pr" | "minimal" | "split"

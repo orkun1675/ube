@@ -6,10 +6,13 @@
 // individual prototypes don't re-roll it.
 //
 // NOTE: dev-only — kept out of production via `import.meta.env.DEV` gating at
-// the call site (see PageApp.tsx). Slice 0009 will rewire the EDITMODE
-// writeback to play nicely with Vite/Astro HMR; for now the panel mutates
-// values in-memory and posts to `window.parent` as before, but the source
-// file is not regenerated on disk.
+// the call site (see TweaksPanelMount). In addition to the legacy host-iframe
+// postMessage protocol, `useTweaks` now POSTs each edit to the Vite dev
+// middleware at `/__tweaks` (spec 0009, ADR 0005) which rewrites the
+// EDITMODE-marked region of `src/data/tweak-defaults.ts` on disk. Vite's
+// file watcher picks the change up and HMR re-renders the page with the new
+// defaults. The POST is debounced so rapid drag mutations on a TweakRadio
+// segment coalesce into a single write per knob.
 import React from "react"
 
 const __TWEAKS_STYLE = `
@@ -68,20 +71,79 @@ const __TWEAKS_STYLE = `
 `
 
 // ── useTweaks ───────────────────────────────────────────────────────────────
+//
+// Writeback debounce: TweakRadio's segmented control supports dragging,
+// which can emit many onChange calls per second. We accumulate pending
+// edits in a ref and flush them as a single POST after a short idle
+// window — coarse enough to merge a drag, fine enough that letting go
+// of the mouse persists almost immediately.
+const WRITEBACK_DEBOUNCE_MS = 120
+
 export function useTweaks<T extends Record<string, unknown>>(
   defaults: T,
 ): [T, (key: keyof T, val: T[keyof T]) => void] {
   const [values, setValues] = React.useState<T>(defaults)
-  const setTweak = React.useCallback((key: keyof T, val: T[keyof T]) => {
-    setValues((prev) => ({ ...prev, [key]: val }))
-    window.parent.postMessage(
-      { type: "__edit_mode_set_keys", edits: { [key]: val } },
-      "*",
-    )
-    window.dispatchEvent(
-      new CustomEvent("tweakchange", { detail: { [key]: val } }),
-    )
+  const pendingRef = React.useRef<Record<string, unknown>>({})
+  const timerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const flushWriteback = React.useCallback(() => {
+    timerRef.current = null
+    const edits = pendingRef.current
+    pendingRef.current = {}
+    if (Object.keys(edits).length === 0) return
+    // Fire-and-forget: the panel UI doesn't block on the write. Errors
+    // surface in the dev-server log via the plugin's console.error and,
+    // for visibility from the page, here too.
+    fetch("/__tweaks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ edits }),
+    })
+      .then((r) => {
+        if (!r.ok) {
+          console.warn("[tweaks] writeback failed:", r.status, r.statusText)
+        }
+      })
+      .catch((err: unknown) => {
+        // Network failures (e.g. plugin not loaded, prod-built page
+        // accidentally served somewhere) are expected to be silent in
+        // anything but a real Astro dev server; warn at the console so
+        // a curious dev sees what happened without it being noisy.
+        console.warn("[tweaks] writeback request failed:", err)
+      })
   }, [])
+
+  const setTweak = React.useCallback(
+    (key: keyof T, val: T[keyof T]) => {
+      setValues((prev) => ({ ...prev, [key]: val }))
+      // Legacy host-iframe protocol (kept for prototyping environments
+      // that embed the page in a parent that handles persistence).
+      window.parent.postMessage(
+        { type: "__edit_mode_set_keys", edits: { [key]: val } },
+        "*",
+      )
+      window.dispatchEvent(
+        new CustomEvent("tweakchange", { detail: { [key]: val } }),
+      )
+      // Vite dev-middleware writeback (debounced).
+      pendingRef.current[key as string] = val
+      if (timerRef.current !== null) clearTimeout(timerRef.current)
+      timerRef.current = setTimeout(flushWriteback, WRITEBACK_DEBOUNCE_MS)
+    },
+    [flushWriteback],
+  )
+
+  // Flush any pending writeback if the panel unmounts mid-debounce so
+  // we don't drop the last edit on a hot-reload.
+  React.useEffect(() => {
+    return () => {
+      if (timerRef.current !== null) {
+        clearTimeout(timerRef.current)
+        flushWriteback()
+      }
+    }
+  }, [flushWriteback])
+
   return [values, setTweak]
 }
 
