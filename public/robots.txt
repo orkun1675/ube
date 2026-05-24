@@ -1,0 +1,9 @@
+# ube.dev is a demand-probe landing page — we want every crawler indexing it,
+# including AI answer engines (ChatGPT, Claude, Perplexity, Gemini). The
+# wildcard below covers all named bots; add per-bot groups only if a specific
+# crawler ever needs different rules.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://ube.dev/sitemap.xml

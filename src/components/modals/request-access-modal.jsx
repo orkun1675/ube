@@ -1,6 +1,29 @@
 // =====================================================================
 //  Request Access Modal
 // =====================================================================
+
+// reCAPTCHA v3 was previously a render-blocking <script> in index.html that
+// fired on every page view (and loaded Google trackers for every visitor).
+// We now inject it the first time the modal opens. Returns a promise that
+// resolves once `window.grecaptcha.execute` is callable. Idempotent — repeated
+// calls reuse the in-flight or completed load.
+let recaptchaPromise = null
+const loadRecaptcha = () => {
+  if (recaptchaPromise) return recaptchaPromise
+  recaptchaPromise = new Promise((resolve, reject) => {
+    const s = document.createElement("script")
+    s.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`
+    s.async = true
+    s.onload = () => window.grecaptcha?.ready(resolve)
+    s.onerror = () => {
+      recaptchaPromise = null
+      reject(new Error("reCAPTCHA failed to load"))
+    }
+    document.head.appendChild(s)
+  })
+  return recaptchaPromise
+}
+
 const RequestAccessModal = ({ open, onClose }) => {
   const [step, setStep] = React.useState("form") // form | submitting | success
   const [email, setEmail] = React.useState("")
@@ -10,6 +33,12 @@ const RequestAccessModal = ({ open, onClose }) => {
   const [teamSize, setTeamSize] = React.useState("")
   const [productError, setProductError] = React.useState(false)
   const [submitError, setSubmitError] = React.useState("")
+
+  // Kick off the reCAPTCHA script the first time the modal opens, so the
+  // token is usually ready by the time the user hits submit.
+  React.useEffect(() => {
+    if (open) loadRecaptcha().catch(() => {})
+  }, [open])
 
   // Reset to form when re-opened after success
   React.useEffect(() => {
@@ -47,16 +76,9 @@ const RequestAccessModal = ({ open, onClose }) => {
     const formEl = e.currentTarget
     setStep("submitting")
     try {
-      const token = await new Promise((resolve, reject) => {
-        if (!window.grecaptcha?.ready) {
-          reject(new Error("reCAPTCHA not loaded"))
-          return
-        }
-        window.grecaptcha.ready(() => {
-          window.grecaptcha
-            .execute(RECAPTCHA_SITE_KEY, { action: "submit" })
-            .then(resolve, reject)
-        })
+      await loadRecaptcha()
+      const token = await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {
+        action: "submit",
       })
       const formData = new FormData(formEl)
       formData.append("g-recaptcha-response", token)

@@ -8,6 +8,8 @@
 import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises"
 import { join } from "node:path"
 import { transform } from "esbuild"
+import React from "react"
+import { renderToString } from "react-dom/server"
 
 // Files we don't ship to production: the in-page Tweaks panel + its hue
 // picker UI exist only to iterate on design locally. app.jsx falls back to
@@ -78,11 +80,45 @@ const css = await readFile("src/styles.css", "utf8")
 const cssOut = await transform(css, { loader: "css", minify: true })
 await writeFile(join(DIST, "styles.css"), cssOut.code)
 
+// --- SSR pre-render ---------------------------------------------------------
+// Run the bundle inside Node with a minimal browser shim, then capture the
+// HTML of <App /> via react-dom/server. Without this step the production
+// HTML's <div id="root"></div> is empty, so non-JS crawlers (GPTBot,
+// ClaudeBot, PerplexityBot, OAI-SearchBot, …) see only the meta description.
+// The browser still hydrates via ReactDOM.hydrateRoot, so behavior is
+// unchanged for real users.
+//
+// How it works: the JSX files publish their components onto `window` via
+// Object.assign(window, {…}). We alias window → globalThis so those writes
+// land on Node's global object, then indirect-eval the already-bundled JS so
+// its top-level Object.assign calls actually execute. App's mount call is
+// guarded with `typeof document !== "undefined"` in src/app.jsx and is
+// skipped here.
+globalThis.window = globalThis
+globalThis.React = React
+// Stubs for browser APIs that the bundle's top-level code might touch. All
+// real usage is inside useEffect (so it only fires on the client), but the
+// stubs keep us safe if a future top-level reference sneaks in.
+globalThis.sessionStorage = {
+  getItem: () => null,
+  setItem: () => {},
+  removeItem: () => {},
+}
+globalThis.ReactDOM = {
+  hydrateRoot: () => {},
+  createRoot: () => ({ render: () => {} }),
+}
+// Indirect eval runs in global scope, so `const X = …` followed by
+// `Object.assign(window, { X })` correctly publishes X to globalThis.
+;(0, eval)(js.code)
+const appHtml = renderToString(React.createElement(globalThis.App))
+
 // --- index.html: rewrite for production -------------------------------------
 // 1. Switch React/ReactDOM to .production.min.js
 // 2. Drop @babel/standalone (no longer needed — JSX is pre-compiled)
 // 3. Drop SRI integrity attrs (dev hashes don't match the prod URLs)
 // 4. Replace the five <script type="text/babel"> tags with one bundle.js
+// 5. Inject SSR'd markup into the empty <div id="root">
 let html = await readFile("index.html", "utf8")
 
 html = html
@@ -98,8 +134,25 @@ html = html
     /\s*<!-- Component scripts[^>]*-->\n(\s*<script type="text\/babel"[^>]*><\/script>\s*\n?)+/,
     '\n  <script src="bundle.js" defer></script>\n',
   )
+  .replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`)
 
 await writeFile(join(DIST, "index.html"), html)
+
+// --- sitemap.xml ------------------------------------------------------------
+// Single-URL site, but the sitemap gives Google a freshness signal and pairs
+// with the Sitemap: directive in public/robots.txt.
+const lastmod = new Date().toISOString().slice(0, 10)
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://ube.dev/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
+`
+await writeFile(join(DIST, "sitemap.xml"), sitemap)
 
 // --- Static assets ----------------------------------------------------------
 // Mirror Astro: everything in public/ copies verbatim to the site root.

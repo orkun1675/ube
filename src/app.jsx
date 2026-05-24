@@ -158,5 +158,20 @@ const App = () => {
   )
 }
 
-const root = ReactDOM.createRoot(document.getElementById("root"))
-root.render(<App />)
+// Expose App so the SSR step in build.mjs can renderToString it. (Same
+// pattern as every other Object.assign(window, …) in this codebase.)
+Object.assign(window, { App })
+
+// Mount on the browser. Guarded so the same bundle can run in Node during
+// the SSR pre-render step (where `document` doesn't exist). In production
+// the root already contains pre-rendered markup → hydrateRoot reuses it; in
+// dev the root is empty → createRoot does a fresh client render. This avoids
+// hydration-mismatch warnings when opening index.html directly.
+if (typeof document !== "undefined") {
+  const container = document.getElementById("root")
+  if (container.firstChild) {
+    ReactDOM.hydrateRoot(container, <App />)
+  } else {
+    ReactDOM.createRoot(container).render(<App />)
+  }
+}

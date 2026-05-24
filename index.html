@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ube — An agent that maintains your app</title>
   <meta name="description" content="Ube listens to crash feeds, error dashboards, app reviews, and dependency releases — then triages, reproduces, and opens verified PRs against your repo."/>
+  <link rel="canonical" href="https://ube.dev/"/>
 
   <!-- Favicons. Light default; dark variant served via media query on
        browsers that honor `media` on <link rel="icon"> (Firefox; recent
@@ -31,6 +32,81 @@
   <meta name="twitter:description" content="Ube listens to crash feeds, error dashboards, app reviews, and dependency releases — then triages, reproduces, and opens verified PRs against your repo."/>
   <meta name="twitter:image" content="https://ube.dev/assets/social/og-image.png"/>
 
+  <!-- Structured data for search + AI answer engines. Keep these in raw HTML
+       (not injected by React) so non-JS crawlers can read them. FAQPage
+       answers must match the visible copy in src/components/sections/faq.jsx
+       verbatim — if you change one, change both. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Ube",
+    "url": "https://ube.dev/",
+    "logo": "https://ube.dev/assets/favicons/apple-touch-icon.png",
+    "description": "Ube is an AI agent that maintains mobile and cross-platform apps — triaging crash reports, user feedback, and dependency upgrades, then opening verified pull requests against your repo.",
+    "sameAs": [
+      "https://github.com/orkun1675/ube"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Ube Maintainer",
+    "url": "https://ube.dev/",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web",
+    "description": "An agent that listens to crash feeds, error dashboards, app reviews, and dependency releases — then triages, reproduces, and opens verified PRs against your repo. Supports React Native, Expo, Flutter, native iOS (Swift / Obj-C), native Android (Kotlin / Java), and Capacitor / Ionic.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/PreOrder"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does Ube auto-merge, or does it only open PRs for review?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ube always opens PRs — you stay in control of what ships. Auto-merge is opt-in per repository, and even then it's gated behind your existing branch protections and required checks."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Where does my code go?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Your code runs in ephemeral, per-repo sandboxes that are destroyed after each job. We don't train on your code, and we don't keep it after the run. Self-hosting is offered for enterprise customers with strict privacy requirements."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which frameworks and platforms does Ube support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "React Native, Expo, Flutter, native iOS (Swift / Obj-C), native Android (Kotlin / Java), and Capacitor / Ionic out of the box. Other stacks can be onboarded on request — get in touch."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What if Ube makes a bad fix?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Every PR runs your tests plus a generated regression suite before opening, and the diff is yours to review. Marking a fix rejected teaches Ube to avoid that approach for the same signature — it gets better at your codebase over time."
+        }
+      }
+    ]
+  }
+  </script>
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -38,8 +114,9 @@
 
   <link rel="stylesheet" href="src/styles.css"/>
 
-  <!-- Google reCAPTCHA v3 — used by Basin for spam protection on the request-access form -->
-  <script src="https://www.google.com/recaptcha/api.js?render=6Les66kUAAAAANyLrgkl7iuN4JUpNlB5upaMovI4"></script>
+  <!-- reCAPTCHA v3 (used by Basin for spam protection on the request-access form)
+       is lazy-loaded from the modal — see src/components/modals/request-access-modal.jsx.
+       Loading it up-front blocks render and pulls Google trackers for every visitor. -->
 
   <!-- React + Babel pinned versions -->
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
