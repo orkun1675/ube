@@ -1,5 +1,11 @@
 // Ube — App entry
 
+const track = (name, props) => {
+  try {
+    window.amplitude?.track(name, props)
+  } catch {}
+}
+
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/ {
   accent: "lift",
   wordmarkAccent: "bracket",
@@ -169,6 +175,104 @@ function UbeHuePicker({ value, onChange }) {
   )
 }
 
+const useEngagementTracking = () => {
+  React.useEffect(() => {
+    if (sessionStorage.getItem("ube_engaged_30s") === "1") return
+    let elapsedMs = 0
+    let lastTick = null
+    let timerId = null
+    const THRESHOLD_MS = 30000
+
+    const isActive = () =>
+      document.visibilityState === "visible" && document.hasFocus()
+
+    const fire = () => {
+      if (sessionStorage.getItem("ube_engaged_30s") === "1") return
+      sessionStorage.setItem("ube_engaged_30s", "1")
+      track("engaged_30s")
+    }
+
+    const pause = () => {
+      if (lastTick !== null) {
+        elapsedMs += Date.now() - lastTick
+        lastTick = null
+      }
+      if (timerId) {
+        clearTimeout(timerId)
+        timerId = null
+      }
+      if (elapsedMs >= THRESHOLD_MS) fire()
+    }
+
+    const resume = () => {
+      if (lastTick !== null) return
+      lastTick = Date.now()
+      const remaining = Math.max(0, THRESHOLD_MS - elapsedMs)
+      timerId = setTimeout(() => {
+        if (lastTick !== null) {
+          elapsedMs += Date.now() - lastTick
+          lastTick = Date.now()
+        }
+        if (elapsedMs >= THRESHOLD_MS) fire()
+      }, remaining)
+    }
+
+    const sync = () => {
+      if (sessionStorage.getItem("ube_engaged_30s") === "1") return
+      if (isActive()) resume()
+      else pause()
+    }
+
+    document.addEventListener("visibilitychange", sync)
+    window.addEventListener("focus", sync)
+    window.addEventListener("blur", sync)
+    sync()
+
+    return () => {
+      document.removeEventListener("visibilitychange", sync)
+      window.removeEventListener("focus", sync)
+      window.removeEventListener("blur", sync)
+      if (timerId) clearTimeout(timerId)
+    }
+  }, [])
+}
+
+const useScrollDepthTracking = () => {
+  React.useEffect(() => {
+    const THRESHOLDS = [25, 50, 75, 100]
+    const fired = new Set()
+    for (const p of THRESHOLDS) {
+      if (sessionStorage.getItem(`ube_scroll_${p}`) === "1") fired.add(p)
+    }
+
+    const compute = () => {
+      const doc = document.documentElement
+      const scrollable = doc.scrollHeight - window.innerHeight
+      if (scrollable <= 0) return 100
+      const percent = (window.scrollY / scrollable) * 100
+      return Math.max(0, Math.min(100, percent))
+    }
+
+    const onScroll = () => {
+      const pct = compute()
+      for (const t of THRESHOLDS) {
+        if (!fired.has(t) && pct >= t) {
+          fired.add(t)
+          sessionStorage.setItem(`ube_scroll_${t}`, "1")
+          track("scroll_depth", { percent: t })
+        }
+      }
+      if (fired.size === THRESHOLDS.length) {
+        window.removeEventListener("scroll", onScroll)
+      }
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+}
+
 const App = () => {
   const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS)
   const [modalOpen, setModalOpen] = React.useState(false)
@@ -204,15 +308,30 @@ const App = () => {
     document.body.dataset.accentMode = tweaks.accentStrategy || "split"
   }, [tweaks.accentStrategy])
 
-  const open = React.useCallback(() => setModalOpen(true), [])
+  const openFrom = React.useCallback((source) => {
+    track("request_access_modal_opened", { source })
+    setModalOpen(true)
+  }, [])
+  const openFromNav = React.useCallback(() => openFrom("nav"), [openFrom])
+  const openFromHero = React.useCallback(() => openFrom("hero"), [openFrom])
+  const openFromFinalCta = React.useCallback(
+    () => openFrom("final_cta"),
+    [openFrom],
+  )
   const close = React.useCallback(() => setModalOpen(false), [])
+
+  useEngagementTracking()
+  useScrollDepthTracking()
 
   return (
     <>
-      <TopNav onRequestAccess={open} wordmarkAccent={tweaks.wordmarkAccent} />
+      <TopNav
+        onRequestAccess={openFromNav}
+        wordmarkAccent={tweaks.wordmarkAccent}
+      />
       <main>
         <Hero
-          onRequestAccess={open}
+          onRequestAccess={openFromHero}
           heroVariant={tweaks.heroVariant}
           heroCopy={tweaks.heroCopy}
         />
@@ -221,7 +340,7 @@ const App = () => {
         <HowItWorks />
         <Benefits />
         <FAQ />
-        <FinalCTA onRequestAccess={open} />
+        <FinalCTA onRequestAccess={openFromFinalCta} />
       </main>
       <Footer wordmarkAccent={tweaks.wordmarkAccent} />
       <RequestAccessModal open={modalOpen} onClose={close} />

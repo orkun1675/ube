@@ -1315,6 +1315,10 @@ const HowItWorks = () => {
   const [sourcesOpen, setSourcesOpen] = React.useState(false)
   const [dedupeOpen, setDedupeOpen] = React.useState(false)
   const [fixLoopOpen, setFixLoopOpen] = React.useState(false)
+  const openStep = (step, title, setter) => {
+    track("how_it_works_step_opened", { step, title })
+    setter(true)
+  }
   const steps = [
     {
       num: "01",
@@ -1323,7 +1327,7 @@ const HowItWorks = () => {
       title: "Monitors all platforms.",
       body: "Firebase Crashlytics, Sentry, Play Console ANRs, App Store reviews, support inboxes, dependency releases — all funneled into one timeline. Nothing slips through.",
       learnMore: "Supported sources",
-      onLearnMore: () => setSourcesOpen(true),
+      onLearnMore: () => openStep("01-intake", "Intake", setSourcesOpen),
       visual: <IntakeMockup />,
     },
     {
@@ -1333,7 +1337,7 @@ const HowItWorks = () => {
       title: "Tracks bugs across binaries.",
       body: "Stack traces are symbolized on intake, then deduplicated by signature across versions, OSes, and dependency upgrades. Per-issue state lives on a single dashboard — the source of truth your maintenance agent reads from.",
       learnMore: "How issues are deduplicated",
-      onLearnMore: () => setDedupeOpen(true),
+      onLearnMore: () => openStep("02-triage", "Triage", setDedupeOpen),
       visual: <TriageMockup />,
     },
     {
@@ -1343,7 +1347,7 @@ const HowItWorks = () => {
       title: "Reproduce, patch, verify — then open the PR.",
       body: "Ube reproduces the bug on an emulator, writes the patch, and runs your test suite — then QAs the app by hand, clicking through like a real user. Once the issue is verified fixed and nothing else broke, it opens a PR. Watch the GIFs, read the diff, merge.",
       learnMore: "Inside the fix loop",
-      onLearnMore: () => setFixLoopOpen(true),
+      onLearnMore: () => openStep("03-fix", "Fix", setFixLoopOpen),
       visual: <FixMockup />,
     },
     {
@@ -1558,7 +1562,12 @@ const FAQItem = ({ q, a, defaultOpen }) => {
       <button
         type="button"
         className="faq-question"
-        onClick={() => setOpen((o) => !o)}
+        onClick={() =>
+          setOpen((o) => {
+            if (!o) track("faq_opened", { question: q })
+            return !o
+          })
+        }
         aria-expanded={open}
       >
         <span>{q}</span>
@@ -1745,6 +1754,9 @@ const Footer = ({ wordmarkAccent }) => (
 // =====================================================================
 //  Request Access Modal
 // =====================================================================
+const BASIN_ENDPOINT = "https://usebasin.com/f/fc8047450e7a"
+const RECAPTCHA_SITE_KEY = "6Les66kUAAAAANyLrgkl7iuN4JUpNlB5upaMovI4"
+
 const RequestAccessModal = ({ open, onClose }) => {
   const [step, setStep] = React.useState("form") // form | submitting | success
   const [email, setEmail] = React.useState("")
@@ -1753,6 +1765,7 @@ const RequestAccessModal = ({ open, onClose }) => {
   const [product, setProduct] = React.useState("")
   const [teamSize, setTeamSize] = React.useState("")
   const [productError, setProductError] = React.useState(false)
+  const [submitError, setSubmitError] = React.useState("")
 
   React.useEffect(() => {
     if (!open) return
@@ -1781,19 +1794,56 @@ const RequestAccessModal = ({ open, onClose }) => {
         setStackOther("")
         setProduct("")
         setTeamSize("")
+        setSubmitError("")
       }, 280)
     }
   }, [open, step])
   if (!open) return null
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
     if (!product) {
       setProductError(true)
       return
     }
     setProductError(false)
-    setStep("submitting") // Per user: submitting does nothing real. Simulate success after a moment.
-    setTimeout(() => setStep("success"), 900)
+    setSubmitError("")
+    track("request_access_submitted", {
+      email,
+      product_interest: product,
+      stack,
+      stack_other: stackOther,
+      team_size: teamSize,
+    })
+    const formEl = e.currentTarget
+    setStep("submitting")
+    try {
+      const token = await new Promise((resolve, reject) => {
+        if (!window.grecaptcha?.ready) {
+          reject(new Error("reCAPTCHA not loaded"))
+          return
+        }
+        window.grecaptcha.ready(() => {
+          window.grecaptcha
+            .execute(RECAPTCHA_SITE_KEY, { action: "submit" })
+            .then(resolve, reject)
+        })
+      })
+      const formData = new FormData(formEl)
+      formData.append("g-recaptcha-response", token)
+      formData.append("g-recaptcha-version", "v3")
+      const response = await fetch(BASIN_ENDPOINT, {
+        method: "POST",
+        body: formData,
+        headers: { Accept: "application/json" },
+      })
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
+      setStep("success")
+    } catch (_err) {
+      setStep("form")
+      setSubmitError(
+        "Something went wrong submitting your request. Please try again.",
+      )
+    }
   }
   const stacks = [
     "React Native",
@@ -1846,7 +1896,7 @@ const RequestAccessModal = ({ open, onClose }) => {
               Tell us what you're shipping. We'll be in touch as we open access.
             </p>
 
-            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit} action={BASIN_ENDPOINT} method="POST">
               <div className="field">
                 <label className="field-label" htmlFor="ra-email">
                   Email <span className="req-dot" />
@@ -1854,6 +1904,7 @@ const RequestAccessModal = ({ open, onClose }) => {
                 <input
                   id="ra-email"
                   type="email"
+                  name="email"
                   required
                   placeholder="you@company.com"
                   className="input"
@@ -1868,6 +1919,7 @@ const RequestAccessModal = ({ open, onClose }) => {
                 </label>
                 <select
                   id="ra-stack"
+                  name="stack"
                   className="input"
                   required
                   value={stack}
@@ -1884,10 +1936,12 @@ const RequestAccessModal = ({ open, onClose }) => {
                   <input
                     style={{ marginTop: 10 }}
                     className="input"
+                    name="stack_other"
                     placeholder="Which stack?"
                     value={stackOther}
                     onChange={(e) => setStackOther(e.target.value)}
                     aria-label="Other stack"
+                    required
                   />
                 )}
               </div>
@@ -1950,6 +2004,7 @@ const RequestAccessModal = ({ open, onClose }) => {
                     </button>
                   ))}
                 </div>
+                <input type="hidden" name="product_interest" value={product} />
                 {productError && (
                   <div
                     className="t-caption"
@@ -1977,6 +2032,7 @@ const RequestAccessModal = ({ open, onClose }) => {
                 </label>
                 <select
                   id="ra-team-size"
+                  name="team_size"
                   className="input"
                   value={teamSize}
                   onChange={(e) => setTeamSize(e.target.value)}
@@ -1989,6 +2045,20 @@ const RequestAccessModal = ({ open, onClose }) => {
                   ))}
                 </select>
               </div>
+
+              {submitError && (
+                <div
+                  className="t-caption"
+                  role="alert"
+                  style={{
+                    marginTop: 4,
+                    marginBottom: 12,
+                    color: "var(--error)",
+                  }}
+                >
+                  {submitError}
+                </div>
+              )}
 
               <button
                 type="submit"
