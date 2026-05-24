@@ -5,9 +5,12 @@
   "type": "module",
   "description": "Static landing for ube.dev. Local: open index.html. CI: npm run build.",
   "scripts": {
-    "build": "node build.mjs"
+    "build": "node build.mjs",
+    "lint": "biome check --write --unsafe --no-errors-on-unmatched --files-ignore-unknown=true ./",
+    "check": "biome check --no-errors-on-unmatched --files-ignore-unknown=true ./"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.4.15",
     "esbuild": "^0.28.0"
   }
 }
