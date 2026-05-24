@@ -3,6 +3,11 @@
 ## Purpose
 Landing page at [ube.dev](https://ube.dev) whose sole job is to **measure interest in Ube**. The product itself doesn't exist yet — this site is a demand probe. Background essays live at `../ube-app/app_distribution_essay.md` (Publisher) and `../ube-app/app_maintenance_essay.md` (Maintainer). The Request Access modal's "Which product matters more to you?" radio (Maintainer vs Publisher) is the key signal we're collecting.
 
+## Working alongside other agents
+Other Claude Code sessions may be running in this repo in parallel.
+- Treat uncommitted working-tree changes as possibly belonging to another agent.
+- Don't reuse another agent's preview server. `preview_start` silently attaches to an already-running instance with the same name, pick a random port and use that when starting the preview server.
+
 ## Build / run
 - **Dev server:** use the `preview_*` tools with the `dev` config in [.claude/launch.json](.claude/launch.json).
 - **Prod build:** `npm run build` → [build.mjs](build.mjs) (esbuild) concatenates JSX files, minifies, rewrites `index.html` to use React production builds, drops Babel. GitHub Actions deploys `dist/` to Pages on push to `main`.
