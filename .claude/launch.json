@@ -10,7 +10,10 @@
     {
       "name": "prod-dist",
       "runtimeExecutable": "sh",
-      "runtimeArgs": ["-c", "exec python3 -m http.server --directory dist $PORT"],
+      "runtimeArgs": [
+        "-c",
+        "exec python3 -m http.server --directory dist $PORT"
+      ],
       "autoPort": true
     }
   ]
