@@ -35,7 +35,7 @@ jobs:
       - name: Lint & format check (Biome)
         run: npm run check
 
-      - name: Build (pre-compile JSX, minify, swap to production React)
+      - name: Build (Astro static SSG)
         run: npm run build
 
       - name: Configure Pages

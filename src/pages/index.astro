@@ -1,0 +1,63 @@
+---
+// Landing page — the demand-probe homepage. Mounts the entire Nav + sections
+// + Footer tree as one big React island for now (spec 0001); slices 0003–0008
+// will gradually convert per-section .astro components.
+import { LandingPageApp } from "../components/pages/LandingPageApp"
+import { FAQ_ITEMS } from "../data/faq-items"
+import BaseLayout from "../layouts/BaseLayout.astro"
+
+const title = "Ube — An agent that maintains your app"
+const description =
+  "Ube listens to crash feeds, error dashboards, app reviews, and dependency releases — then triages, reproduces, and opens verified PRs against your repo."
+const canonical = "https://ube.dev/"
+
+// Multiple schemas — Astro's BaseLayout iterates and emits each as its own
+// <script type="application/ld+json"> block (single source of truth between
+// the visible FAQ component and the structured-data answers AI engines quote).
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Ube",
+    url: "https://ube.dev/",
+    logo: "https://ube.dev/assets/favicons/apple-touch-icon.png",
+    description:
+      "Ube is an AI agent that maintains mobile and cross-platform apps — triaging crash reports, user feedback, and dependency upgrades, then opening verified pull requests against your repo.",
+    sameAs: ["https://github.com/orkun1675/ube"],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "Ube Maintainer",
+    url: "https://ube.dev/",
+    applicationCategory: "DeveloperApplication",
+    operatingSystem: "Web",
+    description:
+      "An agent that listens to crash feeds, error dashboards, app reviews, and dependency releases — then triages, reproduces, and opens verified PRs against your repo. Supports React Native, Expo, Flutter, native iOS (Swift / Obj-C), native Android (Kotlin / Java), and Capacitor / Ionic.",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+      availability: "https://schema.org/PreOrder",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQ_ITEMS.map(({ q, a }) => ({
+      "@type": "Question",
+      name: q,
+      acceptedAnswer: { "@type": "Answer", text: a },
+    })),
+  },
+]
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+>
+  <LandingPageApp client:load />
+</BaseLayout>

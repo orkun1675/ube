@@ -10,36 +10,43 @@ Other Claude Code sessions may be running in this repo in parallel.
 - If there are no slots available, STOP.
 
 ## Build / run
-- **Dev server:** use the `preview_*` tools with the `dev` config in [.claude/launch.json](.claude/launch.json).
-- **Prod build:** `npm run build` → [build.mjs](build.mjs) (esbuild) concatenates JSX files, minifies, rewrites `index.html` to use React production builds, drops Babel. GitHub Actions deploys `dist/` to Pages on push to `main`.
+- **Dev server:** `npm run dev` (or use the `preview_*` tools with the `dev-a`..`dev-f` configs in [.claude/launch.json](.claude/launch.json) — each runs `astro dev --port {port}`).
+- **Prod build:** `npm run build` → Astro emits one HTML file per route into `dist/`, plus `sitemap-index.xml`. GitHub Actions deploys `dist/` to Pages on push to `main`.
+- **Prod preview locally:** `npm run preview` serves `dist/`.
 
 ## File layout
-Astro-inspired: `src/` for everything we build, `public/` for files served verbatim, root for config/entry/build.
-```
-index.html                # dev entry; <script type="text/babel"> tags
-build.mjs                 # prod build (esbuild)
-dev-server.py             # dev server; aliases public/ to / like Astro does
-src/
-  app.jsx                 # App root, tweak defaults, mount
-  constants.jsx           # shared constants
-  styles.css              # tokens + components + mockups
-  components/
-    sections/             # Nav, Hero, Problems, HowItWorks, Benefits, FAQ, FinalCTA, Footer, ...
-    modals/               # Sources, Dedupe, FixLoop, RequestAccess
-    mockups/              # in-page product mockups
-  lib/                    # analytics, palette, modal primitive, asset registry
-  dev/                    # tweaks panel (stripped from prod build)
-public/                   # copied verbatim to dist/ — served at site root
-  assets/                 # customer logos, integration icons, favicons, og image
-  maintainer/             # /maintainer/ static redirect to /
-  CNAME
-```
+Astro + React islands; one big `<PageApp client:load />` per route for now (slice 0001 baseline; later slices peel sections into native `.astro` components).
 
-JSX load order matters — `dev/tweaks-panel → constants → lib/* → dev/tweaks-config → mockups → sections → modals → app`. If you add a new `.jsx` file, update **both** `index.html` script tags and `JSX_FILES` in `build.mjs`.
+```
+astro.config.mjs               # output: static, redirects { /maintainer: / }, sitemap
+tsconfig.json                  # strict; ADR 0004
+src/
+  pages/                       # one .astro per route
+    index.astro                # /
+    terms-of-service.astro     # /terms-of-service/
+    privacy-policy.astro       # /privacy-policy/
+  layouts/BaseLayout.astro     # <head> props API + Amplitude + RequestAccessIsland
+  components/
+    pages/                     # *PageApp.tsx — page-level React islands
+    sections/                  # Nav, Hero, Footer, page sections (.tsx)
+    modals/                    # Sources, Dedupe, FixLoop, RequestAccess (.tsx)
+    mockups/                   # in-page product mockups (.tsx)
+  stores/request-access.ts     # nano store + openRequestAccess(source) wrapper
+  data/                        # faq-items.ts (single source of truth for the
+                               #   FAQ component + the FAQPage JSON-LD)
+                               # tweak-defaults.ts (EDITMODE-marked block)
+  lib/                         # analytics, palette, modal primitive, asset registry
+  dev/                         # tweaks panel (dev-only; gated by import.meta.env.DEV)
+  styles.css                   # tokens + components + mockups
+public/                        # copied verbatim to dist/ — served at site root
+  assets/                      # customer logos, integration icons, favicons, og image
+  CNAME, robots.txt
+```
 
 ## Things to know before editing
-- **The Request Access form is a stub.** `src/components/modals/request-access-modal.jsx:21` simulates success with `setTimeout` — nothing is sent anywhere. If interest needs to actually be captured, wire this up (Formspree, a Worker, etc.) — it's the highest-leverage missing piece given the project's goal.
-- **Tweaks panel persists into source.** `src/app.jsx` has `EDITMODE-BEGIN/END` markers around `TWEAK_DEFAULTS`; the in-page tweaks panel writes back to that block. Don't reformat that region by hand.
+- **The Request Access form posts to Basin** (`src/components/modals/request-access-modal.tsx`). reCAPTCHA v3 is lazy-loaded on first open; submissions go to `BASIN_ENDPOINT`. The conversion modal is mounted once globally by `BaseLayout.astro` (ADR 0002) and any CTA island opens it by calling `openRequestAccess(source)` from `src/stores/request-access.ts`. The wrapper fires `request_access_modal_opened` so no call site can forget the analytics event.
 - **Two-product positioning is intentional.** Hero currently leans Maintainer, but the modal surfaces both — preserve both signals unless explicitly narrowing focus.
-- **Amplitude is gated to production.** [index.html](index.html) loads Amplitude's Unified Script and initializes it, but only when `location.hostname` is `ube.dev` or a subdomain. On `localhost` the snippet stub installs but `init` is skipped, so no events or replays fire. Escape hatch for local verification: append `?amplitude=1` to the URL. **Only test Amplitude locally if explicitly asked.**
-- No test suite, no linter config, no TypeScript. Don't add tooling unless asked.
+- **Tweaks panel is dev-only** (`src/dev/tweaks-panel.tsx`, gated by `import.meta.env.DEV`). It still mutates values in-memory, but the EDITMODE writeback to `src/data/tweak-defaults.ts` is deferred to spec slice 0009. Don't reformat the `EDITMODE-BEGIN/END` block by hand.
+- **Amplitude is gated to production.** `BaseLayout.astro` loads Amplitude's Unified Script and initializes it, but only when `location.hostname` is `ube.dev` or a subdomain. On `localhost` the snippet stub installs but `init` is skipped, so no events or replays fire. Escape hatch for local verification: append `?amplitude=1` to the URL. **Only test Amplitude locally if explicitly asked.**
+- **TypeScript is strict** (per ADR 0004): `noUnusedLocals`, `noUnusedParameters`, `noUncheckedIndexedAccess`, `noPropertyAccessFromIndexSignature`. Match what's already in the codebase rather than weakening the config.
+- No test suite. Don't add tooling unless asked.

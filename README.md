@@ -1,56 +1,47 @@
 # Ube — Landing site
 
-Static landing for [ube.dev](https://ube.dev). React + JSX rendered in a single page, served from GitHub Pages.
+Static landing for [ube.dev](https://ube.dev). Built with [Astro](https://astro.build) — per-route static HTML with React islands. Deployed to GitHub Pages on push to `main`.
 
-## Local edits (no tooling)
-
-React and `@babel/standalone` come from unpkg and compile the JSX in the
-page. Edit any file under `src/` and reload — no install step, no bundler.
-
-Static assets live in `public/` (copied verbatim to the site root by the
-build), so a plain `python3 -m http.server` from the repo root would serve
-the HTML but 404 on `/assets/...`. Use the included dev server, which mounts
-`public/` at `/` the way Astro's dev server does:
+## Local dev
 
 ```
-python3 dev-server.py    # honors $PORT, defaults to whatever you set
+npm install
+npm run dev    # Astro dev server (HMR; defaults to :4321)
 ```
 
 ## Production build
 
-GitHub Actions runs this on every push to `main`; you generally don't need to
-run it by hand. If you want to:
-
 ```
-npm install
-npm run build
-# ./dist/ gets deployed
+npm run build   # → dist/
+npm run preview # serve dist/ locally
 ```
 
-`build.mjs` concatenates the JSX files into one minified `bundle.js`,
-minifies `src/styles.css`, copies `public/*` to the dist root, and rewrites
-`index.html` to load React's `*.production.min.js` builds without the Babel
-runtime.
+GitHub Actions runs `npm ci && npm run build` and publishes `dist/` to Pages.
 
 ## Layout
 
 ```
-index.html               # dev entry — loads JSX via @babel/standalone
-build.mjs                # esbuild-based production build
-dev-server.py            # dev server; aliases public/ to /
+astro.config.mjs               # Astro config — integrations, redirects, sitemap
+tsconfig.json                  # TypeScript strict mode (per ADR 0004)
+biome.json                     # lint/format
+public/                        # served verbatim at the site root
+  assets/                      # customer logos, integration icons, favicons, og image
+  CNAME, robots.txt
 src/
-  app.jsx                # mount + page composition
-  constants.jsx          # shared constants
-  styles.css             # tokens, layout, components, mockups
+  pages/                       # one .astro file per route → one HTML file
+  layouts/BaseLayout.astro     # shared <head> + RequestAccessModal island
   components/
-    sections/            # Nav, Hero, Footer, page sections
-    modals/              # Sources, Dedupe, FixLoop, RequestAccess
-    mockups/             # in-page product mockups
-  lib/                   # analytics, palette, modal primitive, asset registry
-  dev/                   # tweaks panel (dev-only; stripped from prod)
-public/
-  assets/                # customer logos, integration icons, favicons, og image
-  maintainer/            # /maintainer/ static redirect
-  CNAME
-.github/workflows/       # Pages deploy workflow
+    pages/*PageApp.tsx         # one big React island per route (slice 0001;
+                               #   sections will split into .astro in 0003–0008)
+    sections/                  # Nav, Hero, Footer, page sections (React .tsx)
+    modals/                    # Sources, Dedupe, FixLoop, RequestAccess (.tsx)
+    mockups/                   # in-page product mockups (.tsx)
+  stores/request-access.ts     # nano store for cross-island modal open
+  data/                        # FAQ items, tweak defaults
+  lib/                         # analytics, palette, modal primitive, asset registry
+  dev/                         # tweaks panel (dev-only; gated by import.meta.env.DEV)
+  styles.css                   # tokens, layout, components, mockups
+.github/workflows/             # Pages deploy workflow
+docs/adr/                      # architecture decision records
+spec/                          # implementation slices (0001 → ...)
 ```

@@ -19,7 +19,9 @@
       "!dist",
       "!node_modules",
       "!package-lock.json",
-      "!skills-lock.json"
+      "!skills-lock.json",
+      "!.astro",
+      "!**/*.astro"
     ]
   },
   "linter": {
@@ -27,7 +29,11 @@
     "rules": {
       "recommended": true,
       "correctness": {
-        "noNestedComponentDefinitions": "error"
+        "noNestedComponentDefinitions": "error",
+        "noUnusedVariables": {
+          "level": "error",
+          "fix": "none"
+        }
       },
       "suspicious": {
         "noExplicitAny": "off",
@@ -55,17 +61,5 @@
       "quoteStyle": "double",
       "semicolons": "asNeeded"
     }
-  },
-  "overrides": [
-    {
-      "includes": ["build.mjs"],
-      "linter": {
-        "rules": {
-          "suspicious": {
-            "noConsole": "off"
-          }
-        }
-      }
-    }
-  ]
+  }
 }

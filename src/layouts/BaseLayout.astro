@@ -1,0 +1,143 @@
+---
+// Shared shell for every page. Strict props-only API (ADR 0001):
+// every <head> tag is derived from props passed by the page frontmatter.
+// No per-page meta duplication.
+//
+// JSON-LD is rendered via `set:html` when the `jsonLd` prop is provided —
+// pages stringify their schema and pass the result through here.
+//
+// The Request Access modal is mounted at the bottom (ADR 0002) and
+// hydrates on every route so any island's `openRequestAccess(source)`
+// call wires through the nano store to a shared modal instance.
+import { RequestAccessIsland } from "../components/modals/request-access-island"
+import "../styles.css"
+
+export interface Props {
+  title: string
+  description: string
+  canonical: string
+  ogImage?: string
+  ogType?: string
+  jsonLd?: object | object[]
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage = "https://ube.dev/assets/social/og-image.jpg",
+  ogType = "website",
+  jsonLd,
+} = Astro.props
+
+// Always render an array — keeps the loop trivial whether the page passes
+// one schema or many.
+const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Favicons. Light default; dark variant served via media query on
+         browsers that honor `media` on <link rel="icon"> (Firefox; recent
+         Chromium). The white "u" in the dark PNG is invisible on light
+         tabs, which is why light is the safer default. -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/assets/favicons/favicon-light.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/assets/favicons/favicon-dark.png"
+      media="(prefers-color-scheme: dark)"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/favicons/apple-touch-icon.png"
+    />
+
+    <!-- Open Graph / social preview -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="Ube" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Ube — App maintenance, on autopilot."
+    />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Structured data for search + AI answer engines. Kept in raw HTML
+         (rather than injected by React) so non-JS crawlers can read them. -->
+    {
+      jsonLdBlocks.map((block) => (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(block, null, 2)}
+        />
+      ))
+    }
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    />
+
+    <!-- reCAPTCHA v3 (used by Basin for spam protection on the request-access form)
+         is lazy-loaded from the modal — see src/components/modals/request-access-modal.tsx.
+         Loading it up-front blocks render and pulls Google trackers for every visitor. -->
+
+    <!-- Amplitude Analytics + Session Replay (Unified Script — Amplitude CDN).
+         Only initialized on ube.dev (or a subdomain). On localhost the snippet
+         stub installs but `init` is skipped — escape hatch: ?amplitude=1 -->
+    <link rel="preconnect" href="https://cdn.amplitude.com" />
+    <script
+      is:inline
+      src="https://cdn.amplitude.com/script/7fdbc1ae75a64eb50d90f29ac9721390.js"
+    ></script>
+    <script is:inline>
+      {
+        const h = location.hostname
+        const enabled =
+          h === "ube.dev" ||
+          h.endsWith(".ube.dev") ||
+          location.search.includes("amplitude=1")
+        if (enabled) {
+          window.amplitude.add(window.sessionReplay.plugin({ sampleRate: 1 }))
+          window.amplitude.init("7fdbc1ae75a64eb50d90f29ac9721390", {
+            defaultTracking: true,
+            autocapture: true,
+            fetchRemoteConfig: true,
+          })
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <slot />
+    <RequestAccessIsland client:load />
+  </body>
+</html>
