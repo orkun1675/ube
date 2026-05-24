@@ -113,12 +113,31 @@ globalThis.ReactDOM = {
 ;(0, eval)(js.code)
 const appHtml = renderToString(React.createElement(globalThis.App))
 
+// --- FAQPage JSON-LD --------------------------------------------------------
+// Generated from the same FAQ_ITEMS array the React component renders, so the
+// structured-data answers and the visible HTML can never drift apart. AI
+// answer engines (Gemini, ChatGPT search, Perplexity, …) parse this block to
+// quote answers verbatim.
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: globalThis.FAQ_ITEMS.map(({ q, a }) => ({
+    "@type": "Question",
+    name: q,
+    acceptedAnswer: { "@type": "Answer", text: a },
+  })),
+}
+// JSON.stringify is HTML-safe for our content (no `<`, `>`, or `&`); if FAQ
+// copy ever introduces those, escape them here.
+const faqLdScript = `<script type="application/ld+json">\n${JSON.stringify(faqJsonLd, null, 2)}\n  </script>`
+
 // --- index.html: rewrite for production -------------------------------------
 // 1. Switch React/ReactDOM to .production.min.js
 // 2. Drop @babel/standalone (no longer needed — JSX is pre-compiled)
 // 3. Drop SRI integrity attrs (dev hashes don't match the prod URLs)
 // 4. Replace the five <script type="text/babel"> tags with one bundle.js
 // 5. Inject SSR'd markup into the empty <div id="root">
+// 6. Replace the FAQPage JSON-LD placeholder with the generated block
 let html = await readFile("index.html", "utf8")
 
 html = html
@@ -135,6 +154,9 @@ html = html
     '\n  <script src="bundle.js" defer></script>\n',
   )
   .replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`)
+  // Placeholder comment (not magic insertion before </head>) so the source
+  // index.html shows future maintainers exactly where the FAQPage JSON-LD lands.
+  .replace("<!-- FAQPAGE_JSON_LD -->", faqLdScript)
 
 await writeFile(join(DIST, "index.html"), html)
 
