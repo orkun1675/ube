@@ -18,7 +18,7 @@
 #   public/assets/favicons/favicon-light.png      (192x192)
 #   public/assets/favicons/favicon-dark.png       (192x192)
 #   public/assets/favicons/apple-touch-icon.png   (180x180, dark variant)
-#   public/assets/social/og-image.png             (1200x630)
+#   public/assets/social/og-image.jpg             (1200x630)
 
 set -euo pipefail
 
@@ -80,6 +80,6 @@ mkdir -p "$OUT_FAVICONS" "$OUT_SOCIAL"
 sips -s format png -z 192 192 "$TMP/favicon-dark.png"  --out "$OUT_FAVICONS/favicon-dark.png"      >/dev/null
 sips -s format png -z 192 192 "$TMP/favicon-light.png" --out "$OUT_FAVICONS/favicon-light.png"     >/dev/null
 sips -s format png -z 180 180 "$TMP/favicon-dark.png"  --out "$OUT_FAVICONS/apple-touch-icon.png"  >/dev/null
-cp "$TMP/social-preview.png" "$OUT_SOCIAL/og-image.png"
+sips -s format jpeg -s formatOptions 90 "$TMP/social-preview.png" --out "$OUT_SOCIAL/og-image.jpg" >/dev/null
 
-echo "✓ regenerated favicons/{favicon-light,favicon-dark,apple-touch-icon}.png + social/og-image.png"
+echo "✓ regenerated favicons/{favicon-light,favicon-dark,apple-touch-icon}.png + social/og-image.jpg"
