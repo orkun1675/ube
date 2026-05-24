@@ -1,20 +1,20 @@
 ---
 // Landing page — the demand-probe homepage.
 //
-// Architecture (post-spec-0005):
-// - Static `.astro` sections (Nav, Footer, TrustedBy, Problems, Benefits)
-//   render as plain HTML. Nav + Footer live in BaseLayout.astro.
-// - The remaining React sections (Hero, HowItWorks, FAQ, FinalCTA) each
-//   mount as their own `client:load` island, slotted between the static
-//   sections so DOM order matches the pre-slice visual flow.
+// Architecture (post-spec-0006):
+// - Static `.astro` sections (Nav, Footer, TrustedBy, Problems, Benefits,
+//   FinalCta) render as plain HTML. Nav + Footer live in BaseLayout.astro.
+// - The remaining React sections (Hero, HowItWorks, FAQ) each mount as
+//   their own `client:load` island, slotted between the static sections so
+//   DOM order matches the pre-slice visual flow.
 // - `<LandingPageApp />` is now a tiny side-effects island: it applies
 //   tweak-driven CSS variables to <html>, runs engagement/scroll-depth
 //   tracking, and (in dev only) renders the floating tweaks panel.
-// Slices 0006–0008 progressively peel FinalCTA / Hero / HowItWorks / FAQ
-// out into `.astro` (or thinner per-section islands), at which point
-// LandingPageApp itself goes away.
-import { FinalCTA } from "../components/sections/final-cta"
+// Slices 0007–0008 progressively peel Hero / HowItWorks / FAQ out into
+// `.astro` (or thinner per-section islands), at which point LandingPageApp
+// itself goes away.
 import { FAQ } from "../components/sections/faq"
+import FinalCta from "../components/sections/FinalCta.astro"
 import { Hero } from "../components/sections/hero"
 import { HowItWorks } from "../components/sections/how-it-works"
 import Benefits from "../components/sections/Benefits.astro"
@@ -89,7 +89,7 @@ const jsonLd = [
     <HowItWorks client:load />
     <Benefits />
     <FAQ client:load />
-    <FinalCTA client:load />
+    <FinalCta />
   </main>
   <LandingPageApp client:load />
 </BaseLayout>

@@ -3,10 +3,10 @@
 // Pre-spec-0003 this island also rendered the entire visible tree (Nav +
 // every section + Footer). Spec 0003 moved the four pure-static sections
 // (TrustedBy, Problems, Benefits, Footer) to .astro components rendered
-// outside the React tree. To keep those static sections at their correct
-// DOM positions while still rendering the React-only sections (Nav, Hero,
-// HowItWorks, FAQ, FinalCTA), each React section is now mounted directly
-// in `src/pages/index.astro` as its own island.
+// outside the React tree, and subsequent slices (0005 Nav, 0006 FinalCta)
+// converted further sections to static .astro. The remaining React
+// sections (Hero, HowItWorks, FAQ) are each mounted directly in
+// `src/pages/index.astro` as their own island.
 //
 // What stays in this island: global side effects (CSS variable mutations
 // from tweaks, engagement + scroll-depth tracking) and the dev-only tweaks
