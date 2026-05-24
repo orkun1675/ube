@@ -1,0 +1,151 @@
+---
+// Top navigation — static markup rendered server-side on every route
+// (spec 0005). Replaces the previous React `TopNav` island; behaviors that
+// genuinely need a client are attached by the colocated `nav.client.ts`:
+// scroll-class toggle, mobile-menu open/close (with body-scroll lock and
+// Esc dismissal), and the "Request access" button clicks that route into
+// `openRequestAccess('nav')` from the nano store.
+//
+// Active route + landing-page anchor target are derived from
+// `Astro.url.pathname` so no prop drilling from BaseLayout is required.
+// Mobile menu lives inline (no React portal) — `.mobile-menu` is
+// `position: fixed; inset: 0; z-index: 1000` in styles.css, which trumps
+// the .topnav backdrop-filter without needing `createPortal` to `<body>`.
+import Wordmark from "../Wordmark.astro"
+import { TWEAK_DEFAULTS } from "../../data/tweak-defaults"
+
+const wordmarkAccent = TWEAK_DEFAULTS.wordmarkAccent
+
+const pathname = Astro.url.pathname
+const isLandingPage = pathname === "/"
+// `/maintainer` redirects to `/`, so on the landing page the Maintainer
+// nav item is "where we are". Other routes (terms, privacy) don't have a
+// nav-center entry — nothing highlights.
+const maintainerActive = isLandingPage
+const wordmarkHref = isLandingPage ? "#top" : "/"
+---
+
+<nav class="topnav" data-nav>
+  <div class="container topnav-inner" style={{ position: "relative" }}>
+    <a href={wordmarkHref} style={{ textDecoration: "none" }}>
+      <Wordmark accent={wordmarkAccent} size={30} />
+    </a>
+
+    <div class="nav-center">
+      <span class="nav-link coming-soon">
+        Publisher
+        <span class="tooltip">Coming soon</span>
+      </span>
+      <a
+        href="/maintainer"
+        class:list={["nav-link", { active: maintainerActive }]}
+      >
+        Maintainer
+      </a>
+      <span class="nav-link coming-soon">
+        Pricing
+        <span class="tooltip">Coming soon</span>
+      </span>
+    </div>
+
+    <div class="nav-right-actions">
+      <button type="button" class="btn btn-primary btn-sm" data-nav-cta>
+        Request access
+      </button>
+    </div>
+
+    <button
+      type="button"
+      class="menu-btn"
+      data-nav-menu-open
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round" />
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<div
+  id="mobile-menu"
+  class="mobile-menu"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Site menu"
+  hidden
+  data-nav-menu
+>
+  <div class="mobile-menu-header">
+    <Wordmark accent={wordmarkAccent} size={28} />
+    <button
+      type="button"
+      class="menu-btn"
+      data-nav-menu-close
+      aria-label="Close menu"
+    >
+      <span style={{ display: "inline-flex", transform: "rotate(45deg)" }}>
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M12 5v14M5 12h14"></path>
+        </svg>
+      </span>
+    </button>
+  </div>
+  <div class="mobile-menu-links">
+    <span class="mobile-menu-link coming-soon">
+      Publisher <span class="mobile-menu-tag">soon</span>
+    </span>
+    <a
+      href="/maintainer"
+      class:list={["mobile-menu-link", { active: maintainerActive }]}
+      data-nav-menu-link
+    >
+      Maintainer
+    </a>
+    <span class="mobile-menu-link coming-soon">
+      Pricing <span class="mobile-menu-tag">soon</span>
+    </span>
+  </div>
+  <button
+    type="button"
+    class="btn btn-primary mobile-menu-cta"
+    data-nav-cta
+    data-nav-menu-cta
+  >
+    Request access
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M5 12h14M13 5l7 7-7 7"></path>
+    </svg>
+  </button>
+</div>
+
+<script src="./nav.client.ts"></script>

@@ -1,23 +1,22 @@
 ---
 // Landing page — the demand-probe homepage.
 //
-// Architecture (post-spec-0003):
-// - Static `.astro` sections (TrustedBy / Problems / Benefits) render as
-//   plain HTML; Footer lives in BaseLayout.astro.
-// - The remaining React sections (Nav, Hero, HowItWorks, FAQ, FinalCTA)
-//   each mount as their own `client:load` island, slotted between the
-//   static sections so DOM order matches the pre-slice visual flow.
+// Architecture (post-spec-0005):
+// - Static `.astro` sections (Nav, Footer, TrustedBy, Problems, Benefits)
+//   render as plain HTML. Nav + Footer live in BaseLayout.astro.
+// - The remaining React sections (Hero, HowItWorks, FAQ, FinalCTA) each
+//   mount as their own `client:load` island, slotted between the static
+//   sections so DOM order matches the pre-slice visual flow.
 // - `<LandingPageApp />` is now a tiny side-effects island: it applies
 //   tweak-driven CSS variables to <html>, runs engagement/scroll-depth
 //   tracking, and (in dev only) renders the floating tweaks panel.
-// Slices 0005–0008 progressively peel Nav / FinalCTA / Hero / HowItWorks /
-// FAQ out into `.astro` (or thinner per-section islands), at which point
+// Slices 0006–0008 progressively peel FinalCTA / Hero / HowItWorks / FAQ
+// out into `.astro` (or thinner per-section islands), at which point
 // LandingPageApp itself goes away.
 import { FinalCTA } from "../components/sections/final-cta"
 import { FAQ } from "../components/sections/faq"
 import { Hero } from "../components/sections/hero"
 import { HowItWorks } from "../components/sections/how-it-works"
-import { TopNav } from "../components/sections/nav"
 import Benefits from "../components/sections/Benefits.astro"
 import Problems from "../components/sections/Problems.astro"
 import TrustedBy from "../components/sections/TrustedBy.astro"
@@ -79,11 +78,6 @@ const jsonLd = [
   canonical={canonical}
   jsonLd={jsonLd}
 >
-  <TopNav
-    client:load
-    isLandingPage
-    wordmarkAccent={TWEAK_DEFAULTS.wordmarkAccent}
-  />
   <main>
     <Hero
       client:load

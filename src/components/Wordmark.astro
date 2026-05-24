@@ -1,9 +1,10 @@
 ---
 // Wordmark — the brand mark. Used by Nav (top of every page) and Footer
 // (bottom of every page). Promoted out of `components/sections/` in slice
-// 0004 because it isn't a page section — it's a top-level brand primitive
-// consumed by both `.astro` and `.tsx` callers (Footer is `.astro` after
-// slice 0003; Nav is converted in slice 0005).
+// 0004 because it isn't a page section — it's a top-level brand primitive.
+// Both call sites are `.astro` after slice 0005 (Nav joined Footer), so
+// the React sibling shim was deleted at that point — this is the single
+// source of truth.
 //
 // Renders zero JS — all three accent variants are static markup styled by
 // `.wordmark-*` rules in `styles.css`. The `accent` value also flows
@@ -16,8 +17,8 @@
 // Note: unlike JSX, Astro preserves whitespace-only text nodes between elements
 // and around bare text literals. The umlaut variant mixes raw `u`/`be` text
 // with element children, so those characters are written flush against their
-// neighboring tags (no surrounding newlines) to match the React Wordmark.tsx
-// DOM exactly — otherwise we ship `"\nu\n"` / `"\nbe\n"` text nodes that render
+// neighboring tags (no surrounding newlines) to match the original DOM
+// exactly — otherwise we ship `"\nu\n"` / `"\nbe\n"` text nodes that render
 // as visible width.
 import type { WordmarkAccent } from "../data/tweak-defaults"
 

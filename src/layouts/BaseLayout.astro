@@ -11,8 +11,11 @@
 // call wires through the nano store to a shared modal instance.
 //
 // Footer is on every route (per spec 0003) so it lives here, after the
-// page <slot/> and before the modal island.
+// page <slot/> and before the modal island. Nav joined Footer here in
+// spec 0005 — it's also on every route and is now static `.astro` markup
+// (interactive bits in `components/nav/nav.client.ts`).
 import { RequestAccessIsland } from "../components/modals/request-access-island"
+import Nav from "../components/nav/Nav.astro"
 import Footer from "../components/sections/Footer.astro"
 import "../styles.css"
 
@@ -141,6 +144,7 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
     </script>
   </head>
   <body>
+    <Nav />
     <slot />
     <Footer />
     <RequestAccessIsland client:load />

@@ -3139,8 +3139,11 @@ select.input {
   }
 }
 
-/* --- Mobile menu (portaled to body so backdrop-filter on .topnav
-   doesn't trap position:fixed inside the nav) ------------------------- */
+/* --- Mobile menu (rendered as a sibling of .topnav at the body level
+   so backdrop-filter on .topnav doesn't trap position:fixed inside the
+   nav). Toggled via the `hidden` attribute by nav.client.ts — the explicit
+   `[hidden]` rule below is required because our `display: flex` on
+   `.mobile-menu` otherwise wins over the UA's `display: none`. ----------- */
 .mobile-menu {
   position: fixed;
   inset: 0;
@@ -3158,6 +3161,9 @@ select.input {
   padding: 20px 24px 32px;
   gap: 28px;
   animation: mobileMenuIn 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.mobile-menu[hidden] {
+  display: none;
 }
 @keyframes mobileMenuIn {
   from {
