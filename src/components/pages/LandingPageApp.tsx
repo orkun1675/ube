@@ -3,7 +3,15 @@
 // slices 0003–0008 will split it into per-section Astro components.
 import React from "react"
 
-import { TWEAK_DEFAULTS } from "../../data/tweak-defaults"
+import {
+  type AccentStrategy,
+  type AccentValue,
+  type CardTone,
+  type HeroCopy,
+  type HeroVariant,
+  TWEAK_DEFAULTS,
+  type WordmarkAccent,
+} from "../../data/tweak-defaults"
 import { UbeHuePicker } from "../../dev/tweaks-config"
 import {
   TweakRadio,
@@ -87,7 +95,7 @@ export const LandingPageApp = () => {
             <TweakRadio
               label="Accent strategy — A/B"
               value={tweaks.accentStrategy}
-              onChange={(v) => setTweak("accentStrategy", v)}
+              onChange={(v) => setTweak("accentStrategy", v as AccentStrategy)}
               options={[
                 { value: "single", label: "Purple only" },
                 { value: "split", label: "Purple + coconut" },
@@ -95,12 +103,12 @@ export const LandingPageApp = () => {
             />
             <UbeHuePicker
               value={tweaks.accent}
-              onChange={(v) => setTweak("accent", v)}
+              onChange={(v) => setTweak("accent", v as AccentValue)}
             />
             <TweakRadio
               label="Wordmark accent"
               value={tweaks.wordmarkAccent}
-              onChange={(v) => setTweak("wordmarkAccent", v)}
+              onChange={(v) => setTweak("wordmarkAccent", v as WordmarkAccent)}
               options={[
                 { value: "umlaut", label: "Umlaut" },
                 { value: "cursor", label: "Cursor" },
@@ -112,7 +120,7 @@ export const LandingPageApp = () => {
             <TweakRadio
               label="Hero visual"
               value={tweaks.heroVariant}
-              onChange={(v) => setTweak("heroVariant", v)}
+              onChange={(v) => setTweak("heroVariant", v as HeroVariant)}
               options={[
                 { value: "pr", label: "PR + crash" },
                 { value: "minimal", label: "Minimal" },
@@ -122,7 +130,7 @@ export const LandingPageApp = () => {
             <TweakSelect
               label="Headline"
               value={tweaks.heroCopy}
-              onChange={(v) => setTweak("heroCopy", v)}
+              onChange={(v) => setTweak("heroCopy", v as HeroCopy)}
               options={[
                 { value: "agent", label: "An agent that maintains your app…" },
                 { value: "autopilot", label: "App maintenance, on autopilot." },
@@ -133,7 +141,7 @@ export const LandingPageApp = () => {
             <TweakSelect
               label="Card tone"
               value={tweaks.cardTone}
-              onChange={(v) => setTweak("cardTone", v)}
+              onChange={(v) => setTweak("cardTone", v as CardTone)}
               options={[
                 { value: "warm", label: "Warm — brown (Cursor)" },
                 { value: "neutral", label: "Neutral — charcoal" },
