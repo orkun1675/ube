@@ -18,14 +18,20 @@
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.4/babel.min.js" integrity="sha384-qVgGRi0TCdh+xrBD9+4kG0YlkbOkWu2J3CB46EekpYQmtM96n9v+uaKIS5ipaqKb" crossorigin="anonymous"></script>
 
-  <!-- Amplitude Analytics + Session Replay (Unified Browser SDK) -->
-  <script src="https://unpkg.com/@amplitude/unified@1.1.9/lib/scripts/amplitude-min.umd.js"></script>
+  <!-- Amplitude Analytics + Session Replay (Unified Script — Amplitude CDN) -->
+  <link rel="preconnect" href="https://cdn.amplitude.com"/>
+  <script src="https://cdn.amplitude.com/script/7fdbc1ae75a64eb50d90f29ac9721390.js"></script>
   <script>
     {
       const h = location.hostname
       const enabled = h === "ube.dev" || h.endsWith(".ube.dev") || location.search.includes("amplitude=1")
       if (enabled) {
-        window.amplitude.initAll('7fdbc1ae75a64eb50d90f29ac9721390', {"analytics":{"autocapture":true},"sessionReplay":{"sampleRate":1}})
+        window.amplitude.init("7fdbc1ae75a64eb50d90f29ac9721390", {
+          defaultTracking: true,
+          autocapture: true,
+          fetchRemoteConfig: true,
+        })
+        window.amplitude.add(window.sessionReplay.plugin({ sampleRate: 1 }))
       }
     }
   </script>
