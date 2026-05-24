@@ -26,12 +26,12 @@
       const h = location.hostname
       const enabled = h === "ube.dev" || h.endsWith(".ube.dev") || location.search.includes("amplitude=1")
       if (enabled) {
+        window.amplitude.add(window.sessionReplay.plugin({ sampleRate: 1 }))
         window.amplitude.init("7fdbc1ae75a64eb50d90f29ac9721390", {
           defaultTracking: true,
           autocapture: true,
           fetchRemoteConfig: true,
         })
-        window.amplitude.add(window.sessionReplay.plugin({ sampleRate: 1 }))
       }
     }
   </script>
