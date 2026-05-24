@@ -1,25 +1,20 @@
-// Landing page side-effects + dev tweaks panel island.
+// Tweaks panel mount (spec 0008). Pre-slice, the panel was rendered from
+// inside LandingPageApp; spec 0008 hoists the mount up to BaseLayout so the
+// per-page app islands can be deleted. BaseLayout gates this with
+// `import.meta.env.DEV && <TweaksPanelMount client:only="react" />`, so the
+// entire module is excluded from production bundles (Vite tree-shakes
+// dev-only imports under `import.meta.env.DEV` branches).
 //
-// Pre-spec-0003 this island also rendered the entire visible tree (Nav +
-// every section + Footer). Spec 0003 moved the four pure-static sections
-// (TrustedBy, Problems, Benefits, Footer) to .astro components rendered
-// outside the React tree, and subsequent slices (0005 Nav, 0006 FinalCta,
-// 0007 Hero) converted further sections to static .astro. The remaining
-// React sections (HowItWorks, FAQ) are each mounted directly in
-// `src/pages/index.astro` as their own island.
+// What lives here: the `useTweaks` hook + the CSS-variable side effects
+// that translate tweak values into `:root` custom properties and the
+// `data-accent-mode` body attribute. These side effects are what give the
+// in-page panel its live preview.
 //
-// What stays in this island: global side effects (CSS variable mutations
-// from tweaks, engagement + scroll-depth tracking) and the dev-only tweaks
-// panel. It renders no visible content of its own.
-//
-// Caveat: in dev, panel mutations to `wordmarkAccent` / `heroVariant` /
-// `heroCopy` no longer hot-update Nav and Hero (those are static .astro
-// reading TWEAK_DEFAULTS at build time). A full reload picks up the new
-// defaults. CSS-variable tweaks (accent, cardTone, accentStrategy) still
-// propagate everywhere via the document root.
-// Spec 0008 reworks the tweaks panel mount; spec 0009 wires writeback so
-// changes persist to source. Production is unaffected — the panel only
-// exists when `import.meta.env.DEV`.
+// Production note: the production code path never instantiates this
+// component, so production reads its initial accent / cardTone /
+// accentStrategy from the inline `<style>` block in
+// `src/pages/index.astro` (also derived from `TWEAK_DEFAULTS`). Spec 0009
+// will wire the EDITMODE writeback so panel mutations persist to source.
 import React from "react"
 
 import {
@@ -30,24 +25,18 @@ import {
   type HeroVariant,
   TWEAK_DEFAULTS,
   type WordmarkAccent,
-} from "../../data/tweak-defaults"
-import { UbeHuePicker } from "../../dev/tweaks-config"
+} from "../data/tweak-defaults"
+import { CARD_TONES, getUbe } from "../lib/palette"
+import { UbeHuePicker } from "./tweaks-config"
 import {
   TweakRadio,
   TweakSection,
   TweakSelect,
   TweaksPanel,
   useTweaks,
-} from "../../dev/tweaks-panel"
-import {
-  useEngagementTracking,
-  useScrollDepthTracking,
-} from "../../lib/analytics"
-import { CARD_TONES, getUbe } from "../../lib/palette"
+} from "./tweaks-panel"
 
-const isDev = import.meta.env.DEV
-
-export const LandingPageApp = () => {
+export const TweaksPanelMount = () => {
   const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS)
 
   // Apply accent from the chosen ube swatch — use its sampled L/C/H so the
@@ -81,11 +70,6 @@ export const LandingPageApp = () => {
     // biome-ignore lint/complexity/useLiteralKeys: tsconfig `noPropertyAccessFromIndexSignature` requires bracket access for DOMStringMap
     document.body.dataset["accentMode"] = tweaks.accentStrategy || "split"
   }, [tweaks.accentStrategy])
-
-  useEngagementTracking()
-  useScrollDepthTracking()
-
-  if (!isDev) return null
 
   return (
     <TweaksPanel title="Tweaks">

@@ -14,6 +14,18 @@
 // page <slot/> and before the modal island. Nav joined Footer here in
 // spec 0005 — it's also on every route and is now static `.astro` markup
 // (interactive bits in `components/nav/nav.client.ts`).
+//
+// Slice 0008 dissolved the per-page React app islands (LandingPageApp /
+// TermsPageApp / PrivacyPageApp), so two things that used to live inside
+// them are hoisted here:
+//   - The engagement + scroll-depth trackers run from a plain
+//     `<script src="./page-tracking.client.ts">` so terms/privacy don't
+//     need any top-level React on the page.
+//   - The dev-only TweaksPanel self-mounts from `src/dev/tweaks-panel.client.tsx`.
+//     Its `<script>` element is gated behind `import.meta.env.DEV` and
+//     omitted from production HTML entirely — so neither the script tag
+//     nor any URL under `src/dev/` is emitted in the prod build (ADR 0003).
+//     BaseLayout itself stays free of any JS import from `src/dev/*`.
 import { RequestAccessIsland } from "../components/modals/request-access-island"
 import Nav from "../components/nav/Nav.astro"
 import Footer from "../components/sections/Footer.astro"
@@ -26,6 +38,13 @@ export interface Props {
   ogImage?: string
   ogType?: string
   jsonLd?: object | object[]
+  // Optional accent-mode flag rendered as `body[data-accent-mode]`. Only
+  // the landing page passes this (split mode reroutes structural marks to
+  // the coconut secondary — see styles.css `body[data-accent-mode="split"]`).
+  // Pre-spec-0008 the landing-page React island set this on `document.body`
+  // at runtime; baking it into the server-rendered <body> attribute keeps
+  // the rule active without shipping a JS thunk.
+  accentMode?: string
 }
 
 const {
@@ -35,6 +54,7 @@ const {
   ogImage = "https://ube.dev/assets/social/og-image.jpg",
   ogType = "website",
   jsonLd,
+  accentMode,
 } = Astro.props
 
 // Always render an array — keeps the loop trivial whether the page passes
@@ -143,10 +163,20 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
       }
     </script>
   </head>
-  <body>
+  <body data-accent-mode={accentMode}>
     <Nav />
     <slot />
     <Footer />
     <RequestAccessIsland client:load />
+    {
+      // Dev-only tweaks panel — self-mounts via its own React root. The
+      // script element is omitted entirely in production builds, so no
+      // dev-directory URL appears in the production HTML or bundle
+      // (ADR 0003 invariant).
+      import.meta.env.DEV && (
+        <script type="module" src="/src/dev/tweaks-panel.client.tsx"></script>
+      )
+    }
+    <script src="./page-tracking.client.ts"></script>
   </body>
 </html>

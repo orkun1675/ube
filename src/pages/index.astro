@@ -1,19 +1,23 @@
 ---
 // Landing page — the demand-probe homepage.
 //
-// Architecture (post-spec-0007):
+// Architecture (post-spec-0008):
 // - Static `.astro` sections (Nav, Footer, TrustedBy, Problems, Hero,
 //   Benefits, FinalCta) render as plain HTML. Nav + Footer live in
 //   BaseLayout.astro. Hero's CTA is wired by a colocated `*.client.ts`
 //   script (same pattern as Nav / FinalCta).
-// - The remaining React sections (HowItWorks, FAQ) each mount as their own
-//   `client:load` island, slotted between the static sections so DOM order
-//   matches the pre-slice visual flow.
-// - `<LandingPageApp />` is now a tiny side-effects island: it applies
-//   tweak-driven CSS variables to <html>, runs engagement/scroll-depth
-//   tracking, and (in dev only) renders the floating tweaks panel.
-// Slice 0008 peels HowItWorks / FAQ out into `.astro` (or thinner
-// per-section islands), at which point LandingPageApp itself goes away.
+// - HowItWorks and FAQ are the only remaining React sections on this page.
+//   They mount as their own `client:visible` islands so React + their
+//   subtree only download/hydrate once the user scrolls them into view
+//   (both are below the fold). The old `LandingPageApp` wrapper that
+//   used to host them — and the engagement/scroll-depth tracker hooks
+//   plus the tweaks panel — is gone:
+//   * Trackers run from a plain `<script>` in BaseLayout (page-tracking).
+//   * Tweaks panel is mounted by BaseLayout, gated by `import.meta.env.DEV`.
+//   * The CSS-variable defaults the tweaks panel mutates at runtime are
+//     baked into the inline `<style>` block below at build time, so prod
+//     gets the chosen accent / cardTone / accentStrategy without any JS.
+import { TWEAK_DEFAULTS } from "../data/tweak-defaults"
 import { FAQ } from "../components/sections/faq"
 import FinalCta from "../components/sections/FinalCta.astro"
 import Hero from "../components/sections/Hero.astro"
@@ -21,7 +25,7 @@ import { HowItWorks } from "../components/sections/how-it-works"
 import Benefits from "../components/sections/Benefits.astro"
 import Problems from "../components/sections/Problems.astro"
 import TrustedBy from "../components/sections/TrustedBy.astro"
-import { LandingPageApp } from "../components/pages/LandingPageApp"
+import { CARD_TONES, getUbe } from "../lib/palette"
 import { FAQ_ITEMS } from "../data/faq-items"
 import BaseLayout from "../layouts/BaseLayout.astro"
 
@@ -29,6 +33,20 @@ const title = "Ube — An agent that maintains your app"
 const description =
   "Ube listens to crash feeds, error dashboards, app reviews, and dependency releases — then triages, reproduces, and opens verified PRs against your repo."
 const canonical = "https://ube.dev/"
+
+// Bake the TWEAK_DEFAULTS-derived CSS variables into an inline style block
+// so production has zero JS for theming. The dev-only TweaksPanel still
+// mutates these at runtime via `document.documentElement.style.setProperty`
+// (which wins over `:root` rules), so live preview keeps working in dev.
+const ube = getUbe(TWEAK_DEFAULTS.accent)
+const accent = `oklch(${ube.L} ${ube.C} ${ube.H})`
+const accentHover = `oklch(${Math.min(0.72, ube.L + 0.1)} ${ube.C} ${ube.H})`
+const accentSoft = `oklch(${Math.max(0.18, ube.L - 0.26)} ${Math.max(0.06, ube.C - 0.08)} ${ube.H})`
+const accentTint = `oklch(${ube.L} ${ube.C} ${ube.H} / 0.14)`
+const cardTone = CARD_TONES[TWEAK_DEFAULTS.cardTone] ?? CARD_TONES["warm"]
+const cardBg = cardTone?.bg ?? "#1d1b15"
+const cardBorder = cardTone?.border ?? "#2a2720"
+const accentMode = TWEAK_DEFAULTS.accentStrategy
 
 // Multiple schemas — Astro's BaseLayout iterates and emits each as its own
 // <script type="application/ld+json"> block (single source of truth between
@@ -77,15 +95,19 @@ const jsonLd = [
   description={description}
   canonical={canonical}
   jsonLd={jsonLd}
+  accentMode={accentMode}
 >
+  <style
+    is:inline
+    set:html={`:root{--accent:${accent};--accent-hover:${accentHover};--accent-soft:${accentSoft};--accent-tint:${accentTint};--card-bg:${cardBg};--card-border:${cardBorder};}`}
+  />
   <main>
     <Hero />
     <TrustedBy />
     <Problems />
-    <HowItWorks client:load />
+    <HowItWorks client:visible />
     <Benefits />
-    <FAQ client:load />
+    <FAQ client:visible />
     <FinalCta />
   </main>
-  <LandingPageApp client:load />
 </BaseLayout>
