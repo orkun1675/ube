@@ -1,0 +1,390 @@
+---
+// HERO: GitHub PR + linked Crashlytics card (spec 0007).
+// Direct conversion of the previous `hero-pr.tsx` React component to a
+// static `.astro` mockup — same DOM, same classes, same inline styles, just
+// rendered at build time with zero JS.
+//
+// Icons render as inline SVG via the React .tsx icon components (no client:*
+// directive → zero JS shipped).
+//
+// Note: Astro's `style={{...}}` object syntax does NOT auto-append `px` to
+// numeric values (unlike React). Every length below is written as an explicit
+// string with units so it serializes to valid CSS.
+import {
+  ActionsLogo,
+  CheckIcon,
+  CrashlyticsLogo,
+  GitHubLogo,
+  LinkIcon,
+} from "../../lib/assets"
+
+type Tab = {
+  name: string
+  count: string
+  active?: boolean
+  success?: boolean
+}
+
+const tabs: Tab[] = [
+  { name: "Conversation", count: "3" },
+  { name: "Commits", count: "2" },
+  { name: "Checks", count: "12", active: true, success: true },
+  { name: "Files", count: "4" },
+]
+
+type Check = {
+  name: string
+  time: string
+  emphasis?: boolean
+}
+
+const checks: Check[] = [
+  { name: "reproduce-in-emulator", time: "1m 12s" },
+  { name: "verify-fix-in-emulator", time: "1m 38s", emphasis: true },
+  { name: "replay-user-session", time: "0m 47s" },
+  { name: "regression-suite (247)", time: "4m 02s" },
+]
+---
+
+<div
+  class="hero-pr-composite"
+  style={{
+    position: "relative",
+    width: "100%",
+    maxWidth: "560px",
+    marginLeft: "auto",
+  }}
+>
+  {/* The PR view */}
+  <div class="mockup-chrome" style={{ width: "100%" }}>
+    {/* GitHub-style header */}
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "10px",
+        padding: "14px 18px",
+        borderBottom: "1px solid var(--hairline)",
+        background: "var(--surface-elevated)",
+      }}
+    >
+      <GitHubLogo size={18} />
+      <span class="mono" style={{ fontSize: "12px", color: "var(--body)" }}>
+        chunkytofu / cookcam{" "}
+        <span style={{ color: "var(--muted)" }}>/ pull / </span>
+        <span style={{ color: "var(--ink)" }}>#1847</span>
+      </span>
+      <span style={{ flex: "1" }}></span>
+      <span class="pill pill-success">
+        <CheckIcon size={9} />
+        OPEN
+      </span>
+    </div>
+
+    {/* PR title + author */}
+    <div style={{ padding: "20px 22px 16px" }}>
+      <div
+        class="mono"
+        style={{
+          fontSize: "15px",
+          color: "var(--ink)",
+          lineHeight: "1.4",
+          fontWeight: "500",
+        }}
+      >
+        Fix: NullPointerException in{" "}
+        <span style={{ color: "var(--accent)" }}>WidgetUnmount</span>
+      </div>
+      <div
+        class="mono"
+        style={{ fontSize: "12px", color: "var(--muted)", marginTop: "4px" }}
+      >
+        Crashlytics #4821 · affects v2.4.0–v2.4.2
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+          marginTop: "14px",
+        }}
+      >
+        <span
+          class="avatar"
+          style={{ background: "var(--accent)", width: "24px", height: "24px" }}
+        >
+          u
+        </span>
+        <span style={{ fontSize: "13px" }}>
+          <span style={{ color: "var(--ink)", fontWeight: "500" }}>
+            ube[bot]
+          </span>
+          <span style={{ color: "var(--muted)" }}> wants to merge </span>
+          <span class="mono" style={{ color: "var(--ink)" }}>
+            2 commits
+          </span>
+          <span style={{ color: "var(--muted)" }}> into </span>
+          <span class="mono" style={{ color: "var(--ink)" }}>
+            main
+          </span>
+        </span>
+      </div>
+    </div>
+
+    {/* Tabs */}
+    <div
+      style={{
+        display: "flex",
+        gap: "0",
+        borderBottom: "1px solid var(--hairline)",
+        padding: "0 22px",
+      }}
+    >
+      {
+        tabs.map((t) => (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              padding: "10px 12px",
+              fontSize: "12px",
+              color: t.active ? "var(--ink)" : "var(--body)",
+              borderBottom: t.active
+                ? "2px solid var(--accent)"
+                : "2px solid transparent",
+              fontWeight: t.active ? "500" : "400",
+            }}
+          >
+            {t.success && <CheckIcon size={10} color="var(--success)" />}
+            {t.name}
+            <span
+              class="mono"
+              style={{
+                fontSize: "10px",
+                padding: "1px 6px",
+                borderRadius: "8px",
+                background: "var(--surface-elevated)",
+                color: "var(--muted)",
+                border: "1px solid var(--hairline)",
+              }}
+            >
+              {t.count}
+            </span>
+          </div>
+        ))
+      }
+    </div>
+
+    {/* Checks list */}
+    <div style={{ padding: "18px 22px 22px" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          marginBottom: "14px",
+        }}
+      >
+        <span
+          style={{
+            width: "18px",
+            height: "18px",
+            borderRadius: "50%",
+            background: "rgba(59, 182, 122, 0.15)",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            border: "1px solid rgba(59, 182, 122, 0.4)",
+          }}
+        >
+          <CheckIcon size={10} color="var(--success)" />
+        </span>
+        <span
+          style={{ fontSize: "13px", color: "var(--ink)", fontWeight: "500" }}
+        >
+          All checks have passed
+        </span>
+        <span
+          class="mono"
+          style={{ fontSize: "11px", color: "var(--muted)" }}
+        >
+          12/12
+        </span>
+      </div>
+
+      {
+        checks.map((c) => (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              padding: "8px 0",
+              borderTop: "1px solid var(--hairline-soft)",
+            }}
+          >
+            <ActionsLogo size={14} />
+            <span
+              class="mono"
+              style={{
+                fontSize: "11.5px",
+                color: c.emphasis ? "var(--ink)" : "var(--body)",
+              }}
+            >
+              {c.name}
+            </span>
+            <span style={{ flex: "1" }} />
+            <span
+              class="mono"
+              style={{ fontSize: "10.5px", color: "var(--muted)" }}
+            >
+              {c.time}
+            </span>
+            <CheckIcon size={11} color="var(--success)" />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  {/* Floating Crashlytics card */}
+  <div
+    class="hero-pr-float"
+    style={{
+      position: "absolute",
+      right: "-28px",
+      bottom: "-36px",
+      width: "270px",
+      background: "var(--surface-elevated)",
+      border: "1px solid var(--hairline-strong)",
+      borderRadius: "var(--r-lg)",
+      padding: "14px 16px",
+      boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
+    }}
+  >
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "8px",
+        marginBottom: "8px",
+      }}
+    >
+      <CrashlyticsLogo size={16} />
+      <span
+        class="mono"
+        style={{
+          fontSize: "10.5px",
+          color: "var(--muted)",
+          textTransform: "uppercase",
+          letterSpacing: "0.6px",
+        }}
+      >
+        Crashlytics
+      </span>
+      <span style={{ flex: "1" }}></span>
+      <span class="pill pill-accent">
+        <LinkIcon size={8} />
+        Linked
+      </span>
+    </div>
+
+    <div
+      class="mono"
+      style={{
+        fontSize: "12px",
+        color: "var(--ink)",
+        lineHeight: "1.4",
+        marginBottom: "8px",
+      }}
+    >
+      java.lang.NullPointerException
+    </div>
+    <div
+      class="mono"
+      style={{
+        fontSize: "10.5px",
+        color: "var(--body)",
+        lineHeight: "1.55",
+        background: "var(--canvas)",
+        padding: "8px 10px",
+        borderRadius: "6px",
+        border: "1px solid var(--hairline)",
+      }}
+    >
+      <div style={{ color: "var(--muted)" }}>at com.cookcam.widget</div>
+      <div style={{ color: "var(--error)" }}>
+        {" "}
+        WidgetUnmount.dispose(L:42)
+      </div>
+      <div style={{ color: "var(--muted)" }}>at android.view.View.detach</div>
+    </div>
+
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        marginTop: "10px",
+      }}
+    >
+      <div>
+        <div
+          class="mono"
+          style={{
+            fontSize: "9.5px",
+            color: "var(--muted)",
+            textTransform: "uppercase",
+            letterSpacing: "0.6px",
+          }}
+        >
+          Users
+        </div>
+        <div
+          class="mono"
+          style={{ fontSize: "13px", color: "var(--ink)", marginTop: "2px" }}
+        >
+          2,184
+        </div>
+      </div>
+      <div>
+        <div
+          class="mono"
+          style={{
+            fontSize: "9.5px",
+            color: "var(--muted)",
+            textTransform: "uppercase",
+            letterSpacing: "0.6px",
+          }}
+        >
+          Sessions
+        </div>
+        <div
+          class="mono"
+          style={{ fontSize: "13px", color: "var(--error)", marginTop: "2px" }}
+        >
+          0.42%
+        </div>
+      </div>
+      <div>
+        <div
+          class="mono"
+          style={{
+            fontSize: "9.5px",
+            color: "var(--muted)",
+            textTransform: "uppercase",
+            letterSpacing: "0.6px",
+          }}
+        >
+          Versions
+        </div>
+        <div
+          class="mono"
+          style={{ fontSize: "13px", color: "var(--ink)", marginTop: "2px" }}
+        >
+          3
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,147 @@
+---
+// Hero — static `.astro` markup rendered server-side (spec 0007). Replaces
+// the previous `Hero` React island; the single interactive bit (the
+// "Request access" CTA) is wired up by the colocated `hero.client.ts` to
+// route into `openRequestAccess('hero')` from the shared nano store
+// (preserving the analytics source label).
+//
+// `heroVariant` / `heroCopy` are read from `TWEAK_DEFAULTS` at build time
+// and select the corresponding mockup + headline. The three mockup variants
+// (`HeroPr`, `HeroMinimal`, `HeroSplit`) are now `.astro` themselves —
+// rendering happens server-side with zero JS for the hero subtree (icons
+// emit as inline SVG, just like Problems/Benefits/FinalCta).
+//
+// The previous `.tsx` used `<style dangerouslySetInnerHTML={...}>` to inject
+// the responsive grid override without React encoding `>` selectors and
+// triggering an SSR/CSR hydration mismatch. In `.astro` we can use
+// `<style is:global>` directly and the rule lands verbatim in <head>.
+//
+// Note: Astro's `style={{...}}` object syntax does NOT auto-append `px` to
+// numeric values (unlike React). Length values below are explicit strings.
+import { TWEAK_DEFAULTS } from "../../data/tweak-defaults"
+import {
+  AndroidLogo,
+  AppleLogo,
+  ArrowRight,
+  ExpoLogo,
+  FlutterLogo,
+  ReactLogo,
+} from "../../lib/assets"
+import HeroMinimal from "../mockups/HeroMinimal.astro"
+import HeroPr from "../mockups/HeroPr.astro"
+import HeroSplit from "../mockups/HeroSplit.astro"
+
+const heroVariant = TWEAK_DEFAULTS.heroVariant
+const heroCopy = TWEAK_DEFAULTS.heroCopy
+---
+
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="container" style={{ position: "relative", zIndex: "1" }}>
+    <div
+      class="hero-grid"
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1.1fr 1fr",
+        gap: "60px",
+        alignItems: "center",
+      }}
+    >
+      <div class="fade-in">
+        <div class="eyebrow" style={{ marginBottom: "28px" }}>
+          Ube Maintainer
+        </div>
+        {
+          heroCopy === "autopilot" ? (
+            <h1
+              class="t-display-mega"
+              style={{ margin: "0", color: "var(--ink)" }}
+            >
+              App maintenance, <br />
+              <span style={{ color: "var(--muted)" }}>on autopilot.</span>
+            </h1>
+          ) : (
+            <h1
+              class="t-display-mega"
+              style={{ margin: "0", color: "var(--ink)" }}
+            >
+              An agent that <br />
+              maintains your app <br />
+              <span style={{ color: "var(--muted)" }}>
+                while you continue to build.
+              </span>
+            </h1>
+          )
+        }
+        <p
+          class="t-body-md body"
+          style={{ marginTop: "28px", maxWidth: "480px", lineHeight: "1.6" }}
+        >
+          Ube listens to your crash reports, user feedback, and dependency
+          upgrades — then triages, reproduces, and opens verified PRs. You
+          ship features. It handles the rest.
+        </p>
+        <div
+          style={{
+            display: "flex",
+            gap: "12px",
+            marginTop: "36px",
+            flexWrap: "wrap",
+          }}
+        >
+          <button type="button" class="btn btn-primary" data-hero-cta>
+            Request access
+            <ArrowRight size={14} />
+          </button>
+          <a class="btn btn-secondary" href="#how">
+            See how it works
+          </a>
+        </div>
+        <div
+          class="hero-builtfor"
+          style={{
+            marginTop: "36px",
+            color: "var(--muted)",
+            fontFamily: "var(--font-mono)",
+            fontSize: "11px",
+            letterSpacing: "0.6px",
+            textTransform: "uppercase",
+          }}
+        >
+          <span class="hero-builtfor__label">Built for</span>
+          <span class="hero-builtfor__chip">
+            <FlutterLogo size={14} /> Flutter
+          </span>
+          <span class="hero-builtfor__chip">
+            <ReactLogo size={14} /> React Native
+          </span>
+          <span class="hero-builtfor__chip">
+            <ExpoLogo size={14} /> Expo
+          </span>
+          <span class="hero-builtfor__chip">
+            <AppleLogo size={14} /> iOS
+          </span>
+          <span class="hero-builtfor__chip">
+            <AndroidLogo size={14} /> Android
+          </span>
+        </div>
+      </div>
+      <div class="fade-in" style={{ animationDelay: "120ms" }}>
+        {heroVariant === "minimal" && <HeroMinimal />}
+        {heroVariant === "split" && <HeroSplit />}
+        {heroVariant !== "minimal" && heroVariant !== "split" && <HeroPr />}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  @media (max-width: 1100px) {
+    .hero-grid {
+      grid-template-columns: 1fr !important;
+      gap: 56px !important;
+    }
+  }
+</style>
+
+<script src="./hero.client.ts"></script>

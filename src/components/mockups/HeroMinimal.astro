@@ -1,0 +1,79 @@
+---
+// Minimal hero variant — just a quiet code panel (spec 0007).
+// Direct conversion of the previous `hero-minimal.tsx` React component to a
+// static `.astro` mockup — same DOM, same classes, same inline styles, just
+// rendered at build time with zero JS.
+//
+// Note: Astro's `style={{...}}` object syntax does NOT auto-append `px` to
+// numeric values (unlike React). Every length below is written as an explicit
+// string with units so it serializes to valid CSS.
+import { CheckIcon } from "../../lib/assets"
+---
+
+<div style={{ width: "100%", maxWidth: "560px", marginLeft: "auto" }}>
+  <div class="mockup-chrome">
+    <div
+      style={{
+        padding: "14px 18px",
+        borderBottom: "1px solid var(--hairline)",
+        display: "flex",
+        alignItems: "center",
+        gap: "8px",
+      }}
+    >
+      <span
+        class="avatar avatar-sm"
+        style={{ background: "var(--accent)" }}
+      >
+        u
+      </span>
+      <span class="mono" style={{ fontSize: "12px", color: "var(--body)" }}>
+        ube[bot] · opened a PR
+      </span>
+      <span style={{ flex: "1" }}></span>
+      <span class="mono" style={{ fontSize: "11px", color: "var(--muted)" }}>
+        1m ago
+      </span>
+    </div>
+    <div style={{ padding: "22px 22px 26px" }}>
+      <div
+        class="mono"
+        style={{ fontSize: "14px", color: "var(--ink)", marginBottom: "16px" }}
+      >
+        Fix: NullPointerException in{" "}
+        <span style={{ color: "var(--accent)" }}>WidgetUnmount</span>
+      </div>
+      <div class="code-block" style={{ padding: "12px 14px" }}>
+        <span class="diff-rem">
+          <span class="diff-marker">-</span> widget.dispose();
+        </span>
+        <span class="diff-add">
+          <span class="diff-marker">+</span> if (widget != null)
+          widget.dispose();
+        </span>
+        <span class="diff-ctx">
+          <span class="diff-marker"> </span>
+          {"}"}
+        </span>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          marginTop: "14px",
+        }}
+      >
+        <CheckIcon size={11} color="var(--success)" />
+        <span
+          class="mono"
+          style={{ fontSize: "11.5px", color: "var(--body)" }}
+        >
+          12/12 checks passing
+        </span>
+        <span style={{ flex: "1" }}></span>
+        <span class="pill pill-accent">UBE</span>
+      </div>
+    </div>
+  </div>
+</div>

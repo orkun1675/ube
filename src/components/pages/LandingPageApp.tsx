@@ -3,9 +3,9 @@
 // Pre-spec-0003 this island also rendered the entire visible tree (Nav +
 // every section + Footer). Spec 0003 moved the four pure-static sections
 // (TrustedBy, Problems, Benefits, Footer) to .astro components rendered
-// outside the React tree, and subsequent slices (0005 Nav, 0006 FinalCta)
-// converted further sections to static .astro. The remaining React
-// sections (Hero, HowItWorks, FAQ) are each mounted directly in
+// outside the React tree, and subsequent slices (0005 Nav, 0006 FinalCta,
+// 0007 Hero) converted further sections to static .astro. The remaining
+// React sections (HowItWorks, FAQ) are each mounted directly in
 // `src/pages/index.astro` as their own island.
 //
 // What stays in this island: global side effects (CSS variable mutations
@@ -13,9 +13,10 @@
 // panel. It renders no visible content of its own.
 //
 // Caveat: in dev, panel mutations to `wordmarkAccent` / `heroVariant` /
-// `heroCopy` no longer hot-update Nav and Hero (those are separate islands
-// reading TWEAK_DEFAULTS directly). CSS-variable tweaks (accent, cardTone,
-// accentStrategy) still propagate everywhere via the document root.
+// `heroCopy` no longer hot-update Nav and Hero (those are static .astro
+// reading TWEAK_DEFAULTS at build time). A full reload picks up the new
+// defaults. CSS-variable tweaks (accent, cardTone, accentStrategy) still
+// propagate everywhere via the document root.
 // Spec 0008 reworks the tweaks panel mount; spec 0009 wires writeback so
 // changes persist to source. Production is unaffected — the panel only
 // exists when `import.meta.env.DEV`.

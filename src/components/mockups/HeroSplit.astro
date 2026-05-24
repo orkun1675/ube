@@ -1,0 +1,108 @@
+---
+// Split hero variant — two stacked cards side by side (spec 0007).
+// Direct conversion of the previous `hero-split.tsx` React component to a
+// static `.astro` mockup — same DOM, same classes, same inline styles, just
+// rendered at build time with zero JS.
+//
+// Note: Astro's `style={{...}}` object syntax does NOT auto-append `px` to
+// numeric values (unlike React). Every length below is written as an explicit
+// string with units so it serializes to valid CSS.
+import { CheckIcon, CrashlyticsLogo, GitHubLogo } from "../../lib/assets"
+---
+
+<div
+  class="hero-split-grid"
+  style={{
+    width: "100%",
+    maxWidth: "560px",
+    marginLeft: "auto",
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: "16px",
+  }}
+>
+  <div class="mockup-chrome" style={{ padding: "16px" }}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "8px",
+        marginBottom: "12px",
+      }}
+    >
+      <CrashlyticsLogo size={16} />
+      <span class="mono" style={{ fontSize: "11px", color: "var(--muted)" }}>
+        Crashlytics
+      </span>
+      <span style={{ flex: "1" }}></span>
+      <span class="pill pill-error">NEW</span>
+    </div>
+    <div class="mono" style={{ fontSize: "11px", color: "var(--ink)" }}>
+      NullPointerException
+    </div>
+    <div
+      class="mono"
+      style={{ fontSize: "10px", color: "var(--muted)", marginTop: "4px" }}
+    >
+      WidgetUnmount.dispose:42
+    </div>
+    <div style={{ display: "flex", gap: "12px", marginTop: "16px" }}>
+      <div>
+        <div class="mono" style={{ fontSize: "9px", color: "var(--muted)" }}>
+          USERS
+        </div>
+        <div class="mono" style={{ fontSize: "13px" }}>
+          2,184
+        </div>
+      </div>
+      <div>
+        <div class="mono" style={{ fontSize: "9px", color: "var(--muted)" }}>
+          RATE
+        </div>
+        <div
+          class="mono"
+          style={{ fontSize: "13px", color: "var(--error)" }}
+        >
+          0.42%
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mockup-chrome" style={{ padding: "16px" }}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "8px",
+        marginBottom: "12px",
+      }}
+    >
+      <GitHubLogo size={16} />
+      <span class="mono" style={{ fontSize: "11px", color: "var(--muted)" }}>
+        Pull request
+      </span>
+      <span style={{ flex: "1" }}></span>
+      <span class="pill pill-success">OPEN</span>
+    </div>
+    <div class="mono" style={{ fontSize: "11px", color: "var(--ink)" }}>
+      Fix: null check on unmount
+    </div>
+    <div
+      class="mono"
+      style={{ fontSize: "10px", color: "var(--muted)", marginTop: "4px" }}
+    >
+      +1 −1 · ube[bot]
+    </div>
+    <div style={{ marginTop: "16px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+        <CheckIcon size={10} color="var(--success)" />
+        <span
+          class="mono"
+          style={{ fontSize: "10px", color: "var(--body)" }}
+        >
+          12/12 checks
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

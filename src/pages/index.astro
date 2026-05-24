@@ -1,28 +1,28 @@
 ---
 // Landing page — the demand-probe homepage.
 //
-// Architecture (post-spec-0006):
-// - Static `.astro` sections (Nav, Footer, TrustedBy, Problems, Benefits,
-//   FinalCta) render as plain HTML. Nav + Footer live in BaseLayout.astro.
-// - The remaining React sections (Hero, HowItWorks, FAQ) each mount as
-//   their own `client:load` island, slotted between the static sections so
-//   DOM order matches the pre-slice visual flow.
+// Architecture (post-spec-0007):
+// - Static `.astro` sections (Nav, Footer, TrustedBy, Problems, Hero,
+//   Benefits, FinalCta) render as plain HTML. Nav + Footer live in
+//   BaseLayout.astro. Hero's CTA is wired by a colocated `*.client.ts`
+//   script (same pattern as Nav / FinalCta).
+// - The remaining React sections (HowItWorks, FAQ) each mount as their own
+//   `client:load` island, slotted between the static sections so DOM order
+//   matches the pre-slice visual flow.
 // - `<LandingPageApp />` is now a tiny side-effects island: it applies
 //   tweak-driven CSS variables to <html>, runs engagement/scroll-depth
 //   tracking, and (in dev only) renders the floating tweaks panel.
-// Slices 0007–0008 progressively peel Hero / HowItWorks / FAQ out into
-// `.astro` (or thinner per-section islands), at which point LandingPageApp
-// itself goes away.
+// Slice 0008 peels HowItWorks / FAQ out into `.astro` (or thinner
+// per-section islands), at which point LandingPageApp itself goes away.
 import { FAQ } from "../components/sections/faq"
 import FinalCta from "../components/sections/FinalCta.astro"
-import { Hero } from "../components/sections/hero"
+import Hero from "../components/sections/Hero.astro"
 import { HowItWorks } from "../components/sections/how-it-works"
 import Benefits from "../components/sections/Benefits.astro"
 import Problems from "../components/sections/Problems.astro"
 import TrustedBy from "../components/sections/TrustedBy.astro"
 import { LandingPageApp } from "../components/pages/LandingPageApp"
 import { FAQ_ITEMS } from "../data/faq-items"
-import { TWEAK_DEFAULTS } from "../data/tweak-defaults"
 import BaseLayout from "../layouts/BaseLayout.astro"
 
 const title = "Ube — An agent that maintains your app"
@@ -79,11 +79,7 @@ const jsonLd = [
   jsonLd={jsonLd}
 >
   <main>
-    <Hero
-      client:load
-      heroVariant={TWEAK_DEFAULTS.heroVariant}
-      heroCopy={TWEAK_DEFAULTS.heroCopy}
-    />
+    <Hero />
     <TrustedBy />
     <Problems />
     <HowItWorks client:load />
