@@ -6,7 +6,7 @@
       "runtimeExecutable": "sh",
       "runtimeArgs": [
         "-c",
-        "exec python3 -m http.server \"${PORT:?PORT not set by autoPort}\""
+        "exec python3 dev-server.py"
       ],
       "autoPort": true
     },
@@ -15,7 +15,7 @@
       "runtimeExecutable": "sh",
       "runtimeArgs": [
         "-c",
-        "exec python3 -m http.server \"${PORT:?PORT not set by autoPort}\""
+        "exec python3 dev-server.py"
       ],
       "autoPort": true
     },
@@ -24,7 +24,7 @@
       "runtimeExecutable": "sh",
       "runtimeArgs": [
         "-c",
-        "exec python3 -m http.server \"${PORT:?PORT not set by autoPort}\""
+        "exec python3 dev-server.py"
       ],
       "autoPort": true
     },
@@ -33,7 +33,7 @@
       "runtimeExecutable": "sh",
       "runtimeArgs": [
         "-c",
-        "exec python3 -m http.server \"${PORT:?PORT not set by autoPort}\""
+        "exec python3 dev-server.py"
       ],
       "autoPort": true
     },
@@ -42,7 +42,7 @@
       "runtimeExecutable": "sh",
       "runtimeArgs": [
         "-c",
-        "exec python3 -m http.server \"${PORT:?PORT not set by autoPort}\""
+        "exec python3 dev-server.py"
       ],
       "autoPort": true
     },
@@ -51,7 +51,7 @@
       "runtimeExecutable": "sh",
       "runtimeArgs": [
         "-c",
-        "exec python3 -m http.server \"${PORT:?PORT not set by autoPort}\""
+        "exec python3 dev-server.py"
       ],
       "autoPort": true
     },

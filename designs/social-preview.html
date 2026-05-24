@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Ube — social preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"/>
+  <style>
+    :root {
+      --canvas: #1e1e22;
+      --surface-elevated: #32323a;
+      --hairline-strong: #2e2e38;
+      --accent: #6b3fa0;
+      --accent-soft: #2a1c40;
+      --ink: #f5f5f2;
+      --body: #b6b6be;
+      --muted: #7a7a85;
+      --muted-soft: #545460;
+      --success: #3bb67a;
+      --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1200px;
+      height: 630px;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    body {
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Dot grid backdrop — same recipe as the live site hero */
+    .dot-grid {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+      background-size: 32px 32px;
+      opacity: 0.16;
+      pointer-events: none;
+      mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+    }
+
+    /* Soft accent glow */
+    .glow {
+      position: absolute;
+      width: 900px;
+      height: 900px;
+      left: -220px;
+      top: -220px;
+      background: radial-gradient(circle at center, rgba(107, 63, 160, 0.18), transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Three sections pinned to three corners; slogan floats vertically
+       centered with the same left inset. --inset-x / --inset-y are the
+       single source of truth for all four margins. */
+    :root {
+      --inset-y: 64px;
+      --inset-x: 72px;
+    }
+    .stage {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+    }
+
+    .wordmark {
+      position: absolute;
+      top: var(--inset-y);
+      left: var(--inset-x);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 64px;
+      font-weight: 600;
+      letter-spacing: -1.4px;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .wm-bracket {
+      display: inline-block;
+      width: 12px;
+      height: 50px;
+      border: 6px solid var(--accent);
+      transform: translateY(2px);
+    }
+    .wm-bracket-l { border-right: none; }
+    .wm-bracket-r { border-left: none; }
+    .wm-word { padding: 0 4px; }
+
+    .slogan {
+      position: absolute;
+      top: 50%;
+      left: var(--inset-x);
+      transform: translateY(-50%);
+      font-size: 108px;
+      line-height: 1.02;
+      font-weight: 450;
+      letter-spacing: -3.6px;
+      color: var(--ink);
+      margin: 0;
+      white-space: nowrap;
+    }
+    .slogan .muted-line {
+      color: var(--muted);
+    }
+
+    .pills {
+      position: absolute;
+      bottom: var(--inset-y);
+      left: var(--inset-x);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: 9999px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      font-weight: 600;
+      background: var(--surface-elevated);
+      color: var(--body);
+      border: 1px solid var(--hairline-strong);
+    }
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .url {
+      position: absolute;
+      bottom: var(--inset-y);
+      right: var(--inset-x);
+      font-family: var(--font-mono);
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: 0.4px;
+      color: var(--ink);
+      line-height: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="dot-grid"></div>
+
+  <div class="stage">
+    <div class="wordmark">
+      <span class="wm-bracket wm-bracket-l"></span>
+      <span class="wm-word">ube</span>
+      <span class="wm-bracket wm-bracket-r"></span>
+    </div>
+
+    <h1 class="slogan">
+      App maintenance,<br/>
+      <span class="muted-line">on autopilot.</span>
+    </h1>
+
+    <div class="pills">
+      <span class="pill"><span class="pill-dot"></span>Bug fixes</span>
+      <span class="pill"><span class="pill-dot"></span>Dep upgrades</span>
+      <span class="pill"><span class="pill-dot"></span>Automatic QA</span>
+      <span class="pill"><span class="pill-dot"></span>Verified PRs</span>
+    </div>
+
+    <div class="url">ube.dev</div>
+  </div>
+</body>
+</html>

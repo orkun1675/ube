@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Ube favicon — dark</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"/>
+  <style>
+    :root {
+      --ink: #ffffff;
+      --accent: #6b3fa0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 512px;
+      height: 512px;
+      background: transparent;
+      font-family: "Inter", system-ui, sans-serif;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+    .bracket {
+      width: 70px;
+      height: 380px;
+      border: 50px solid var(--accent);
+      flex-shrink: 0;
+    }
+    .bracket-l { border-right: none; }
+    .bracket-r { border-left: none; }
+
+    /* Perfectly center the lowercase "u" between the brackets.
+       Inter's lowercase u extends from x-height to baseline; we use
+       text-box-trim (Chrome 133+) to make the line-box equal the visible
+       glyph box, so flexbox can center it pixel-exactly. */
+    .u {
+      font-size: 380px;
+      font-weight: 500;
+      line-height: 1;
+      color: var(--ink);
+      letter-spacing: -0.04em;
+      text-box: trim-both ex alphabetic;
+      -webkit-text-box: trim-both ex alphabetic;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="bracket bracket-l"></div>
+  <div class="u">u</div>
+  <div class="bracket bracket-r"></div>
+</body>
+</html>

@@ -6,12 +6,37 @@
   <title>Ube — An agent that maintains your app</title>
   <meta name="description" content="Ube listens to crash feeds, error dashboards, app reviews, and dependency releases — then triages, reproduces, and opens verified PRs against your repo."/>
 
+  <!-- Favicons. Light default; dark variant served via media query on
+       browsers that honor `media` on <link rel="icon"> (Firefox; recent
+       Chromium). The white "u" in the dark PNG is invisible on light
+       tabs, which is why light is the safer default. -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-light.png"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-dark.png" media="(prefers-color-scheme: dark)"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"/>
+
+  <!-- Open Graph / social preview -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Ube"/>
+  <meta property="og:url" content="https://ube.dev/"/>
+  <meta property="og:title" content="Ube — An agent that maintains your app"/>
+  <meta property="og:description" content="Ube listens to crash feeds, error dashboards, app reviews, and dependency releases — then triages, reproduces, and opens verified PRs against your repo."/>
+  <meta property="og:image" content="https://ube.dev/assets/og-image.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="Ube — App maintenance, on autopilot."/>
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Ube — An agent that maintains your app"/>
+  <meta name="twitter:description" content="Ube listens to crash feeds, error dashboards, app reviews, and dependency releases — then triages, reproduces, and opens verified PRs against your repo."/>
+  <meta name="twitter:image" content="https://ube.dev/assets/og-image.png"/>
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"/>
 
-  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="src/styles.css"/>
 
   <!-- Google reCAPTCHA v3 — used by Basin for spam protection on the request-access form -->
   <script src="https://www.google.com/recaptcha/api.js?render=6Les66kUAAAAANyLrgkl7iuN4JUpNlB5upaMovI4"></script>
@@ -43,35 +68,35 @@
   <div id="root"></div>
 
   <!-- Component scripts (order matters — assets & mockups before components & app) -->
-  <script type="text/babel" src="dev/tweaks-panel.jsx"></script>
-  <script type="text/babel" src="constants.jsx"></script>
-  <script type="text/babel" src="lib/analytics.jsx"></script>
-  <script type="text/babel" src="lib/assets.jsx"></script>
-  <script type="text/babel" src="lib/modal.jsx"></script>
-  <script type="text/babel" src="lib/palette.jsx"></script>
-  <script type="text/babel" src="dev/tweaks-config.jsx"></script>
-  <script type="text/babel" src="mockups/hero-pr.jsx"></script>
-  <script type="text/babel" src="mockups/hero-minimal.jsx"></script>
-  <script type="text/babel" src="mockups/hero-split.jsx"></script>
-  <script type="text/babel" src="mockups/intake.jsx"></script>
-  <script type="text/babel" src="mockups/triage.jsx"></script>
-  <script type="text/babel" src="mockups/fix.jsx"></script>
-  <script type="text/babel" src="mockups/report-success.jsx"></script>
-  <script type="text/babel" src="mockups/report-failure.jsx"></script>
-  <script type="text/babel" src="sections/wordmark.jsx"></script>
-  <script type="text/babel" src="sections/nav.jsx"></script>
-  <script type="text/babel" src="sections/footer.jsx"></script>
-  <script type="text/babel" src="sections/trusted-by.jsx"></script>
-  <script type="text/babel" src="sections/problems.jsx"></script>
-  <script type="text/babel" src="sections/benefits.jsx"></script>
-  <script type="text/babel" src="sections/faq.jsx"></script>
-  <script type="text/babel" src="sections/final-cta.jsx"></script>
-  <script type="text/babel" src="sections/hero.jsx"></script>
-  <script type="text/babel" src="modals/sources-modal.jsx"></script>
-  <script type="text/babel" src="modals/dedupe-modal.jsx"></script>
-  <script type="text/babel" src="modals/fix-loop-modal.jsx"></script>
-  <script type="text/babel" src="modals/request-access-modal.jsx"></script>
-  <script type="text/babel" src="sections/how-it-works.jsx"></script>
-  <script type="text/babel" src="app.jsx"></script>
+  <script type="text/babel" src="src/dev/tweaks-panel.jsx"></script>
+  <script type="text/babel" src="src/constants.jsx"></script>
+  <script type="text/babel" src="src/lib/analytics.jsx"></script>
+  <script type="text/babel" src="src/lib/assets.jsx"></script>
+  <script type="text/babel" src="src/lib/modal.jsx"></script>
+  <script type="text/babel" src="src/lib/palette.jsx"></script>
+  <script type="text/babel" src="src/dev/tweaks-config.jsx"></script>
+  <script type="text/babel" src="src/components/mockups/hero-pr.jsx"></script>
+  <script type="text/babel" src="src/components/mockups/hero-minimal.jsx"></script>
+  <script type="text/babel" src="src/components/mockups/hero-split.jsx"></script>
+  <script type="text/babel" src="src/components/mockups/intake.jsx"></script>
+  <script type="text/babel" src="src/components/mockups/triage.jsx"></script>
+  <script type="text/babel" src="src/components/mockups/fix.jsx"></script>
+  <script type="text/babel" src="src/components/mockups/report-success.jsx"></script>
+  <script type="text/babel" src="src/components/mockups/report-failure.jsx"></script>
+  <script type="text/babel" src="src/components/sections/wordmark.jsx"></script>
+  <script type="text/babel" src="src/components/sections/nav.jsx"></script>
+  <script type="text/babel" src="src/components/sections/footer.jsx"></script>
+  <script type="text/babel" src="src/components/sections/trusted-by.jsx"></script>
+  <script type="text/babel" src="src/components/sections/problems.jsx"></script>
+  <script type="text/babel" src="src/components/sections/benefits.jsx"></script>
+  <script type="text/babel" src="src/components/sections/faq.jsx"></script>
+  <script type="text/babel" src="src/components/sections/final-cta.jsx"></script>
+  <script type="text/babel" src="src/components/sections/hero.jsx"></script>
+  <script type="text/babel" src="src/components/modals/sources-modal.jsx"></script>
+  <script type="text/babel" src="src/components/modals/dedupe-modal.jsx"></script>
+  <script type="text/babel" src="src/components/modals/fix-loop-modal.jsx"></script>
+  <script type="text/babel" src="src/components/modals/request-access-modal.jsx"></script>
+  <script type="text/babel" src="src/components/sections/how-it-works.jsx"></script>
+  <script type="text/babel" src="src/app.jsx"></script>
 </body>
 </html>

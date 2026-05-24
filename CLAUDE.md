@@ -14,23 +14,32 @@ Other Claude Code sessions may be running in this repo in parallel.
 - **Prod build:** `npm run build` → [build.mjs](build.mjs) (esbuild) concatenates JSX files, minifies, rewrites `index.html` to use React production builds, drops Babel. GitHub Actions deploys `dist/` to Pages on push to `main`.
 
 ## File layout
+Astro-inspired: `src/` for everything we build, `public/` for files served verbatim, root for config/entry/build.
 ```
-index.html          # dev entry; <script type="text/babel"> tags
-app.jsx             # App root, tweak defaults, mount
-components.jsx      # Nav, Hero, Problems, HowItWorks, Benefits, FAQ, FinalCTA, Footer, RequestAccessModal
-mockups.jsx         # in-page product mockups
-assets.jsx          # logos, icons
-tweaks-panel.jsx    # dev-only design tweak overlay
-styles.css          # tokens + components + mockups
-build.mjs           # prod build
-maintainer/         # /maintainer/ redirects to /
+index.html                # dev entry; <script type="text/babel"> tags
+build.mjs                 # prod build (esbuild)
+dev-server.py             # dev server; aliases public/ to / like Astro does
+src/
+  app.jsx                 # App root, tweak defaults, mount
+  constants.jsx           # shared constants
+  styles.css              # tokens + components + mockups
+  components/
+    sections/             # Nav, Hero, Problems, HowItWorks, Benefits, FAQ, FinalCTA, Footer, ...
+    modals/               # Sources, Dedupe, FixLoop, RequestAccess
+    mockups/              # in-page product mockups
+  lib/                    # analytics, palette, modal primitive, asset registry
+  dev/                    # tweaks panel (stripped from prod build)
+public/                   # copied verbatim to dist/ — served at site root
+  assets/                 # customer logos, integration icons, favicons, og image
+  maintainer/             # /maintainer/ static redirect to /
+  CNAME
 ```
 
-JSX load order matters — `tweaks-panel → assets → mockups → components → app`. If you add a new `.jsx` file, update **both** `index.html` script tags and `JSX_FILES` in `build.mjs`.
+JSX load order matters — `dev/tweaks-panel → constants → lib/* → dev/tweaks-config → mockups → sections → modals → app`. If you add a new `.jsx` file, update **both** `index.html` script tags and `JSX_FILES` in `build.mjs`.
 
 ## Things to know before editing
-- **The Request Access form is a stub.** `components.jsx:1085` simulates success with `setTimeout` — nothing is sent anywhere. If interest needs to actually be captured, wire this up (Formspree, a Worker, etc.) — it's the highest-leverage missing piece given the project's goal.
-- **Tweaks panel persists into source.** `app.jsx` has `EDITMODE-BEGIN/END` markers around `TWEAK_DEFAULTS`; the in-page tweaks panel writes back to that block. Don't reformat that region by hand.
+- **The Request Access form is a stub.** `src/components/modals/request-access-modal.jsx:21` simulates success with `setTimeout` — nothing is sent anywhere. If interest needs to actually be captured, wire this up (Formspree, a Worker, etc.) — it's the highest-leverage missing piece given the project's goal.
+- **Tweaks panel persists into source.** `src/app.jsx` has `EDITMODE-BEGIN/END` markers around `TWEAK_DEFAULTS`; the in-page tweaks panel writes back to that block. Don't reformat that region by hand.
 - **Two-product positioning is intentional.** Hero currently leans Maintainer, but the modal surfaces both — preserve both signals unless explicitly narrowing focus.
 - **Amplitude is gated to production.** [index.html](index.html) loads Amplitude's Unified Script and initializes it, but only when `location.hostname` is `ube.dev` or a subdomain. On `localhost` the snippet stub installs but `init` is skipped, so no events or replays fire. Escape hatch for local verification: append `?amplitude=1` to the URL. **Only test Amplitude locally if explicitly asked.**
 - No test suite, no linter config, no TypeScript. Don't add tooling unless asked.

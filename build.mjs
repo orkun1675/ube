@@ -5,7 +5,7 @@
 // to pre-compile that same source into a minified bundle, swap React to its
 // production build, and drop the Babel runtime so visitors don't pay for it.
 
-import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises"
+import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises"
 import { join } from "node:path"
 import { transform } from "esbuild"
 
@@ -14,43 +14,43 @@ import { transform } from "esbuild"
 // no-ops via `globalThis.X ??= ...` when these globals are absent, so prod
 // renders with TWEAK_DEFAULTS baked in.
 const DEV_ONLY_JSX_FILES = new Set([
-  "dev/tweaks-panel.jsx",
-  "dev/tweaks-config.jsx",
+  "src/dev/tweaks-panel.jsx",
+  "src/dev/tweaks-config.jsx",
 ])
 
 // Load order matches the <script> tags in index.html. Earlier files define
 // globals (constants, helpers, components) that later ones reference.
 const JSX_FILES = [
-  "dev/tweaks-panel.jsx",
-  "constants.jsx",
-  "lib/analytics.jsx",
-  "lib/assets.jsx",
-  "lib/modal.jsx",
-  "lib/palette.jsx",
-  "dev/tweaks-config.jsx",
-  "mockups/hero-pr.jsx",
-  "mockups/hero-minimal.jsx",
-  "mockups/hero-split.jsx",
-  "mockups/intake.jsx",
-  "mockups/triage.jsx",
-  "mockups/fix.jsx",
-  "mockups/report-success.jsx",
-  "mockups/report-failure.jsx",
-  "sections/wordmark.jsx",
-  "sections/nav.jsx",
-  "sections/footer.jsx",
-  "sections/trusted-by.jsx",
-  "sections/problems.jsx",
-  "sections/benefits.jsx",
-  "sections/faq.jsx",
-  "sections/final-cta.jsx",
-  "sections/hero.jsx",
-  "modals/sources-modal.jsx",
-  "modals/dedupe-modal.jsx",
-  "modals/fix-loop-modal.jsx",
-  "modals/request-access-modal.jsx",
-  "sections/how-it-works.jsx",
-  "app.jsx",
+  "src/dev/tweaks-panel.jsx",
+  "src/constants.jsx",
+  "src/lib/analytics.jsx",
+  "src/lib/assets.jsx",
+  "src/lib/modal.jsx",
+  "src/lib/palette.jsx",
+  "src/dev/tweaks-config.jsx",
+  "src/components/mockups/hero-pr.jsx",
+  "src/components/mockups/hero-minimal.jsx",
+  "src/components/mockups/hero-split.jsx",
+  "src/components/mockups/intake.jsx",
+  "src/components/mockups/triage.jsx",
+  "src/components/mockups/fix.jsx",
+  "src/components/mockups/report-success.jsx",
+  "src/components/mockups/report-failure.jsx",
+  "src/components/sections/wordmark.jsx",
+  "src/components/sections/nav.jsx",
+  "src/components/sections/footer.jsx",
+  "src/components/sections/trusted-by.jsx",
+  "src/components/sections/problems.jsx",
+  "src/components/sections/benefits.jsx",
+  "src/components/sections/faq.jsx",
+  "src/components/sections/final-cta.jsx",
+  "src/components/sections/hero.jsx",
+  "src/components/modals/sources-modal.jsx",
+  "src/components/modals/dedupe-modal.jsx",
+  "src/components/modals/fix-loop-modal.jsx",
+  "src/components/modals/request-access-modal.jsx",
+  "src/components/sections/how-it-works.jsx",
+  "src/app.jsx",
 ]
 
 const DIST = "dist"
@@ -74,7 +74,7 @@ const js = await transform(source, {
 await writeFile(join(DIST, "bundle.js"), js.code)
 
 // --- CSS: minify ------------------------------------------------------------
-const css = await readFile("styles.css", "utf8")
+const css = await readFile("src/styles.css", "utf8")
 const cssOut = await transform(css, { loader: "css", minify: true })
 await writeFile(join(DIST, "styles.css"), cssOut.code)
 
@@ -86,6 +86,7 @@ await writeFile(join(DIST, "styles.css"), cssOut.code)
 let html = await readFile("index.html", "utf8")
 
 html = html
+  .replace('href="src/styles.css"', 'href="styles.css"')
   .replace("react.development.js", "react.production.min.js")
   .replace("react-dom.development.js", "react-dom.production.min.js")
   .replace(/\s+integrity="sha384-[^"]*"/g, "")
@@ -101,8 +102,9 @@ html = html
 await writeFile(join(DIST, "index.html"), html)
 
 // --- Static assets ----------------------------------------------------------
-await cp("assets", join(DIST, "assets"), { recursive: true })
-await cp("maintainer", join(DIST, "maintainer"), { recursive: true })
-await cp("CNAME", join(DIST, "CNAME"))
+// Mirror Astro: everything in public/ copies verbatim to the site root.
+for (const entry of await readdir("public")) {
+  await cp(join("public", entry), join(DIST, entry), { recursive: true })
+}
 
 console.log(`✓ built ${DIST}/`)
