@@ -20,7 +20,6 @@ export const IntakeMockup = () => {
       label: "Crashlytics",
       title: "java.lang.NullPointerException",
       meta: "WidgetUnmount.dispose:42 · 2,184 users",
-      time: "3m",
       badge: <span className="pill pill-error">CRASH</span>,
       tag: "REGRESSION",
     },
@@ -30,7 +29,6 @@ export const IntakeMockup = () => {
       label: "Sentry",
       title: "TypeError: cannot read 'items' of undefined",
       meta: "RecipeList.tsx · 14 events · 8 users",
-      time: "12m",
       badge: <span className="pill pill-error">ERROR</span>,
       tag: "NEW",
     },
@@ -40,7 +38,6 @@ export const IntakeMockup = () => {
       label: "Play Console",
       title: "ANR: Input dispatching timed out",
       meta: "0.4% of sessions · Pixel 7, Galaxy S22",
-      time: "1h",
       badge: <span className="pill pill-warning">ANR</span>,
       tag: "SPIKE",
     },
@@ -50,7 +47,6 @@ export const IntakeMockup = () => {
       label: "App Store",
       title: "“It crashes when I open my saved recipes”",
       meta: "★ · @marisol_22 · v2.4.1",
-      time: "2h",
       badge: <span className="pill pill-warning">★ 1</span>,
       tag: "NEW",
     },
@@ -60,7 +56,6 @@ export const IntakeMockup = () => {
       label: "Support",
       title: "Camera freezes on iPhone 15",
       meta: "tara@hey.com · 2 replies",
-      time: "4h",
       badge: <span className="pill pill-muted">EMAIL</span>,
       tag: "REGRESSION",
     },
@@ -70,7 +65,6 @@ export const IntakeMockup = () => {
       label: "react-native",
       title: "0.76.3 → 0.77.0 available",
       meta: "minor · 3 breaking notes",
-      time: "1d",
       badge: <span className="pill pill-muted">DEP</span>,
       tag: "UPGRADE",
     },
@@ -120,72 +114,31 @@ export const IntakeMockup = () => {
             key={i}
             className={styles["intake-row"]}
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              padding: "16px 20px",
               borderTop: i > 0 ? "1px solid var(--hairline-soft)" : "none",
             }}
           >
-            <div
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: 8,
-                background: "var(--surface-elevated)",
-                border: "1px solid var(--hairline)",
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
-              }}
-            >
-              {it.logo}
-            </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div
-                className="mono"
-                style={{
-                  fontSize: 12.5,
-                  color: "var(--ink)",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {it.title}
-              </div>
-              <div
-                className="mono"
-                style={{ fontSize: 10.5, color: "var(--muted)", marginTop: 3 }}
-              >
+            <div className={styles["intake-logo"]}>{it.logo}</div>
+            <div className={styles["intake-body"]}>
+              <div className={`mono ${styles["intake-title"]}`}>{it.title}</div>
+              <div className={`mono ${styles["intake-meta"]}`}>
                 <span style={{ color: "var(--body)" }}>{it.label}</span> ·{" "}
                 {it.meta}
               </div>
             </div>
-            {it.badge}
-            <span
-              className="mono"
-              style={{
-                fontSize: 10,
-                color: "var(--muted)",
-                width: 26,
-                textAlign: "right",
-              }}
-            >
-              {it.time}
-            </span>
-            <span className="pill pill-accent" style={{ padding: "2px 7px" }}>
-              <span
-                style={{
-                  width: 5,
-                  height: 5,
-                  borderRadius: "50%",
-                  background: "var(--accent)",
-                }}
-              />
-              {it.tag}
-            </span>
+            <div className={styles["intake-tags"]}>
+              {it.badge}
+              <span className="pill pill-accent" style={{ padding: "2px 7px" }}>
+                <span
+                  style={{
+                    width: 5,
+                    height: 5,
+                    borderRadius: "50%",
+                    background: "var(--accent)",
+                  }}
+                />
+                {it.tag}
+              </span>
+            </div>
           </div>
         ))}
       </div>

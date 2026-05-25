@@ -1,21 +1,77 @@
 /* --- Intake mockup --------------------------------------------------- */
-/* Long rows with logo + title + badge + time + captured pill don't fit
-   on a phone. Stack vertically. */
+.intake-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+}
+
+.intake-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--hairline);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.intake-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.intake-title {
+  font-size: 12.5px;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.intake-meta {
+  font-size: 10.5px;
+  color: var(--muted);
+  margin-top: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.intake-tags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* On narrow widths, the row can't fit logo + title + badge + tag inline.
+   Wrap the tags onto a second line aligned under the title column. */
 @media (max-width: 640px) {
   .intake-row {
     flex-wrap: wrap;
-    gap: 10px;
+    row-gap: 8px;
     padding: 14px 16px;
   }
-  .intake-row > :nth-child(1) {
+  .intake-logo {
     width: 28px;
     height: 28px;
   }
-  .intake-row > :nth-child(2) {
-    flex-basis: calc(100% - 44px);
+  .intake-title {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
   }
-  /* Pull the badge / time / captured pill onto a second row */
-  .intake-row > :nth-child(n + 3) {
+  .intake-meta {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+  .intake-tags {
+    flex: 0 0 100%;
+    margin-left: 40px;
     font-size: 9.5px;
   }
 }

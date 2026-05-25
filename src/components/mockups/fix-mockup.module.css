@@ -1,4 +1,39 @@
 /* --- Fix mockup ------------------------------------------------------ */
+.fix-stage {
+  position: relative;
+  height: 360px;
+  overflow: hidden;
+}
+
+.fix-pane-1 {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 42%;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 28px) 100%, 0 100%);
+  background: radial-gradient(120% 100% at 30% 0%, #1f1f28 0%, #0f0f14 70%);
+  padding: 20px 18px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+}
+
+.fix-pane-2 {
+  position: absolute;
+  left: calc(42% - 28px);
+  right: 0;
+  top: 0;
+  bottom: 0;
+  clip-path: polygon(28px 0, 100% 0, 100% 100%, 0 100%);
+  background: var(--surface-card);
+  padding: 20px 22px 22px 44px;
+  display: flex;
+  flex-direction: column;
+}
+
 /* Two panes with a slight diagonal seam — stack vertically on tablet/phone
    and drop the clip-path diagonal. */
 @media (max-width: 1024px) {

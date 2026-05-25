@@ -35,30 +35,9 @@ export const FixMockup = () => (
     </div>
 
     {/* Two panes with a slight diagonal seam between them */}
-    <div
-      className={styles["fix-stage"]}
-      style={{ position: "relative", height: 360, overflow: "hidden" }}
-    >
+    <div className={styles["fix-stage"]}>
       {/* Pane 1: Emulator */}
-      <div
-        className={styles["fix-pane-1"]}
-        style={{
-          position: "absolute",
-          left: 0,
-          top: 0,
-          bottom: 0,
-          width: "42%",
-          clipPath: "polygon(0 0, 100% 0, calc(100% - 28px) 100%, 0 100%)",
-          background:
-            "radial-gradient(120% 100% at 30% 0%, #1f1f28 0%, #0f0f14 70%)",
-          padding: "20px 18px 22px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "flex-start",
-          gap: 14,
-        }}
-      >
+      <div className={styles["fix-pane-1"]}>
         <div
           style={{
             display: "flex",
@@ -302,21 +281,7 @@ export const FixMockup = () => (
       </div>
 
       {/* Pane 2: Actions / verified checks — mirrors the hero check list */}
-      <div
-        className={styles["fix-pane-2"]}
-        style={{
-          position: "absolute",
-          left: "calc(42% - 28px)",
-          right: 0,
-          top: 0,
-          bottom: 0,
-          clipPath: "polygon(28px 0, 100% 0, 100% 100%, 0 100%)",
-          background: "var(--surface-card)",
-          padding: "20px 22px 22px 44px",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
+      <div className={styles["fix-pane-2"]}>
         <div
           style={{
             display: "flex",
