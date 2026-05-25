@@ -134,13 +134,20 @@ const jsonLd = [
   accentMode={accentMode}
 >
   <style define:vars={{ accent, accentHover, accentSoft, accentTint, cardBg, cardBorder }}>
-    :root {
-      --accent: var(--accent);
-      --accent-hover: var(--accent-hover);
-      --accent-soft: var(--accent-soft);
-      --accent-tint: var(--accent-tint);
-      --card-bg: var(--card-bg);
-      --card-border: var(--card-border);
+    /* `define:vars` attaches the camelCase tokens (--accent, --accentHover,
+       --cardBg, …) as inline styles on this <style>'s parent — which Astro
+       resolves to <main>. Astro 3+ no longer auto-emits a kebab-case alias,
+       so re-export the multi-word names under the kebab-case versions that
+       styles.css and the rest of the codebase actually consume. Scoping to
+       `main` ensures the cascade reaches every section, card, and mockup
+       descendant. (`--accent` is one word, so its camel/kebab forms match
+       and no re-export is needed.) */
+    main {
+      --accent-hover: var(--accentHover);
+      --accent-soft: var(--accentSoft);
+      --accent-tint: var(--accentTint);
+      --card-bg: var(--cardBg);
+      --card-border: var(--cardBorder);
     }
   </style>
   <main>

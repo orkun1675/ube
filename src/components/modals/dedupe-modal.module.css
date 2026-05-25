@@ -1,7 +1,11 @@
 /* =====================================================================
    Dedupe Modal
    ===================================================================== */
-.dedupe-panel {
+/* `:global(.modal-panel)` is the shared modal chrome (styles.css). Combining
+   it with `.dedupe-panel` bumps specificity to two classes so per-modal
+   sizing wins over the global `max-width: 480px` default, regardless of
+   stylesheet load order. */
+:global(.modal-panel).dedupe-panel {
   max-width: 940px;
   padding: 36px 36px 32px;
   position: relative;
