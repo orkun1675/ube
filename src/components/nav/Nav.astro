@@ -169,4 +169,242 @@ const wordmarkHref = isLandingPage ? "#top" : "/"
     display: inline-flex;
     transform: rotate(45deg);
   }
+
+  /* Top nav */
+  .topnav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(30, 30, 34, 0.78);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid transparent;
+    transition:
+      border-color 200ms ease-out,
+      background 200ms ease-out;
+  }
+  /* Edge-fading hairline + shadow underneath the nav */
+  .topnav::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 24px;
+    pointer-events: none;
+    background:
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0)),
+      linear-gradient(to bottom, var(--hairline-soft), var(--hairline-soft)) top /
+      100% 1px no-repeat;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 18%,
+      #000 82%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 18%,
+      #000 82%,
+      transparent 100%
+    );
+    opacity: 0.6;
+    transition: opacity 220ms ease-out;
+  }
+  .topnav.scrolled {
+    background: rgba(30, 30, 34, 0.94);
+  }
+  .topnav.scrolled::after {
+    opacity: 1;
+    background:
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0)),
+      linear-gradient(to bottom, var(--hairline-strong), var(--hairline-strong))
+      top / 100% 1px no-repeat;
+  }
+  .topnav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+  .nav-center {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .nav-link {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--body);
+    text-decoration: none;
+    position: relative;
+    padding: 6px 0;
+  }
+  .nav-link:hover {
+    color: var(--ink);
+  }
+  .nav-link.active {
+    color: var(--ink);
+  }
+  .nav-link.active::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -3px;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--mark);
+  }
+
+  /* Nav right cluster — flex-by-class so the @media hide on phone wins
+     over potential inline display values. */
+  .nav-right-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Mobile menu trigger */
+  .menu-btn {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--hairline-strong);
+    border-radius: var(--r-md);
+    width: 40px;
+    height: 40px;
+    color: var(--ink);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+  @media (max-width: 768px) {
+    .nav-center {
+      display: none;
+    }
+    .menu-btn {
+      display: inline-flex;
+    }
+    .nav-right-actions {
+      display: none;
+    }
+  }
+
+  /* Mobile menu (rendered as a sibling of .topnav at the body level
+     so backdrop-filter on .topnav doesn't trap position:fixed inside the
+     nav). Toggled via the `hidden` attribute by nav.client.ts — the explicit
+     `[hidden]` rule below is required because our `display: flex` on
+     `.mobile-menu` otherwise wins over the UA's `display: none`. */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: #0e0e11;
+    /* Solid first; layer a subtle dot grid for texture */
+    background-image: radial-gradient(
+      rgba(255, 255, 255, 0.08) 1px,
+      transparent 1px
+    );
+    background-size: 28px 28px;
+    background-color: #0e0e11;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 24px 32px;
+    gap: 28px;
+    animation: mobileMenuIn 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .mobile-menu[hidden] {
+    display: none;
+  }
+  @keyframes mobileMenuIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .mobile-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
+  }
+  .mobile-menu-links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 12px;
+  }
+  .mobile-menu-link {
+    font-family: var(--font-sans);
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--hairline-soft);
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  /* `.coming-soon` is a global utility class — wrap in :global() so Astro
+     doesn't try to scope its selector with this component's cid attribute
+     (the element still gets the cid, but the class selector matches the
+     global token directly). */
+  .mobile-menu-link:global(.coming-soon) {
+    color: var(--muted);
+    cursor: not-allowed;
+  }
+  .mobile-menu-link.active {
+    color: var(--ink);
+  }
+  .mobile-menu-link.active::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+    align-self: center;
+  }
+  .mobile-menu-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--muted-soft);
+    padding: 3px 7px;
+    border: 1px solid var(--hairline-strong);
+    border-radius: var(--r-pill);
+    align-self: center;
+  }
+  .mobile-menu-cta {
+    margin-top: auto;
+    width: 100%;
+    justify-content: center;
+    height: 52px;
+    font-size: 15px;
+  }
+
+  /* Top nav — tighten height & wordmark on phone. `.wordmark` is owned by
+     Wordmark.astro, so wrap in :global() to skip cid-attribute scoping. */
+  @media (max-width: 640px) {
+    .topnav-inner {
+      height: 60px;
+    }
+    .topnav-inner :global(.wordmark) {
+      font-size: 24px;
+    }
+  }
 </style>

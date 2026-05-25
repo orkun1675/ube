@@ -10,6 +10,7 @@ import {
   ReactLogo,
   SentryLogo,
 } from "../../lib/assets"
+import styles from "./intake.module.css"
 
 export const IntakeMockup = () => {
   const items = [
@@ -117,7 +118,7 @@ export const IntakeMockup = () => {
         {items.map((it, i) => (
           <div
             key={i}
-            className="intake-row"
+            className={styles["intake-row"]}
             style={{
               display: "flex",
               alignItems: "center",

@@ -6,16 +6,17 @@ import React from "react"
 import { FAQ_ITEMS, type FaqItem } from "../../data/faq-items"
 import { track } from "../../lib/analytics"
 import { PlusIcon } from "../../lib/assets"
+import styles from "./faq.module.css"
 
 type FaqItemProps = FaqItem & { defaultOpen?: boolean }
 
 const FAQItem = ({ q, a, defaultOpen }: FaqItemProps) => {
   const [open, setOpen] = React.useState(!!defaultOpen)
   return (
-    <div className={`faq-item ${open ? "open" : ""}`}>
+    <div className={`${styles["faq-item"]} ${open ? styles.open : ""}`}>
       <button
         type="button"
-        className="faq-question"
+        className={styles["faq-question"]}
         onClick={() =>
           setOpen((o) => {
             if (!o) track("faq_opened", { question: q })
@@ -24,13 +25,13 @@ const FAQItem = ({ q, a, defaultOpen }: FaqItemProps) => {
         }
         aria-expanded={open}
       >
-        <h3 className="faq-question-text">{q}</h3>
-        <span className="faq-icon">
+        <h3 className={styles["faq-question-text"]}>{q}</h3>
+        <span className={styles["faq-icon"]}>
           <PlusIcon size={12} />
         </span>
       </button>
-      <div className="faq-answer">
-        <div className="faq-answer-inner">{a}</div>
+      <div className={styles["faq-answer"]}>
+        <div className={styles["faq-answer-inner"]}>{a}</div>
       </div>
     </div>
   )

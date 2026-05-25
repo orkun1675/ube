@@ -4,6 +4,7 @@
 import { CONTACT_EMAIL } from "../../constants"
 import { MailIconFilled } from "../../lib/assets"
 import { Modal } from "../../lib/modal"
+import styles from "./sources-modal.module.css"
 
 type SourcesModalProps = { open: boolean; onClose: () => void }
 
@@ -99,17 +100,17 @@ export const SourcesModal = ({ open, onClose }: SourcesModalProps) => {
     <Modal
       open={open}
       onClose={onClose}
-      className="modal-backdrop sources-modal-backdrop"
-      panelClassName="modal-panel sources-panel"
+      className="modal-backdrop"
+      panelClassName={`modal-panel ${styles["sources-panel"]}`}
       labelledBy="sources-title"
     >
-      <div className="sources-header">
-        <div className="sources-scanner" aria-hidden="true">
-          <span className="scanner-grid" />
-          <span className="scanner-ring r1" />
-          <span className="scanner-ring r2" />
-          <span className="scanner-sweep" />
-          <span className="scanner-dot" />
+      <div className={styles["sources-header"]}>
+        <div className={styles["sources-scanner"]} aria-hidden="true">
+          <span className={styles["scanner-grid"]} />
+          <span className={`${styles["scanner-ring"]} ${styles.r1}`} />
+          <span className={`${styles["scanner-ring"]} ${styles.r2}`} />
+          <span className={styles["scanner-sweep"]} />
+          <span className={styles["scanner-dot"]} />
         </div>
         <div style={{ minWidth: 0 }}>
           <div className="eyebrow" style={{ marginBottom: 10 }}>
@@ -131,33 +132,33 @@ export const SourcesModal = ({ open, onClose }: SourcesModalProps) => {
         </div>
       </div>
 
-      <div className="sources-groups">
+      <div className={styles["sources-groups"]}>
         {groups.map((g, gi) => (
           <div
             key={g.label}
-            className="sources-group"
+            className={styles["sources-group"]}
             style={{ animationDelay: `${120 + gi * 90}ms` }}
           >
-            <div className="sources-group-label">
-              <span className="sources-tick" />
+            <div className={styles["sources-group-label"]}>
+              <span className={styles["sources-tick"]} />
               {g.label}
-              <span className="sources-group-rule" />
+              <span className={styles["sources-group-rule"]} />
               <span className="mono muted" style={{ fontSize: 10 }}>
                 {g.sources.length.toString().padStart(2, "0")}
               </span>
             </div>
-            <div className="sources-grid">
+            <div className={styles["sources-grid"]}>
               {g.sources.map((s) => {
                 const delay = 220 + flatIdx * 65
                 flatIdx++
                 return (
                   <div
                     key={s.name}
-                    className="source-card"
+                    className={styles["source-card"]}
                     style={{ animationDelay: `${delay}ms` }}
                   >
                     <div
-                      className={`source-mono ${s.logo ? "source-mono-logo" : ""} ${s.icon ? "source-mono-icon" : ""}`}
+                      className={`${styles["source-mono"]} ${s.logo ? styles["source-mono-logo"] : ""} ${s.icon ? styles["source-mono-icon"] : ""}`}
                     >
                       {s.logo ? (
                         <img
@@ -171,12 +172,12 @@ export const SourcesModal = ({ open, onClose }: SourcesModalProps) => {
                         s.mono
                       )}
                     </div>
-                    <div className="source-meta">
-                      <div className="source-name">{s.name}</div>
-                      <div className="source-desc">{s.desc}</div>
+                    <div className={styles["source-meta"]}>
+                      <div className={styles["source-name"]}>{s.name}</div>
+                      <div className={styles["source-desc"]}>{s.desc}</div>
                     </div>
-                    <div className="source-status" title="Listening">
-                      <span className="status-dot" />
+                    <div className={styles["source-status"]} title="Listening">
+                      <span className={styles["status-dot"]} />
                     </div>
                   </div>
                 )
@@ -186,7 +187,7 @@ export const SourcesModal = ({ open, onClose }: SourcesModalProps) => {
         ))}
       </div>
 
-      <div className="sources-foot" style={{ display: "none" }}>
+      <div className={styles["sources-foot"]} style={{ display: "none" }}>
         <span className="mono muted" style={{ fontSize: 11 }}>
           Need a custom feed?{" "}
           <button

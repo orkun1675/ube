@@ -7,6 +7,7 @@ import {
   CheckIcon,
   GitHubLogo,
 } from "../../lib/assets"
+import styles from "./fix.module.css"
 
 export const FixMockup = () => (
   <div className="mockup-chrome" style={{ width: "100%" }}>
@@ -40,12 +41,12 @@ export const FixMockup = () => (
 
     {/* Two panes with a slight diagonal seam between them */}
     <div
-      className="fix-stage"
+      className={styles["fix-stage"]}
       style={{ position: "relative", height: 360, overflow: "hidden" }}
     >
       {/* Pane 1: Emulator */}
       <div
-        className="fix-pane fix-pane-1"
+        className={styles["fix-pane-1"]}
         style={{
           position: "absolute",
           left: 0,
@@ -307,7 +308,7 @@ export const FixMockup = () => (
 
       {/* Pane 2: Actions / verified checks — mirrors the hero check list */}
       <div
-        className="fix-pane fix-pane-2"
+        className={styles["fix-pane-2"]}
         style={{
           position: "absolute",
           left: "calc(42% - 28px)",

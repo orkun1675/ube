@@ -72,8 +72,16 @@ const cards: Card[] = [
   .problems-headline-accent {
     color: var(--accent-2);
   }
+  /* Problems uses exactly 3 cards — going 3→2 leaves an orphan in row 2.
+     Jump straight from 3 cols → 1 col so the cards stay balanced. */
   .problems-grid {
+    grid-template-columns: repeat(3, 1fr);
     margin-top: 56px;
+  }
+  @media (max-width: 1024px) {
+    .problems-grid {
+      grid-template-columns: 1fr;
+    }
   }
   .problems-card {
     padding: 28px;

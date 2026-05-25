@@ -1,0 +1,20 @@
+/* --- Triage kanban --------------------------------------------------- */
+/* 4 cols → 2 cols on tablet, horizontal scroll on phone so cards stay
+   wide enough to read. */
+@media (max-width: 1024px) {
+  .triage-cols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .triage-cols {
+    grid-template-columns: repeat(4, minmax(180px, 1fr));
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .triage-cols > * {
+    scroll-snap-align: start;
+    min-height: 200px;
+  }
+}

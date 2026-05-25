@@ -2,6 +2,7 @@
 //  STEP 2: Triage — Kanban board grouped by state
 // =====================================================================
 import { LinkIcon, ListIcon } from "../../lib/assets"
+import styles from "./triage.module.css"
 
 type TriageCard = {
   sig: string
@@ -109,7 +110,7 @@ export const TriageMockup = () => {
         </span>
       </div>
       <div
-        className="triage-cols"
+        className={styles["triage-cols"]}
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(4, 1fr)",

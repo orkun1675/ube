@@ -1,0 +1,73 @@
+/* FAQ */
+.faq-item {
+  border-top: 1px solid var(--hairline);
+  padding: 24px 0;
+}
+.faq-item:last-child {
+  border-bottom: 1px solid var(--hairline);
+}
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+  width: 100%;
+  text-align: left;
+  padding: 0;
+}
+/* The question text is wrapped in <h3> for crawler / AI heading hierarchy.
+   We inherit every font property from the button so the visual treatment
+   stays identical to the pre-h3 <span>. */
+.faq-question-text {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
+.faq-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--r-pill);
+  color: var(--muted);
+  transition:
+    transform 320ms cubic-bezier(0.4, 0, 0.2, 1),
+    color 320ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.faq-item.open .faq-icon {
+  transform: rotate(45deg);
+  color: var(--ink);
+}
+.faq-answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition:
+    grid-template-rows 320ms cubic-bezier(0.4, 0, 0.2, 1),
+    padding-top 320ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 240ms cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--body);
+  font-size: 16px;
+  line-height: 1.65;
+  padding-top: 0;
+  opacity: 0;
+}
+.faq-answer > .faq-answer-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+.faq-item.open .faq-answer {
+  grid-template-rows: 1fr;
+  padding-top: 14px;
+  opacity: 1;
+}

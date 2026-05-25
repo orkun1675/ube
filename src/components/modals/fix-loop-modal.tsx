@@ -2,6 +2,7 @@
 //  Fix Loop Modal — sealed sandbox where two agents review each other
 // =====================================================================
 import { Modal } from "../../lib/modal"
+import styles from "./fix-loop-modal.module.css"
 
 type FixLoopModalProps = { open: boolean; onClose: () => void }
 
@@ -10,11 +11,11 @@ export const FixLoopModal = ({ open, onClose }: FixLoopModalProps) => {
     <Modal
       open={open}
       onClose={onClose}
-      className="modal-backdrop fl-modal-backdrop"
-      panelClassName="modal-panel fl-panel"
+      className="modal-backdrop"
+      panelClassName={`modal-panel ${styles["fl-panel"]}`}
       labelledBy="fl-title"
     >
-      <div className="fl-header">
+      <div className={styles["fl-header"]}>
         <div className="eyebrow" style={{ marginBottom: 10 }}>
           INSIDE THE FIX LOOP
         </div>
@@ -31,73 +32,81 @@ export const FixLoopModal = ({ open, onClose }: FixLoopModalProps) => {
       </div>
 
       {/* ───── Sandbox container ───── */}
-      <div className="fl-sandbox">
-        <div className="fl-sandbox-chrome">
-          <span className="fl-chrome-tag mono">
+      <div className={styles["fl-sandbox"]}>
+        <div className={styles["fl-sandbox-chrome"]}>
+          <span className={`${styles["fl-chrome-tag"]} mono`}>
             <img
               src="assets/integrations/docker.svg"
               alt=""
-              className="fl-chrome-logo"
+              className={styles["fl-chrome-logo"]}
             />{" "}
             DOCKER SANDBOX
           </span>
-          <span className="fl-chrome-image mono">ube/fix-loop:1.4.2</span>
+          <span className={`${styles["fl-chrome-image"]} mono`}>
+            ube/fix-loop:1.4.2
+          </span>
         </div>
 
-        <div className="fl-arena" aria-hidden="true">
+        <div className={styles["fl-arena"]} aria-hidden="true">
           {/* Generator */}
-          <div className="fl-agent fl-agent-gen">
+          <div className={styles["fl-agent"]}>
             <img
               src="assets/integrations/claude-code.svg"
               alt=""
-              className="fl-agent-logo"
+              className={styles["fl-agent-logo"]}
             />
-            <div className="fl-agent-role mono">GENERATOR</div>
-            <div className="fl-agent-name">Claude Code</div>
-            <div className="fl-agent-act mono">
-              writes the patch<span className="fl-cursor">▍</span>
+            <div className={`${styles["fl-agent-role"]} mono`}>GENERATOR</div>
+            <div className={styles["fl-agent-name"]}>Claude Code</div>
+            <div className={`${styles["fl-agent-act"]} mono`}>
+              writes the patch<span className={styles["fl-cursor"]}>▍</span>
             </div>
           </div>
 
           {/* Duel pipe */}
-          <div className="fl-duel">
-            <div className="fl-duel-rail" />
-            <div className="fl-tok fl-tok-patch mono">+patch</div>
-            <div className="fl-tok fl-tok-nit mono">nit ✕</div>
+          <div className={styles["fl-duel"]}>
+            <div className={styles["fl-duel-rail"]} />
+            <div
+              className={`${styles["fl-tok"]} ${styles["fl-tok-patch"]} mono`}
+            >
+              +patch
+            </div>
+            <div className={`${styles["fl-tok"]} ${styles["fl-tok-nit"]} mono`}>
+              nit ✕
+            </div>
           </div>
 
           {/* Reviewer */}
-          <div className="fl-agent fl-agent-rev">
+          <div className={`${styles["fl-agent"]} ${styles["fl-agent-rev"]}`}>
             <img
               src="assets/integrations/codex.svg"
               alt=""
-              className="fl-agent-logo"
+              className={styles["fl-agent-logo"]}
             />
-            <div className="fl-agent-role mono">REVIEWER</div>
-            <div className="fl-agent-name">Codex</div>
-            <div className="fl-agent-act mono">
-              reviews it<span className="fl-cursor">▍</span>
+            <div className={`${styles["fl-agent-role"]} mono`}>REVIEWER</div>
+            <div className={styles["fl-agent-name"]}>Codex</div>
+            <div className={`${styles["fl-agent-act"]} mono`}>
+              reviews it<span className={styles["fl-cursor"]}>▍</span>
             </div>
           </div>
         </div>
 
-        <div className="fl-sandbox-foot mono">
+        <div className={`${styles["fl-sandbox-foot"]} mono`}>
           <span>adversarial · agents loop until they agree</span>
         </div>
       </div>
 
       {/* ───── Curated I/O ───── */}
-      <div className="fl-rails">
-        <div className="fl-rail" style={{ animationDelay: "60ms" }}>
-          <div className="fl-rail-head">
-            <span className="fl-rail-name">ADB</span>
+      <div className={styles["fl-rails"]}>
+        <div className={styles["fl-rail"]} style={{ animationDelay: "60ms" }}>
+          <div className={styles["fl-rail-head"]}>
+            <span className={styles["fl-rail-name"]}>ADB</span>
           </div>
-          <div className="fl-phone">
-            <div className="fl-phone-screen">
-              <div className="fl-phone-pixels" />
-              <div className="fl-phone-bug" />
+          <div className={styles["fl-phone"]}>
+            <div className={styles["fl-phone-screen"]}>
+              <div className={styles["fl-phone-pixels"]} />
+              <div className={styles["fl-phone-bug"]} />
             </div>
-            <div className="fl-phone-tree">
+            <div className={styles["fl-phone-tree"]}>
               <span className="mono">View</span>
               <span className="mono"> ├ Header</span>
               <span className="mono">
@@ -107,18 +116,18 @@ export const FixLoopModal = ({ open, onClose }: FixLoopModalProps) => {
               <span className="mono"> └ CTA</span>
             </div>
           </div>
-          <div className="fl-rail-cap mono">
+          <div className={`${styles["fl-rail-cap"]} mono`}>
             <em>eyes</em> and <em>hands</em>
           </div>
         </div>
 
-        <div className="fl-rail" style={{ animationDelay: "180ms" }}>
-          <div className="fl-rail-head">
-            <span className="fl-rail-name">Mock backend</span>
+        <div className={styles["fl-rail"]} style={{ animationDelay: "180ms" }}>
+          <div className={styles["fl-rail-head"]}>
+            <span className={styles["fl-rail-name"]}>Mock backend</span>
           </div>
-          <div className="fl-mock">
+          <div className={styles["fl-mock"]}>
             <svg
-              className="fl-mock-db"
+              className={styles["fl-mock-db"]}
               viewBox="0 0 64 64"
               width="60"
               height="60"
@@ -179,7 +188,7 @@ export const FixLoopModal = ({ open, onClose }: FixLoopModalProps) => {
               />
               {/* band dividers — only the visible front arc, classic DB look */}
               <path
-                className="fl-mock-band"
+                className={styles["fl-mock-band"]}
                 d="M 8 25.3 A 24 6 0 0 0 56 25.3"
                 fill="none"
                 stroke="var(--accent)"
@@ -187,7 +196,7 @@ export const FixLoopModal = ({ open, onClose }: FixLoopModalProps) => {
                 opacity="0.7"
               />
               <path
-                className="fl-mock-band"
+                className={styles["fl-mock-band"]}
                 d="M 8 38.7 A 24 6 0 0 0 56 38.7"
                 fill="none"
                 stroke="var(--accent)"
@@ -196,37 +205,51 @@ export const FixLoopModal = ({ open, onClose }: FixLoopModalProps) => {
               />
               {/* write pulse — dot that drops into the top */}
               <circle
-                className="fl-mock-write"
+                className={styles["fl-mock-write"]}
                 cx="32"
                 cy="6"
                 r="2.2"
                 fill="var(--accent)"
               />
             </svg>
-            <div className="fl-mock-flow">
-              <span className="fl-mock-pkt mono">GET /orders</span>
-              <span className="fl-mock-pkt mono">→ 200</span>
+            <div className={styles["fl-mock-flow"]}>
+              <span className={`${styles["fl-mock-pkt"]} mono`}>
+                GET /orders
+              </span>
+              <span className={`${styles["fl-mock-pkt"]} mono`}>→ 200</span>
             </div>
           </div>
-          <div className="fl-rail-cap mono">stand up local DB</div>
+          <div className={`${styles["fl-rail-cap"]} mono`}>
+            stand up local DB
+          </div>
         </div>
 
-        <div className="fl-rail" style={{ animationDelay: "300ms" }}>
-          <div className="fl-rail-head">
-            <span className="fl-rail-name">OneCLI Agent Vault</span>
+        <div className={styles["fl-rail"]} style={{ animationDelay: "300ms" }}>
+          <div className={styles["fl-rail-head"]}>
+            <span className={styles["fl-rail-name"]}>OneCLI Agent Vault</span>
           </div>
-          <div className="fl-vault">
-            <div className="fl-vault-key">
-              <span className="fl-vault-label mono">STRIPE_SK</span>
-              <span className="fl-vault-mask mono">●●●●●●●●●●●●</span>
+          <div className={styles["fl-vault"]}>
+            <div className={styles["fl-vault-key"]}>
+              <span className={`${styles["fl-vault-label"]} mono`}>
+                STRIPE_SK
+              </span>
+              <span className={`${styles["fl-vault-mask"]} mono`}>
+                ●●●●●●●●●●●●
+              </span>
             </div>
-            <div className="fl-vault-key">
-              <span className="fl-vault-label mono">OPENAI_KEY</span>
-              <span className="fl-vault-mask mono">●●●●●●●●●●●●</span>
+            <div className={styles["fl-vault-key"]}>
+              <span className={`${styles["fl-vault-label"]} mono`}>
+                OPENAI_KEY
+              </span>
+              <span className={`${styles["fl-vault-mask"]} mono`}>
+                ●●●●●●●●●●●●
+              </span>
             </div>
-            <div className="fl-vault-shield" aria-hidden="true" />
+            <div className={styles["fl-vault-shield"]} aria-hidden="true" />
           </div>
-          <div className="fl-rail-cap mono">agent cannot see private keys</div>
+          <div className={`${styles["fl-rail-cap"]} mono`}>
+            agent cannot see private keys
+          </div>
         </div>
       </div>
     </Modal>

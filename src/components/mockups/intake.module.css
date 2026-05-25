@@ -1,0 +1,21 @@
+/* --- Intake mockup --------------------------------------------------- */
+/* Long rows with logo + title + badge + time + captured pill don't fit
+   on a phone. Stack vertically. */
+@media (max-width: 640px) {
+  .intake-row {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 14px 16px;
+  }
+  .intake-row > :nth-child(1) {
+    width: 28px;
+    height: 28px;
+  }
+  .intake-row > :nth-child(2) {
+    flex-basis: calc(100% - 44px);
+  }
+  /* Pull the badge / time / captured pill onto a second row */
+  .intake-row > :nth-child(n + 3) {
+    font-size: 9.5px;
+  }
+}

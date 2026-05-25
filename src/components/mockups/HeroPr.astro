@@ -388,3 +388,31 @@ const checks: Check[] = [
     </div>
   </div>
 </div>
+
+<style>
+  /* On tablet/phone the hero stacks vertically, so the floating Crashlytics
+     card needs to pull back inside the artboard instead of overhanging.
+     Breakpoint matches the hero-grid stack at 1100px so the float never
+     gets clipped against a narrow right column between 900–1023. */
+  @media (max-width: 1100px) {
+    .hero-pr-composite {
+      margin-left: 0;
+      margin-right: 0;
+      max-width: 100%;
+    }
+    .hero-pr-composite .hero-pr-float {
+      right: 0;
+      bottom: -24px;
+    }
+  }
+  @media (max-width: 760px) {
+    .hero-pr-composite .hero-pr-float {
+      position: relative;
+      right: auto;
+      bottom: auto;
+      width: 100%;
+      margin-top: 14px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    }
+  }
+</style>

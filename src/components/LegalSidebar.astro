@@ -29,3 +29,40 @@ const { active } = Astro.props
     </a>
   </nav>
 </aside>
+
+<style>
+  .legal-sidebar {
+    position: sticky;
+    top: 96px;
+  }
+  .legal-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .legal-nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 450;
+    transition: color 120ms ease-out;
+  }
+  .legal-nav a:hover {
+    color: var(--body);
+  }
+  .legal-nav a.active {
+    color: var(--ink);
+  }
+  @media (max-width: 900px) {
+    .legal-sidebar {
+      position: static;
+      top: auto;
+    }
+    .legal-nav {
+      flex-direction: row;
+      gap: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--hairline-soft);
+    }
+  }
+</style>

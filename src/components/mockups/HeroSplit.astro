@@ -106,3 +106,21 @@ import { CheckIcon, CrashlyticsLogo, GitHubLogo } from "../../lib/assets"
     </div>
   </div>
 </div>
+
+<style>
+  /* On tablet/phone the hero stacks vertically, so let both cards fill the
+     available width (drop the inline maxWidth + marginLeft auto). */
+  @media (max-width: 1100px) {
+    .hero-split-grid {
+      margin-left: 0;
+      max-width: 100%;
+    }
+  }
+  @media (max-width: 760px) {
+    .hero-split-grid {
+      grid-template-columns: 1fr;
+      margin-left: 0;
+      max-width: 100%;
+    }
+  }
+</style>

@@ -100,6 +100,32 @@ const heroCopy = TWEAK_DEFAULTS.heroCopy
 </section>
 
 <style>
+  .hero {
+    position: relative;
+    padding: 120px 0 136px;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+      rgba(255, 255, 255, 0.16) 1px,
+      transparent 1px
+    );
+    background-size: 32px 32px;
+    opacity: 0.55;
+    mask-image: radial-gradient(
+      ellipse 80% 60% at 50% 30%,
+      rgba(0, 0, 0, 1) 0%,
+      transparent 70%
+    );
+    -webkit-mask-image: radial-gradient(
+      ellipse 80% 60% at 50% 30%,
+      rgba(0, 0, 0, 1) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
   .hero-container {
     position: relative;
     z-index: 1;
@@ -109,6 +135,12 @@ const heroCopy = TWEAK_DEFAULTS.heroCopy
     grid-template-columns: 1.1fr 1fr;
     gap: 60px;
     align-items: center;
+  }
+  /* Grid children default to min-width:auto, which lets fixed-width inner
+     content push the column wider than the parent. Force min-width:0 so
+     1fr means "fit the container". */
+  .hero-grid > * {
+    min-width: 0;
   }
   .hero-eyebrow {
     margin-bottom: 28px;
@@ -131,7 +163,19 @@ const heroCopy = TWEAK_DEFAULTS.heroCopy
     margin-top: 36px;
     flex-wrap: wrap;
   }
+
+  /* "Built for" platform row — balance wrapping so we never orphan a single
+     chip on its own line. Treat the row as inline text (block container with
+     `text-wrap: balance`) and make each chip an inline-flex atom that can't
+     break internally. The browser then distributes chips across lines to
+     minimize ragged line lengths — same algorithm it uses for headings. */
   .hero-builtfor {
+    display: block;
+    text-wrap: balance;
+    text-wrap-style: balance;
+    line-height: 1;
+    --bf-row-gap: 12px;
+    padding-block: 2px;
     margin-top: 36px;
     color: var(--muted);
     font-family: var(--font-mono);
@@ -139,13 +183,58 @@ const heroCopy = TWEAK_DEFAULTS.heroCopy
     letter-spacing: 0.6px;
     text-transform: uppercase;
   }
+  .hero-builtfor > .hero-builtfor__label,
+  .hero-builtfor > .hero-builtfor__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 16px;
+    margin-block: calc(var(--bf-row-gap) / 2);
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+  .hero-builtfor > :last-child {
+    margin-right: 0;
+  }
+
   .hero-mockup-col {
     animation-delay: 120ms;
   }
+
+  /* The mockup chrome inside hero needs to go full-width on tablet/phone
+     when the grid stacks. `.mockup-chrome` is a global primitive — wrap in
+     :global() so Astro doesn't try to scope its selector. */
   @media (max-width: 1100px) {
     .hero-grid {
       grid-template-columns: 1fr;
       gap: 56px;
+    }
+    .hero :global(.mockup-chrome) {
+      margin-left: 0;
+      max-width: 100%;
+    }
+  }
+  @media (max-width: 1024px) {
+    .hero {
+      padding: 96px 0 96px;
+    }
+  }
+  @media (max-width: 640px) {
+    .hero {
+      padding: 72px 0 80px;
+    }
+    .hero-builtfor {
+      font-size: 10.5px;
+      --bf-row-gap: 10px;
+    }
+    .hero-builtfor > .hero-builtfor__label,
+    .hero-builtfor > .hero-builtfor__chip {
+      margin-right: 12px;
+    }
+  }
+  @media (max-width: 480px) {
+    .hero h1 br {
+      display: none;
     }
   }
 </style>

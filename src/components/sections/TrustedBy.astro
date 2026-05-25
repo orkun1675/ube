@@ -56,8 +56,7 @@ const sequence: TrustedApp[] = [...half, ...half]
 
 <style>
   /* Lift the label row and marquee above the absolutely-positioned grid
-     backdrop (`.trusted-band-grid`). Kept here rather than in styles.css
-     because these are positioning concerns local to this component. */
+     backdrop (`.trusted-band-grid`). */
   .trusted-label-row {
     position: relative;
     z-index: 1;
@@ -65,5 +64,173 @@ const sequence: TrustedApp[] = [...half, ...half]
   .trusted-marquee-layered {
     position: relative;
     z-index: 1;
+  }
+
+  /* Trusted-in-production marquee (expo.dev-style social proof row) */
+  .trusted-band {
+    position: relative;
+    padding: 80px 0 104px;
+    background: var(--canvas-soft);
+    border-top: 1px solid var(--hairline-soft);
+    border-bottom: 1px solid var(--hairline-soft);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .trusted-band-grid {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+      rgba(255, 255, 255, 0.28) 1.2px,
+      transparent 1.6px
+    );
+    background-size: 22px 22px;
+    background-position: 0 0;
+    opacity: 1;
+    pointer-events: none;
+    z-index: 0;
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 18%,
+      #000 82%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 18%,
+      #000 82%,
+      transparent 100%
+    );
+  }
+  .trusted-label {
+    display: inline-block;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    margin: 0 0 44px 0;
+    padding: 8px 18px;
+    background: var(--canvas-soft);
+    border-radius: var(--r-sm, 6px);
+    position: relative;
+    z-index: 2;
+  }
+  .trusted-band :global(.container):has(> .trusted-label) {
+    text-align: center;
+  }
+  .trusted-marquee {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    /* aggressive edge fade — icons fully disappear well before the screen edge */
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 12%,
+      #000 17%,
+      #000 83%,
+      transparent 88%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 12%,
+      #000 17%,
+      #000 83%,
+      transparent 88%
+    );
+  }
+  .trusted-track {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    width: max-content;
+    animation: trusted-scroll 54s linear infinite;
+    will-change: transform;
+  }
+  @keyframes trusted-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .trusted-icon {
+    width: 88px;
+    height: 88px;
+    flex-shrink: 0;
+    border-radius: 22px; /* iOS-app-icon squircle approximation */
+    background: var(--surface-card);
+    border: 1px solid var(--hairline);
+    overflow: hidden;
+    position: relative;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.04) inset,
+      0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+  .trusted-icon img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+  .trusted-icon::after {
+    /* subtle inner ring like iOS app icons */
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  }
+  @media (max-width: 768px) {
+    .trusted-band {
+      padding: 64px 0 80px;
+    }
+    .trusted-marquee {
+      -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        #000 5%,
+        #000 95%,
+        transparent 100%
+      );
+      mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        #000 5%,
+        #000 95%,
+        transparent 100%
+      );
+    }
+    .trusted-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+    }
+    .trusted-track {
+      gap: 20px;
+      animation-duration: 42s;
+    }
+    .trusted-band-grid {
+      background-size: 20px 20px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .trusted-track {
+      animation: none;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+  }
+  @media (max-width: 640px) {
+    .trusted-label {
+      font-size: 10px;
+      padding: 6px 14px;
+      margin-bottom: 28px;
+    }
   }
 </style>

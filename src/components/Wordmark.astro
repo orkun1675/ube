@@ -51,6 +51,88 @@ const sizeVar = `--wm-size: ${size}px`
 
 <style>
   .wordmark {
+    font-family: var(--font-sans);
     font-size: var(--wm-size);
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    display: inline-flex;
+    align-items: baseline;
+    position: relative;
+    line-height: 1;
+    padding-top: 6px;
+  }
+
+  /* Umlaut — two accent dots over the u */
+  .wordmark-umlaut .wm-u-wrap {
+    position: relative;
+    display: inline-block;
+  }
+  .wm-umlaut {
+    position: absolute;
+    top: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 3px;
+    pointer-events: none;
+  }
+  .wm-umlaut > i {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: block;
+  }
+
+  /* Cursor — blinking accent bar after the word */
+  .wordmark-cursor {
+    align-items: center;
+    gap: 4px;
+  }
+  .wordmark-cursor .wm-word {
+    display: inline-block;
+  }
+  .wm-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 0.78em;
+    background: var(--accent);
+    border-radius: 1px;
+    transform: translateY(0.04em);
+    animation: wm-blink 1.05s steps(2, jump-none) infinite;
+  }
+  @keyframes wm-blink {
+    0%,
+    49% {
+      opacity: 1;
+    }
+    50%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* Brackets — accent square brackets flanking the word */
+  .wordmark-bracket {
+    align-items: center;
+    gap: 3px;
+    padding-top: 6px;
+  }
+  .wordmark-bracket .wm-word {
+    display: inline-block;
+  }
+  .wm-bracket {
+    display: inline-block;
+    width: 5px;
+    height: 0.88em;
+    border: 2.5px solid var(--accent);
+    transform: translateY(0.02em);
+  }
+  .wm-bracket-l {
+    border-right: none;
+  }
+  .wm-bracket-r {
+    border-left: none;
   }
 </style>

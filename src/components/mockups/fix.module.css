@@ -1,0 +1,27 @@
+/* --- Fix mockup ------------------------------------------------------ */
+/* Two panes with a slight diagonal seam — stack vertically on tablet/phone
+   and drop the clip-path diagonal. */
+@media (max-width: 1024px) {
+  .fix-stage {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .fix-pane-1,
+  .fix-pane-2 {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    clip-path: none;
+    padding: 22px;
+  }
+  .fix-pane-2 {
+    border-top: 1px solid var(--hairline);
+  }
+}
+@media (max-width: 640px) {
+  .fix-pane-1,
+  .fix-pane-2 {
+    padding: 18px;
+  }
+}

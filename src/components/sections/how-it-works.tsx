@@ -102,21 +102,6 @@ const Step = ({
         {visual}
       </div>
     )}
-
-    {/* `dangerouslySetInnerHTML` avoids React encoding `>` selectors and
-        triggering an SSR/CSR hydration mismatch. */}
-    <style
-      // biome-ignore lint/security/noDangerouslySetInnerHtml: see comment above
-      dangerouslySetInnerHTML={{
-        __html: `
-      @media (max-width: 1024px) {
-        .card-band { grid-template-columns: 1fr !important; gap: 32px !important; }
-        .step-visual { order: 2; }
-        .step-copy { order: 1; }
-      }
-    `,
-      }}
-    />
   </div>
 )
 
