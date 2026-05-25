@@ -14,6 +14,9 @@ Other Claude Code sessions may be running in this repo in parallel.
 - **Prod build:** `npm run build` → Astro emits one HTML file per route into `dist/`, plus `sitemap-index.xml`. GitHub Actions deploys `dist/` to Pages on push to `main`.
 - **Prod preview locally:** `npm run preview` serves `dist/`.
 
+## Verifying changes
+After modifying any code, run `npm run check` before considering work complete. This runs Biome (lint/format) and `astro check` (TypeScript across `.astro` and `.tsx`) in one pass. Both must exit 0. If either fails, fix the underlying issue — do not skip or weaken the rules to make the check pass.
+
 ## File layout
 Astro + React islands; one big `<PageApp client:load />` per route for now (slice 0001 baseline; later slices peel sections into native `.astro` components).
 

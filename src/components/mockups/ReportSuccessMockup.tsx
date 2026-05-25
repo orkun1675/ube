@@ -7,7 +7,7 @@ import {
   CheckIcon,
   GitHubLogo,
   MailIcon,
-} from "../../lib/assets"
+} from "@/lib/assets"
 
 export const ReportSuccessMockup = () => {
   const events = [

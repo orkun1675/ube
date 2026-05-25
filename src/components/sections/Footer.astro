@@ -5,10 +5,10 @@
 //
 // Wordmark is now an `.astro` component (slice 0004) — same DOM as before,
 // just hoisted out of `sections/` and consumed natively here.
-import Wordmark from "../Wordmark.astro"
-import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL } from "../../constants"
-import { TWEAK_DEFAULTS } from "../../data/tweak-defaults"
-import { GitHubLogo, LinkedInLogo, MailIcon } from "../../lib/assets"
+import Wordmark from "@/components/Wordmark.astro"
+import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/constants"
+import { TWEAK_DEFAULTS } from "@/data/tweak-defaults"
+import { GitHubLogo, LinkedInLogo, MailIcon } from "@/lib/assets"
 
 const wordmarkAccent = TWEAK_DEFAULTS.wordmarkAccent
 ---

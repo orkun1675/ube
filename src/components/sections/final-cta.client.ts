@@ -2,7 +2,7 @@
 // old `FinalCTA` island: a single vanilla click handler that routes into the
 // shared nano store via `openRequestAccess('final_cta')` — preserving the
 // analytics source label fired by `request_access_modal_opened`.
-import { openRequestAccess } from "../../stores/request-access"
+import { openRequestAccess } from "@/stores/request-access"
 
 const ctaButtons =
   document.querySelectorAll<HTMLButtonElement>("[data-final-cta]")

@@ -9,7 +9,7 @@ import {
   PlayLogo,
   ReactLogo,
   SentryLogo,
-} from "../../lib/assets"
+} from "@/lib/assets"
 import styles from "./intake.module.css"
 
 export const IntakeMockup = () => {

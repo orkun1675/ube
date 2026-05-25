@@ -22,11 +22,10 @@ export default defineConfig({
   site: "https://ube.dev",
   output: "static",
   trailingSlash: "always",
-  prefetch: true,
   build: {
     format: "directory",
   },
-  integrations: [react(), sitemap()],
+  integrations: [react(), sitemap({ lastmod: new Date() })],
   vite: {
     plugins: [tweaksWritebackPlugin()],
   },

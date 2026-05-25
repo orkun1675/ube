@@ -14,7 +14,7 @@
 // Layout-specific styling lives in the scoped <style> block at the bottom
 // of this file (Astro auto-scopes per-component, so class names like
 // `.hero-eyebrow` won't leak).
-import { TWEAK_DEFAULTS } from "../../data/tweak-defaults"
+import { TWEAK_DEFAULTS } from "@/data/tweak-defaults"
 import {
   AndroidLogo,
   AppleLogo,
@@ -22,10 +22,10 @@ import {
   ExpoLogo,
   FlutterLogo,
   ReactLogo,
-} from "../../lib/assets"
-import HeroMinimal from "../mockups/HeroMinimal.astro"
-import HeroPr from "../mockups/HeroPr.astro"
-import HeroSplit from "../mockups/HeroSplit.astro"
+} from "@/lib/assets"
+import HeroMinimal from "@/components/mockups/HeroMinimal.astro"
+import HeroPr from "@/components/mockups/HeroPr.astro"
+import HeroSplit from "@/components/mockups/HeroSplit.astro"
 
 const heroVariant = TWEAK_DEFAULTS.heroVariant
 const heroCopy = TWEAK_DEFAULTS.heroCopy

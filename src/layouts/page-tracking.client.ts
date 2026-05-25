@@ -10,7 +10,7 @@
 import {
   initEngagementTracking,
   initScrollDepthTracking,
-} from "../lib/analytics"
+} from "@/lib/analytics"
 
 initEngagementTracking()
 initScrollDepthTracking()

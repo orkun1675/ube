@@ -10,7 +10,7 @@
 // call sites can never forget to track it.
 import { atom } from "nanostores"
 
-import { track } from "../lib/analytics"
+import { track } from "@/lib/analytics"
 
 export type ModalSource = "nav" | "hero" | "final_cta"
 

@@ -25,8 +25,8 @@ import {
   type HeroVariant,
   TWEAK_DEFAULTS,
   type WordmarkAccent,
-} from "../data/tweak-defaults"
-import { CARD_TONES, getUbe } from "../lib/palette"
+} from "@/data/tweak-defaults"
+import { CARD_TONES, getUbe } from "@/lib/palette"
 import { UbeHuePicker } from "./tweaks-config"
 import {
   TweakRadio,

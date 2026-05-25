@@ -2,17 +2,16 @@
 //  How It Works
 // =====================================================================
 import React from "react"
-
-import { track } from "../../lib/analytics"
-import { ArrowRight } from "../../lib/assets"
-import { FixMockup } from "../mockups/fix"
-import { IntakeMockup } from "../mockups/intake"
-import { ReportFailureMockup } from "../mockups/report-failure"
-import { ReportSuccessMockup } from "../mockups/report-success"
-import { TriageMockup } from "../mockups/triage"
-import { DedupeModal } from "../modals/dedupe-modal"
-import { FixLoopModal } from "../modals/fix-loop-modal"
-import { SourcesModal } from "../modals/sources-modal"
+import { FixMockup } from "@/components/mockups/FixMockup"
+import { IntakeMockup } from "@/components/mockups/IntakeMockup"
+import { ReportFailureMockup } from "@/components/mockups/ReportFailureMockup"
+import { ReportSuccessMockup } from "@/components/mockups/ReportSuccessMockup"
+import { TriageMockup } from "@/components/mockups/TriageMockup"
+import { DedupeModal } from "@/components/modals/DedupeModal"
+import { FixLoopModal } from "@/components/modals/FixLoopModal"
+import { SourcesModal } from "@/components/modals/SourcesModal"
+import { track } from "@/lib/analytics"
+import { ArrowRight } from "@/lib/assets"
 
 type StepProps = {
   num: string

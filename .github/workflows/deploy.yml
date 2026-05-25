@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint & format check (Biome)
+      - name: Lint, format & type check
         run: npm run check
 
       - name: Build (Astro static SSG)

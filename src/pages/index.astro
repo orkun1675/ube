@@ -17,23 +17,22 @@
 //   * The CSS-variable defaults the tweaks panel mutates at runtime are
 //     baked into the inline `<style>` block below at build time, so prod
 //     gets the chosen accent / cardTone / accentStrategy without any JS.
-import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL } from "../constants"
-import { TWEAK_DEFAULTS } from "../data/tweak-defaults"
-import { FAQ } from "../components/sections/faq"
-import FinalCta from "../components/sections/FinalCta.astro"
-import Hero from "../components/sections/Hero.astro"
-import { HowItWorks } from "../components/sections/how-it-works"
-import Benefits from "../components/sections/Benefits.astro"
-import Problems from "../components/sections/Problems.astro"
-import TrustedBy from "../components/sections/TrustedBy.astro"
-import { CARD_TONES, getUbe } from "../lib/palette"
-import { FAQ_ITEMS } from "../data/faq-items"
-import BaseLayout from "../layouts/BaseLayout.astro"
+import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/constants"
+import { TWEAK_DEFAULTS } from "@/data/tweak-defaults"
+import { FAQ } from "@/components/sections/FAQ"
+import FinalCta from "@/components/sections/FinalCta.astro"
+import Hero from "@/components/sections/Hero.astro"
+import { HowItWorks } from "@/components/sections/HowItWorks"
+import Benefits from "@/components/sections/Benefits.astro"
+import Problems from "@/components/sections/Problems.astro"
+import TrustedBy from "@/components/sections/TrustedBy.astro"
+import { CARD_TONES, getUbe } from "@/lib/palette"
+import { FAQ_ITEMS } from "@/data/faq-items"
+import BaseLayout from "@/layouts/BaseLayout.astro"
 
 const title = "Ube — An agent that maintains your app"
 const description =
   "Ube listens to crash feeds, error dashboards, app reviews, and dependency releases — then triages, reproduces, and opens verified PRs against your repo."
-const canonical = "https://ube.dev/"
 
 // Bake the TWEAK_DEFAULTS-derived CSS variables into a `:root` style block
 // via Astro's native `define:vars` API (Astro's first-class way to inject
@@ -62,8 +61,8 @@ const jsonLd = [
     "@type": "Organization",
     name: "Ube",
     legalName: "Chunky Tofu Studios, LLC",
-    url: "https://ube.dev/",
-    logo: "https://ube.dev/assets/favicons/logo-512.png",
+    url: new URL("/", Astro.site).href,
+    logo: new URL("/assets/favicons/logo-512.png", Astro.site).href,
     description:
       "Ube is an AI agent that maintains mobile and cross-platform apps — triaging crash reports, user feedback, and dependency upgrades, then opening verified pull requests against your repo.",
     founder: {
@@ -82,7 +81,7 @@ const jsonLd = [
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: "Ube Maintainer",
-    url: "https://ube.dev/",
+    url: new URL("/", Astro.site).href,
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
     description:
@@ -95,7 +94,7 @@ const jsonLd = [
       "Closes the loop with the original reporter after release",
       "Escalates upstream with detailed reproduction reports",
     ],
-    screenshot: "https://ube.dev/assets/social/og-image.jpg",
+    screenshot: new URL("/assets/social/og-image.jpg", Astro.site).href,
     offers: {
       "@type": "Offer",
       price: "0",
@@ -105,7 +104,7 @@ const jsonLd = [
     creator: {
       "@type": "Organization",
       name: "Chunky Tofu Studios, LLC",
-      url: "https://ube.dev/",
+      url: new URL("/", Astro.site).href,
     },
   },
   {
@@ -123,7 +122,6 @@ const jsonLd = [
 <BaseLayout
   title={title}
   description={description}
-  canonical={canonical}
   jsonLd={jsonLd}
   accentMode={accentMode}
 >

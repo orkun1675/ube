@@ -1,6 +1,6 @@
 // Ube — Tweaks-only UI: the UbeHuePicker swatch grid and its CSS. Dev-only.
 // Mounted only when `import.meta.env.DEV` is true (see PageApp).
-import { getUbe, UBE_HUES } from "../lib/palette"
+import { getUbe, UBE_HUES } from "@/lib/palette"
 import { TweakRow } from "./tweaks-panel"
 
 const UBE_HUE_CSS = `

@@ -1,7 +1,7 @@
 // =====================================================================
 //  STEP 5: Report (failure) — internal issue + upstream link
 // =====================================================================
-import { ExpoLogo, GitHubLogo, LinkIcon } from "../../lib/assets"
+import { ExpoLogo, GitHubLogo, LinkIcon } from "@/lib/assets"
 
 // Mimics a GitHub "Open" state dot + label
 const GhOpenBadge = ({

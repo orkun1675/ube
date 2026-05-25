@@ -7,8 +7,8 @@ import { useStore } from "@nanostores/react"
 import {
   closeRequestAccess,
   isRequestAccessOpen,
-} from "../../stores/request-access"
-import { RequestAccessModal } from "./request-access-modal"
+} from "@/stores/request-access"
+import { RequestAccessModal } from "./RequestAccessModal"
 
 export const RequestAccessIsland = () => {
   const open = useStore(isRequestAccessOpen)

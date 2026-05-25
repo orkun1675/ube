@@ -6,7 +6,7 @@
 // Same `source: 'nav'` label fires whether the click originated on the
 // desktop CTA or the mobile-menu CTA — matches the pre-spec analytics
 // contract.
-import { openRequestAccess } from "../../stores/request-access"
+import { openRequestAccess } from "@/stores/request-access"
 
 const nav = document.querySelector<HTMLElement>("[data-nav]")
 const menu = document.querySelector<HTMLElement>("[data-nav-menu]")

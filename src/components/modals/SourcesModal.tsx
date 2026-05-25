@@ -1,9 +1,9 @@
 // =====================================================================
 //  Sources Modal — signal sources Ube listens to
 // =====================================================================
-import { CONTACT_EMAIL } from "../../constants"
-import { MailIconFilled } from "../../lib/assets"
-import { Modal } from "../../lib/modal"
+import { CONTACT_EMAIL } from "@/constants"
+import { MailIconFilled } from "@/lib/assets"
+import { Modal } from "@/lib/modal"
 import styles from "./sources-modal.module.css"
 
 type SourcesModalProps = { open: boolean; onClose: () => void }
@@ -107,8 +107,8 @@ export const SourcesModal = ({ open, onClose }: SourcesModalProps) => {
       <div className={styles["sources-header"]}>
         <div className={styles["sources-scanner"]} aria-hidden="true">
           <span className={styles["scanner-grid"]} />
-          <span className={`${styles["scanner-ring"]} ${styles.r1}`} />
-          <span className={`${styles["scanner-ring"]} ${styles.r2}`} />
+          <span className={`${styles["scanner-ring"]} ${styles["r1"]}`} />
+          <span className={`${styles["scanner-ring"]} ${styles["r2"]}`} />
           <span className={styles["scanner-sweep"]} />
           <span className={styles["scanner-dot"]} />
         </div>

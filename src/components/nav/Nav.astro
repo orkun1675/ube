@@ -11,8 +11,8 @@
 // Mobile menu lives inline (no React portal) — `.mobile-menu` is
 // `position: fixed; inset: 0; z-index: 1000` in styles.css, which trumps
 // the .topnav backdrop-filter without needing `createPortal` to `<body>`.
-import Wordmark from "../Wordmark.astro"
-import { TWEAK_DEFAULTS } from "../../data/tweak-defaults"
+import Wordmark from "@/components/Wordmark.astro"
+import { TWEAK_DEFAULTS } from "@/data/tweak-defaults"
 
 const wordmarkAccent = TWEAK_DEFAULTS.wordmarkAccent
 

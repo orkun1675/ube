@@ -1,7 +1,7 @@
 // =====================================================================
 //  Dedupe Modal — flow diagram for "How issues are deduplicated"
 // =====================================================================
-import { Modal } from "../../lib/modal"
+import { Modal } from "@/lib/modal"
 import styles from "./dedupe-modal.module.css"
 
 type DedupeModalProps = { open: boolean; onClose: () => void }
@@ -91,7 +91,7 @@ export const DedupeModal = ({ open, onClose }: DedupeModalProps) => {
             <div className={styles["dd-feed"]}>
               <span className={`${styles["dd-feed-src"]} mono`}>
                 <img
-                  src="assets/integrations/codemagic.svg"
+                  src="/assets/integrations/codemagic.svg"
                   alt=""
                   className={styles["dd-feed-src-logo"]}
                 />

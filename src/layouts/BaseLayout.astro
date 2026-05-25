@@ -30,9 +30,9 @@
 //     omitted from production HTML entirely — so neither the script tag
 //     nor any URL under `src/dev/` is emitted in the prod build (ADR 0003).
 //     BaseLayout itself stays free of any JS import from `src/dev/*`.
-import { RequestAccessIsland } from "../components/modals/request-access-island"
-import Nav from "../components/nav/Nav.astro"
-import Footer from "../components/sections/Footer.astro"
+import { RequestAccessIsland } from "@/components/modals/RequestAccessIsland"
+import Nav from "@/components/nav/Nav.astro"
+import Footer from "@/components/sections/Footer.astro"
 
 // Self-hosted variable fonts (cuts ~180ms median LCP vs. the Google CDN).
 // One file per family covers every weight we use — see styles.css where
@@ -40,12 +40,14 @@ import Footer from "../components/sections/Footer.astro"
 // / --font-mono.
 import "@fontsource-variable/inter"
 import "@fontsource-variable/jetbrains-mono"
-import "../styles.css"
+import "@/styles.css"
 
 export interface Props {
   title: string
   description: string
-  canonical: string
+  // Optional override. When omitted, derived from Astro.site + Astro.url.pathname
+  // so every route has a canonical without duplicating the host string.
+  canonical?: string
   ogImage?: string
   ogType?: string
   jsonLd?: object | object[]
@@ -61,8 +63,8 @@ export interface Props {
 const {
   title,
   description,
-  canonical,
-  ogImage = "https://ube.dev/assets/social/og-image.jpg",
+  canonical = new URL(Astro.url.pathname, Astro.site).href,
+  ogImage = new URL("/assets/social/og-image.jpg", Astro.site).href,
   ogType = "website",
   jsonLd,
   accentMode,
@@ -100,6 +102,7 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
       sizes="180x180"
       href="/assets/favicons/apple-touch-icon.png"
     />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
 
     <!-- Open Graph / social preview -->
     <meta property="og:locale" content="en_US" />
@@ -149,7 +152,7 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
          hardcoded preload href would 404 on every rebuild. -->
 
     <!-- reCAPTCHA v3 (used by Basin for spam protection on the request-access form)
-         is lazy-loaded from the modal — see src/components/modals/request-access-modal.tsx.
+         is lazy-loaded from the modal — see src/components/modals/RequestAccessModal.tsx.
          Loading it up-front blocks render and pulls Google trackers for every visitor. -->
 
     <!-- Amplitude Analytics + Session Replay (Unified Script — Amplitude CDN).

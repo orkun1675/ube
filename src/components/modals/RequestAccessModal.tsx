@@ -3,10 +3,10 @@
 // =====================================================================
 import React from "react"
 
-import { BASIN_ENDPOINT, GITHUB_URL, RECAPTCHA_SITE_KEY } from "../../constants"
-import { track } from "../../lib/analytics"
-import { ArrowRight, CheckIcon } from "../../lib/assets"
-import { Modal } from "../../lib/modal"
+import { BASIN_ENDPOINT, GITHUB_URL, RECAPTCHA_SITE_KEY } from "@/constants"
+import { track } from "@/lib/analytics"
+import { ArrowRight, CheckIcon } from "@/lib/assets"
+import { Modal } from "@/lib/modal"
 
 declare global {
   interface Window {

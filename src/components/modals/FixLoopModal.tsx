@@ -1,7 +1,7 @@
 // =====================================================================
 //  Fix Loop Modal — sealed sandbox where two agents review each other
 // =====================================================================
-import { Modal } from "../../lib/modal"
+import { Modal } from "@/lib/modal"
 import styles from "./fix-loop-modal.module.css"
 
 type FixLoopModalProps = { open: boolean; onClose: () => void }
@@ -36,7 +36,7 @@ export const FixLoopModal = ({ open, onClose }: FixLoopModalProps) => {
         <div className={styles["fl-sandbox-chrome"]}>
           <span className={`${styles["fl-chrome-tag"]} mono`}>
             <img
-              src="assets/integrations/docker.svg"
+              src="/assets/integrations/docker.svg"
               alt=""
               className={styles["fl-chrome-logo"]}
             />{" "}
@@ -51,7 +51,7 @@ export const FixLoopModal = ({ open, onClose }: FixLoopModalProps) => {
           {/* Generator */}
           <div className={styles["fl-agent"]}>
             <img
-              src="assets/integrations/claude-code.svg"
+              src="/assets/integrations/claude-code.svg"
               alt=""
               className={styles["fl-agent-logo"]}
             />
@@ -78,7 +78,7 @@ export const FixLoopModal = ({ open, onClose }: FixLoopModalProps) => {
           {/* Reviewer */}
           <div className={`${styles["fl-agent"]} ${styles["fl-agent-rev"]}`}>
             <img
-              src="assets/integrations/codex.svg"
+              src="/assets/integrations/codex.svg"
               alt=""
               className={styles["fl-agent-logo"]}
             />
