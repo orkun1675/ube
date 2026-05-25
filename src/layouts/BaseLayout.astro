@@ -189,9 +189,18 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
     ></script>
   </head>
   <body data-accent-mode={accentMode}>
-    <Nav />
-    <slot />
-    <Footer />
+    <!-- The page itself acts as a "curtain" that lifts off the wordmark
+         below. Everything that scrolls naturally with the page goes inside
+         `.page-content`; the fixed wordmark is a sibling, pinned to the
+         viewport bottom and hidden behind the curtain until it scrolls up. -->
+    <div class="page-content">
+      <Nav />
+      <slot />
+      <Footer />
+    </div>
+    <div class="footer-curtain" aria-hidden="true">
+      <span class="footer-curtain-text">ube</span>
+    </div>
     <RequestAccessIsland client:idle />
     {
       // Dev-only tweaks panel — self-mounts via its own React root. The
@@ -205,3 +214,75 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
     <script src="./page-tracking.client.ts"></script>
   </body>
 </html>
+
+<style>
+  /* Amplitude-style "curtain raise" reveal: a giant wordmark is pinned to
+     the bottom of the viewport for the whole session — but it sits behind
+     `.page-content`, which carries the canvas background and a higher
+     z-index, so the user never sees it during normal scroll. The page
+     content has a `margin-bottom: 80vh` of empty body below it. As the
+     user scrolls to the end, the page lifts up off the wordmark like a
+     curtain, and the wordmark settles into view from the bottom of the
+     viewport.
+
+     The wordmark is `position: fixed` so it stays pinned regardless of
+     scroll position — `position: sticky` would work too, but `body
+     { overflow-x: hidden }` in styles.css makes body a scroll container
+     and breaks viewport-relative sticky. */
+
+  .page-content {
+    position: relative;
+    z-index: 2;
+    background: var(--canvas);
+    /* Empty body space below the page so the curtain has somewhere to
+       lift to. Sized to match the wordmark's footprint with a little
+       breathing room — tweak together with `.footer-curtain-text`'s
+       `font-size`. */
+    margin-bottom: 80vh;
+    /* Soft drop shadow at the bottom edge — reads as the lifting page
+       casting a shadow onto the wordmark below. */
+    box-shadow: 0 28px 40px -24px rgba(0, 0, 0, 0.7);
+  }
+
+  .footer-curtain {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+    padding: 0 16px 4px;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .footer-curtain-text {
+    display: block;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: -0.06em;
+    /* Sized to fill most of the viewport WIDTH at common breakpoints
+       without dominating the viewport's height when the curtain lifts.
+       `ube` is short (3 chars), so a smaller vw multiplier than a longer
+       wordmark would use. */
+    font-size: clamp(5rem, 26vw, 22rem);
+    line-height: 0.82;
+    /* Top is dimmed, bottom is full ink — the gradient still reads as if
+       the curtain above is shadowing the top of the wordmark, reinforcing
+       the box-shadow on `.page-content`. */
+    background: linear-gradient(
+      180deg,
+      rgba(245, 245, 242, 0.5) 0%,
+      rgba(245, 245, 242, 0.8) 40%,
+      rgba(245, 245, 242, 0.95) 75%,
+      var(--ink) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding-bottom: 0.04em;
+  }
+</style>
