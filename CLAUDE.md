@@ -8,6 +8,7 @@ Other Claude Code sessions may be running in this repo in parallel.
 - Treat uncommitted working-tree changes as possibly belonging to another agent.
 - Don't reuse another agent's preview server. `preview_start` silently attaches to an existing instance with the same name. Call `preview_list` to see which slots are in use, then pick an unused one from the `dev-a` … `dev-f` pool in [.claude/launch.json](.claude/launch.json).
 - If there are no slots available, STOP.
+- `mcp__Claude_Preview__preview_screenshot` returns a blank canvas at any non-zero scroll position — Chromium throttles the headless tab's compositor while `document.hidden === true`, so JS-driven scrolls never reach the captured surface. Verify scrolled layouts with `preview_inspect` instead, which reads the live DOM via CDP and stays accurate.
 
 ## Build / run
 - **Dev server:** `npm run dev` (or use the `preview_*` tools with the `dev-a`..`dev-f` configs in [.claude/launch.json](.claude/launch.json) — each runs `astro dev --port {port}`).
