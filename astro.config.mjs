@@ -22,6 +22,13 @@ export default defineConfig({
   site: "https://ube.dev",
   output: "static",
   trailingSlash: "always",
+  // /maintainer is referenced by older external links (and Nav docstrings)
+  // even though the route was folded into /. Emit a meta-refresh redirect
+  // page so external backlinks don't 404 on GitHub Pages, which has no
+  // server-side redirect primitive.
+  redirects: {
+    "/maintainer": "/",
+  },
   build: {
     format: "directory",
   },

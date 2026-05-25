@@ -52,6 +52,12 @@ const cardBg = cardTone?.bg ?? "#1d1b15"
 const cardBorder = cardTone?.border ?? "#2a2720"
 const accentMode = TWEAK_DEFAULTS.accentStrategy
 
+// Build-time date emitted as `dateModified` on the Organization and
+// SoftwareApplication blocks below. Perplexity and Google AI Overviews
+// weight recently-modified pages higher in time-sensitive queries, and
+// the sitemap already uses the same build-time `lastmod`.
+const dateModified = new Date().toISOString().slice(0, 10)
+
 // Multiple schemas — Astro's BaseLayout iterates and emits each as its own
 // <script type="application/ld+json"> block (single source of truth between
 // the visible FAQ component and the structured-data answers AI engines quote).
@@ -76,6 +82,7 @@ const jsonLd = [
       contactType: "customer support",
     },
     sameAs: [GITHUB_URL, LINKEDIN_URL],
+    dateModified,
   },
   {
     "@context": "https://schema.org",
@@ -86,6 +93,7 @@ const jsonLd = [
     operatingSystem: "Web",
     description:
       "An agent that listens to crash feeds, error dashboards, app reviews, and dependency releases — then triages, reproduces, and opens verified PRs against your repo. Supports React Native, Expo, Flutter, native iOS (Swift / Obj-C), native Android (Kotlin / Java), and Capacitor / Ionic.",
+    dateModified,
     featureList: [
       "Monitors crash feeds, error dashboards, app reviews, and dependency releases",
       "Deduplicates issues across binaries, OS versions, and dependency upgrades",
