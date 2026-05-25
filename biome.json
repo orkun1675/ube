@@ -33,6 +33,11 @@
         "noUnusedVariables": {
           "level": "error",
           "fix": "none"
+        },
+        "noUnknownPseudoClass": {
+          "options": {
+            "ignore": ["global"]
+          }
         }
       },
       "suspicious": {
