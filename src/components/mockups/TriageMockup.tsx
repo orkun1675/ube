@@ -2,7 +2,7 @@
 //  STEP 2: Triage — Kanban board grouped by state
 // =====================================================================
 import { LinkIcon, ListIcon } from "@/lib/assets"
-import styles from "./triage.module.css"
+import styles from "./triage-mockup.module.css"
 
 type TriageCard = {
   sig: string

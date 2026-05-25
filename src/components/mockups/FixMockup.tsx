@@ -2,7 +2,7 @@
 //  STEP 3: Fix — emulator + verified Actions checks (clean two-pane)
 // =====================================================================
 import { ActionsLogo, AndroidLogo, CheckIcon, GitHubLogo } from "@/lib/assets"
-import styles from "./fix.module.css"
+import styles from "./fix-mockup.module.css"
 
 export const FixMockup = () => (
   <div className="mockup-chrome" style={{ width: "100%" }}>

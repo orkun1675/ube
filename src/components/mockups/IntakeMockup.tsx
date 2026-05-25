@@ -10,7 +10,7 @@ import {
   ReactLogo,
   SentryLogo,
 } from "@/lib/assets"
-import styles from "./intake.module.css"
+import styles from "./intake-mockup.module.css"
 
 export const IntakeMockup = () => {
   const items = [
