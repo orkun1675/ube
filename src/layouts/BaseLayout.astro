@@ -160,21 +160,20 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
          Only initialized on ube.dev (or a subdomain). On localhost the snippet
          stub installs but `init` is skipped — escape hatch: ?amplitude=1 -->
     <link rel="preconnect" href="https://cdn.amplitude.com" />
-    <script
-      is:inline
-      async
-      src="https://cdn.amplitude.com/script/7fdbc1ae75a64eb50d90f29ac9721390.js"
-    ></script>
     <script is:inline>
       {
-        const h = location.hostname
-        const enabled =
-          h === "ube.dev" ||
-          h.endsWith(".ube.dev") ||
-          location.search.includes("amplitude=1")
-        if (enabled) {
-          window.amplitude.add(window.sessionReplay.plugin({ sampleRate: 1 }))
-          window.amplitude.init("7fdbc1ae75a64eb50d90f29ac9721390", {
+        window.initUbeAmplitude = () => {
+          const h = location.hostname
+          const enabled =
+            h === "ube.dev" ||
+            h.endsWith(".ube.dev") ||
+            location.search.includes("amplitude=1")
+          if (!enabled || !window.amplitude) return
+
+          if (window.amplitude.add && window.sessionReplay?.plugin) {
+            window.amplitude.add(window.sessionReplay.plugin({ sampleRate: 1 }))
+          }
+          window.amplitude.init?.("7fdbc1ae75a64eb50d90f29ac9721390", {
             defaultTracking: true,
             autocapture: true,
             fetchRemoteConfig: true,
@@ -182,6 +181,12 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
         }
       }
     </script>
+    <script
+      is:inline
+      async
+      src="https://cdn.amplitude.com/script/7fdbc1ae75a64eb50d90f29ac9721390.js"
+      onload="window.initUbeAmplitude?.()"
+    ></script>
   </head>
   <body data-accent-mode={accentMode}>
     <Nav />
