@@ -350,6 +350,7 @@ body[data-accent-mode="split"] {
   border: 1px solid var(--card-border);
   border-radius: var(--r-xl);
   padding: 48px;
+  min-width: 0;
 }
 @media (max-width: 1024px) {
   .card-band {
@@ -2892,11 +2893,9 @@ select.input {
   min-width: 0;
 }
 
-/* Belt-and-braces — the same fix for the cards-band grid (used by Step
-   visuals on tablet/phone). */
-.card-band {
-  min-width: 0;
-}
+/* Belt-and-braces — the same fix for cards-band grid children (used by
+   Step visuals on tablet/phone). .card-band itself sets min-width:0 in
+   its base definition above. */
 .card-band > * {
   min-width: 0;
 }
@@ -2932,9 +2931,6 @@ select.input {
   }
 }
 @media (max-width: 760px) {
-  .hero-pr-composite {
-    padding-bottom: 220px;
-  }
   .hero-pr-composite .hero-pr-float {
     position: relative;
     right: auto;
@@ -2942,9 +2938,6 @@ select.input {
     width: 100%;
     margin-top: 14px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-  }
-  .hero-pr-composite {
-    padding-bottom: 0;
   }
 }
 

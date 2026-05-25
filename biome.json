@@ -50,6 +50,9 @@
         "useSelfClosingElements": "error",
         "noUselessElse": "error",
         "useForOf": "error"
+      },
+      "nursery": {
+        "noDuplicateSelectors": "error"
       }
     }
   },
