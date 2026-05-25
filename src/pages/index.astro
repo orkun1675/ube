@@ -52,11 +52,11 @@ const cardBg = cardTone?.bg ?? "#1d1b15"
 const cardBorder = cardTone?.border ?? "#2a2720"
 const accentMode = TWEAK_DEFAULTS.accentStrategy
 
-// Build-time date emitted as `dateModified` on the Organization and
-// SoftwareApplication blocks below. Perplexity and Google AI Overviews
-// weight recently-modified pages higher in time-sensitive queries, and
-// the sitemap already uses the same build-time `lastmod`.
-const dateModified = new Date().toISOString().slice(0, 10)
+// Build-time ISO 8601 timestamp emitted as `dateModified` on the
+// Organization and SoftwareApplication blocks below. Perplexity and Google
+// AI Overviews weight recently-modified pages higher in time-sensitive
+// queries. Matches the format the sitemap integration emits for `lastmod`.
+const dateModified = new Date().toISOString()
 
 // Multiple schemas — Astro's BaseLayout iterates and emits each as its own
 // <script type="application/ld+json"> block (single source of truth between
