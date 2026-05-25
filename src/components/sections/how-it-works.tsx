@@ -68,12 +68,12 @@ const Step = ({
           {label}
         </span>
       </div>
-      <div
+      <h3
         className="t-display-md ink"
         style={{ marginBottom: 16, lineHeight: 1.2 }}
       >
         {title}
-      </div>
+      </h3>
       <p
         className="t-body-md body"
         style={{ margin: 0, marginBottom: 18, lineHeight: 1.65 }}

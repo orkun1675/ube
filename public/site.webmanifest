@@ -1,0 +1,28 @@
+{
+  "name": "Ube",
+  "short_name": "Ube",
+  "description": "An AI agent that maintains your app — listens to crash feeds, error dashboards, app reviews, and dependency releases, then opens verified PRs.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#1e1e22",
+  "theme_color": "#1e1e22",
+  "icons": [
+    {
+      "src": "/assets/favicons/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/favicons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/favicons/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

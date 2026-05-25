@@ -1,0 +1,26 @@
+# Ube
+
+> An AI agent that maintains mobile and cross-platform apps — listens to crash feeds, error dashboards, app reviews, and dependency releases, then triages, reproduces, and opens verified pull requests against your repo.
+
+## Key facts
+
+- **What it is**: Ube Maintainer is an autonomous software maintenance agent. It reads crash reports (Firebase Crashlytics, Sentry, Play Console ANRs), app store reviews, support inboxes, and dependency releases on a single timeline; deduplicates issues across binaries; reproduces and patches them on emulators; runs your test suite plus a generated regression suite; opens a PR with the diff and a recorded reproduction; and writes back to the original reporter after the fix ships.
+- **Built for**: React Native, Expo, Flutter, native iOS (Swift / Obj-C), native Android (Kotlin / Java), and Capacitor / Ionic. Other stacks onboardable on request.
+- **Auto-merge policy**: Ube always opens PRs — never force-merges. Auto-merge is opt-in per repository and remains gated behind your existing branch protections and required checks.
+- **Code privacy**: User code runs in ephemeral, per-repo sandboxes that are destroyed after each job. Ube does not train on user code and does not retain it after the run. Self-hosting is offered for enterprise customers with strict privacy requirements.
+- **Outcome claim**: Early teams running Ube reclaim 10–30% of their engineering time previously spent on triage and dependency maintenance.
+- **Status**: Pre-launch. The site is a demand probe — request access via the form on ube.dev.
+- **Maker**: Chunky Tofu Studios, LLC. Founder: Orkun Duman.
+- **Adjacent product (coming)**: Ube Publisher — same maker, separate product. The "which matters more" radio on the request-access form is how interest is measured.
+
+## Pages
+
+- [Landing page](https://ube.dev/): product overview, How It Works (5 steps), Outcomes, FAQ, request access
+- [Terms of Service](https://ube.dev/terms-of-service/)
+- [Privacy Policy](https://ube.dev/privacy-policy/)
+
+## Contact
+
+- Email: hello@chunkytofustudios.com
+- GitHub: https://github.com/orkun1675/ube
+- LinkedIn (founder): https://www.linkedin.com/in/orkun-duman/

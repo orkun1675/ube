@@ -17,6 +17,7 @@
 //   * The CSS-variable defaults the tweaks panel mutates at runtime are
 //     baked into the inline `<style>` block below at build time, so prod
 //     gets the chosen accent / cardTone / accentStrategy without any JS.
+import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL } from "../constants"
 import { TWEAK_DEFAULTS } from "../data/tweak-defaults"
 import { FAQ } from "../components/sections/faq"
 import FinalCta from "../components/sections/FinalCta.astro"
@@ -56,11 +57,22 @@ const jsonLd = [
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Ube",
+    legalName: "Chunky Tofu Studios, LLC",
     url: "https://ube.dev/",
-    logo: "https://ube.dev/assets/favicons/apple-touch-icon.png",
+    logo: "https://ube.dev/assets/favicons/logo-512.png",
     description:
       "Ube is an AI agent that maintains mobile and cross-platform apps — triaging crash reports, user feedback, and dependency upgrades, then opening verified pull requests against your repo.",
-    sameAs: ["https://github.com/orkun1675/ube"],
+    founder: {
+      "@type": "Person",
+      name: "Orkun Duman",
+      url: LINKEDIN_URL,
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: CONTACT_EMAIL,
+      contactType: "customer support",
+    },
+    sameAs: [GITHUB_URL, LINKEDIN_URL],
   },
   {
     "@context": "https://schema.org",
@@ -71,11 +83,25 @@ const jsonLd = [
     operatingSystem: "Web",
     description:
       "An agent that listens to crash feeds, error dashboards, app reviews, and dependency releases — then triages, reproduces, and opens verified PRs against your repo. Supports React Native, Expo, Flutter, native iOS (Swift / Obj-C), native Android (Kotlin / Java), and Capacitor / Ionic.",
+    featureList: [
+      "Monitors crash feeds, error dashboards, app reviews, and dependency releases",
+      "Deduplicates issues across binaries, OS versions, and dependency upgrades",
+      "Reproduces bugs on emulators, patches, and verifies against your test suite",
+      "Opens verified pull requests with regression-suite coverage",
+      "Closes the loop with the original reporter after release",
+      "Escalates upstream with detailed reproduction reports",
+    ],
+    screenshot: "https://ube.dev/assets/social/og-image.jpg",
     offers: {
       "@type": "Offer",
       price: "0",
       priceCurrency: "USD",
       availability: "https://schema.org/PreOrder",
+    },
+    creator: {
+      "@type": "Organization",
+      name: "Chunky Tofu Studios, LLC",
+      url: "https://ube.dev/",
     },
   },
   {

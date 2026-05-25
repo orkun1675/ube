@@ -17,6 +17,8 @@
 # Output:
 #   public/assets/favicons/favicon.png            (192x192)
 #   public/assets/favicons/apple-touch-icon.png   (180x180)
+#   public/assets/favicons/logo-512.png           (512x512, used by JSON-LD logo + webmanifest)
+#   public/favicon.ico                            (32x32, for legacy /favicon.ico requests)
 #   public/assets/social/og-image.jpg             (1200x630)
 
 set -euo pipefail
@@ -77,6 +79,11 @@ shoot social-preview 1200 630  1
 mkdir -p "$OUT_FAVICONS" "$OUT_SOCIAL"
 sips -s format png -z 192 192 "$TMP/favicon.png" --out "$OUT_FAVICONS/favicon.png"           >/dev/null
 sips -s format png -z 180 180 "$TMP/favicon.png" --out "$OUT_FAVICONS/apple-touch-icon.png"  >/dev/null
+sips -s format png -z 512 512 "$TMP/favicon.png" --out "$OUT_FAVICONS/logo-512.png"          >/dev/null
+# Legacy /favicon.ico — macOS sips can write .ico natively from a PNG; older
+# bookmark managers, RSS readers, and some embed previews still ask for it.
+sips -s format png -z 32 32 "$TMP/favicon.png" --out "$TMP/favicon-32.png"                   >/dev/null
+sips -s format ico "$TMP/favicon-32.png" --out "$ROOT/public/favicon.ico"                    >/dev/null
 sips -s format jpeg -s formatOptions 90 "$TMP/social-preview.png" --out "$OUT_SOCIAL/og-image.jpg" >/dev/null
 
-echo "✓ regenerated favicons/{favicon,apple-touch-icon}.png + social/og-image.jpg"
+echo "✓ regenerated favicons/{favicon,apple-touch-icon,logo-512}.png + favicon.ico + social/og-image.jpg"

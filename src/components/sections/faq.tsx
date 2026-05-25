@@ -24,7 +24,7 @@ const FAQItem = ({ q, a, defaultOpen }: FaqItemProps) => {
         }
         aria-expanded={open}
       >
-        <span>{q}</span>
+        <h3 className="faq-question-text">{q}</h3>
         <span className="faq-icon">
           <PlusIcon size={12} />
         </span>

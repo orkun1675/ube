@@ -9,7 +9,7 @@
 // Note: Astro's `style={{...}}` object syntax does NOT auto-append `px` to
 // numeric values (unlike React). Length values below are explicit strings.
 import Wordmark from "../Wordmark.astro"
-import { CONTACT_EMAIL, GITHUB_URL } from "../../constants"
+import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL } from "../../constants"
 import { TWEAK_DEFAULTS } from "../../data/tweak-defaults"
 import { GitHubLogo, LinkedInLogo, MailIcon } from "../../lib/assets"
 
@@ -33,7 +33,7 @@ const wordmarkAccent = TWEAK_DEFAULTS.wordmarkAccent
         </p>
       </div>
       <div class="footer-col">
-        <h4>PRODUCTS</h4>
+        <h3>PRODUCTS</h3>
         <ul>
           <li>
             <a href="#how">Ube Maintainer</a>
@@ -53,18 +53,18 @@ const wordmarkAccent = TWEAK_DEFAULTS.wordmarkAccent
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Legal</h4>
+        <h3>Legal</h3>
         <ul>
           <li>
-            <a href="/terms-of-service">Terms of Service</a>
+            <a href="/terms-of-service/">Terms of Service</a>
           </li>
           <li>
-            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
           </li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Contact</h4>
+        <h3>Contact</h3>
         <ul>
           <li>
             <a
@@ -76,7 +76,7 @@ const wordmarkAccent = TWEAK_DEFAULTS.wordmarkAccent
           </li>
           <li>
             <a
-              href="https://www.linkedin.com/in/orkun-duman/"
+              href={LINKEDIN_URL}
               target="_blank"
               rel="noopener noreferrer"
               style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
