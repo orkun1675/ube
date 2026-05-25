@@ -66,14 +66,21 @@
   /* Fonts — self-hosted via @fontsource-variable (imported in
      BaseLayout.astro). The "Variable" family names are what
      @fontsource-variable registers via @font-face. */
-  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-sans:
+    "Inter Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono:
+    "JetBrains Mono Variable", ui-monospace, "SF Mono", Menlo, monospace;
 }
 
 /* Heading reset — every heading in this codebase is laid out by an
    ancestor's margin/gap. Default browser margins on h1-h6 would
    double-space the layout. We zero them once here. */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
 }
 
