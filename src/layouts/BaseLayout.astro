@@ -220,25 +220,37 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
      the bottom of the viewport for the whole session — but it sits behind
      `.page-content`, which carries the canvas background and a higher
      z-index, so the user never sees it during normal scroll. The page
-     content has a `margin-bottom: 80vh` of empty body below it. As the
-     user scrolls to the end, the page lifts up off the wordmark like a
-     curtain, and the wordmark settles into view from the bottom of the
-     viewport.
+     has extra empty body below it sized to the wordmark; as the user
+     scrolls to the end, the page lifts up off the wordmark like a
+     curtain, and the wordmark settles into view from the bottom.
 
      The wordmark is `position: fixed` so it stays pinned regardless of
      scroll position — `position: sticky` would work too, but `body
      { overflow-x: hidden }` in styles.css makes body a scroll container
-     and breaks viewport-relative sticky. */
+     and breaks viewport-relative sticky.
+
+     `--wordmark-size` is shared between the rendered wordmark and the
+     page's bottom margin so the scroll offset always matches the
+     wordmark's actual footprint — no manual tuning when the size or
+     viewport changes. */
+  body {
+    --wordmark-size: clamp(5rem, 26vw, 22rem);
+  }
+  /* On mobile, 26vw leaves the wordmark taking only ~50% of the viewport
+     width — bump the vw multiplier so "ube" fills most of the screen. */
+  @media (max-width: 640px) {
+    body {
+      --wordmark-size: 46vw;
+    }
+  }
 
   .page-content {
     position: relative;
     z-index: 2;
     background: var(--canvas);
-    /* Empty body space below the page so the curtain has somewhere to
-       lift to. Sized to match the wordmark's footprint with a little
-       breathing room — tweak together with `.footer-curtain-text`'s
-       `font-size`. */
-    margin-bottom: 80vh;
+    /* Bottom margin scales with the wordmark's font-size so the scroll
+       distance always matches what's revealed. */
+    margin-bottom: calc(var(--wordmark-size) * 1.06);
     /* Soft drop shadow at the bottom edge — reads as the lifting page
        casting a shadow onto the wordmark below. */
     box-shadow: 0 28px 40px -24px rgba(0, 0, 0, 0.7);
@@ -254,7 +266,7 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
     align-items: flex-end;
     justify-content: center;
     overflow: hidden;
-    padding: 0 16px 4px;
+    padding: 0 16px 16px;
     pointer-events: none;
     user-select: none;
   }
@@ -268,7 +280,7 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
        without dominating the viewport's height when the curtain lifts.
        `ube` is short (3 chars), so a smaller vw multiplier than a longer
        wordmark would use. */
-    font-size: clamp(5rem, 26vw, 22rem);
+    font-size: var(--wordmark-size);
     line-height: 0.82;
     /* Top is dimmed, bottom is full ink — the gradient still reads as if
        the curtain above is shadowing the top of the wordmark, reinforcing
@@ -283,6 +295,11 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    padding-bottom: 0.04em;
+    /* Negative letter-spacing pulls the right side of the trailing "e"
+       past the layout box; `overflow: hidden` on the curtain then clips
+       the glyph. Pad the inline-end to give it room. The 0.04em padding
+       on the bottom is for the descender (no descender in "ube", but
+       protects font swaps). */
+    padding: 0 0.08em 0.04em 0;
   }
 </style>
