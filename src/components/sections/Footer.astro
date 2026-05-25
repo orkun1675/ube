@@ -5,9 +5,6 @@
 //
 // Wordmark is now an `.astro` component (slice 0004) — same DOM as before,
 // just hoisted out of `sections/` and consumed natively here.
-//
-// Note: Astro's `style={{...}}` object syntax does NOT auto-append `px` to
-// numeric values (unlike React). Length values below are explicit strings.
 import Wordmark from "../Wordmark.astro"
 import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL } from "../../constants"
 import { TWEAK_DEFAULTS } from "../../data/tweak-defaults"
@@ -21,14 +18,11 @@ const wordmarkAccent = TWEAK_DEFAULTS.wordmarkAccent
     <div class="footer-grid">
       <div class="footer-col">
         <Wordmark accent={wordmarkAccent} size={24} />
-        <p
-          class="t-body-sm muted"
-          style={{ marginTop: "18px", maxWidth: "320px", lineHeight: "1.6" }}
-        >
+        <p class="t-body-sm muted footer-tagline">
           Your app's agentic watchdog that keeps dependencies up to date and
           users happy.
         </p>
-        <p class="t-caption muted" style={{ marginTop: "24px" }}>
+        <p class="t-caption muted footer-copyright">
           © 2026 Ube · Chunky Tofu Studios, LLC
         </p>
       </div>
@@ -67,10 +61,7 @@ const wordmarkAccent = TWEAK_DEFAULTS.wordmarkAccent
         <h3>Contact</h3>
         <ul>
           <li>
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
-            >
+            <a href={`mailto:${CONTACT_EMAIL}`} class="footer-contact-link">
               <MailIcon size={14} /> {CONTACT_EMAIL}
             </a>
           </li>
@@ -79,7 +70,7 @@ const wordmarkAccent = TWEAK_DEFAULTS.wordmarkAccent
               href={LINKEDIN_URL}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
+              class="footer-contact-link"
             >
               <LinkedInLogo size={13} /> Orkun Duman
             </a>
@@ -89,7 +80,7 @@ const wordmarkAccent = TWEAK_DEFAULTS.wordmarkAccent
               href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
+              class="footer-contact-link"
             >
               <GitHubLogo size={13} /> github.com/orkun1675/ube
             </a>
@@ -99,3 +90,19 @@ const wordmarkAccent = TWEAK_DEFAULTS.wordmarkAccent
     </div>
   </div>
 </footer>
+
+<style>
+  .footer-tagline {
+    margin-top: 18px;
+    max-width: 320px;
+    line-height: 1.6;
+  }
+  .footer-copyright {
+    margin-top: 24px;
+  }
+  .footer-contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+</style>

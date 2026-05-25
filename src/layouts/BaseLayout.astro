@@ -7,8 +7,12 @@
 // pages stringify their schema and pass the result through here.
 //
 // The Request Access modal is mounted at the bottom (ADR 0002) and
-// hydrates on every route so any island's `openRequestAccess(source)`
-// call wires through the nano store to a shared modal instance.
+// hydrates during browser idle time on every route so any island's
+// `openRequestAccess(source)` call wires through the nano store to a
+// shared modal instance.
+// The modal is closed by default and opens via the nanostore from vanilla
+// CTA scripts; if a user clicks before React hydrates, the store update is
+// preserved and the modal renders open on first paint after hydration.
 //
 // Footer is on every route (per spec 0003) so it lives here, after the
 // page <slot/> and before the modal island. Nav joined Footer here in
@@ -98,6 +102,7 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
     />
 
     <!-- Open Graph / social preview -->
+    <meta property="og:locale" content="en_US" />
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="Ube" />
     <meta property="og:url" content={canonical} />
@@ -178,7 +183,7 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
     <Nav />
     <slot />
     <Footer />
-    <RequestAccessIsland client:load />
+    <RequestAccessIsland client:idle />
     {
       // Dev-only tweaks panel — self-mounts via its own React root. The
       // script element is omitted entirely in production builds, so no

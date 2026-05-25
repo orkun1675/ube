@@ -11,13 +11,9 @@
 // rendering happens server-side with zero JS for the hero subtree (icons
 // emit as inline SVG, just like Problems/Benefits/FinalCta).
 //
-// The previous `.tsx` used `<style dangerouslySetInnerHTML={...}>` to inject
-// the responsive grid override without React encoding `>` selectors and
-// triggering an SSR/CSR hydration mismatch. In `.astro` we can use
-// `<style is:global>` directly and the rule lands verbatim in <head>.
-//
-// Note: Astro's `style={{...}}` object syntax does NOT auto-append `px` to
-// numeric values (unlike React). Length values below are explicit strings.
+// Layout-specific styling lives in the scoped <style> block at the bottom
+// of this file (Astro auto-scopes per-component, so class names like
+// `.hero-eyebrow` won't leak).
 import { TWEAK_DEFAULTS } from "../../data/tweak-defaults"
 import {
   AndroidLogo,
@@ -37,58 +33,36 @@ const heroCopy = TWEAK_DEFAULTS.heroCopy
 
 <section class="hero" id="top">
   <div class="hero-bg"></div>
-  <div class="container" style={{ position: "relative", zIndex: "1" }}>
-    <div
-      class="hero-grid"
-      style={{
-        display: "grid",
-        gridTemplateColumns: "1.1fr 1fr",
-        gap: "60px",
-        alignItems: "center",
-      }}
-    >
+  <div class="container hero-container">
+    <div class="hero-grid">
       <div class="fade-in">
-        <div class="eyebrow" style={{ marginBottom: "28px" }}>
+        <div class="eyebrow hero-eyebrow">
           Ube Maintainer
         </div>
-        {
-          heroCopy === "autopilot" ? (
-            <h1
-              class="t-display-mega"
-              style={{ margin: "0", color: "var(--ink)" }}
-            >
-              App maintenance, <br />
-              <span style={{ color: "var(--muted)" }}>on autopilot.</span>
-            </h1>
-          ) : (
-            <h1
-              class="t-display-mega"
-              style={{ margin: "0", color: "var(--ink)" }}
-            >
-              An agent that <br />
-              maintains your app <br />
-              <span style={{ color: "var(--muted)" }}>
-                while you continue to build.
-              </span>
-            </h1>
-          )
-        }
-        <p
-          class="t-body-md body"
-          style={{ marginTop: "28px", maxWidth: "480px", lineHeight: "1.6" }}
-        >
+        <h1 class="t-display-mega hero-headline">
+          {
+            heroCopy === "autopilot" ? (
+              <>
+                App maintenance, <br />
+                <span class="hero-headline-muted">on autopilot.</span>
+              </>
+            ) : (
+              <>
+                An agent that <br />
+                maintains your app <br />
+                <span class="hero-headline-muted">
+                  while you continue to build.
+                </span>
+              </>
+            )
+          }
+        </h1>
+        <p class="t-body-md body hero-body">
           Ube listens to your crash reports, user feedback, and dependency
           upgrades — then triages, reproduces, and opens verified PRs. You
           ship features. It handles the rest.
         </p>
-        <div
-          style={{
-            display: "flex",
-            gap: "12px",
-            marginTop: "36px",
-            flexWrap: "wrap",
-          }}
-        >
+        <div class="hero-cta-row">
           <button type="button" class="btn btn-primary" data-hero-cta>
             Request access
             <ArrowRight size={14} />
@@ -97,17 +71,7 @@ const heroCopy = TWEAK_DEFAULTS.heroCopy
             See how it works
           </a>
         </div>
-        <div
-          class="hero-builtfor"
-          style={{
-            marginTop: "36px",
-            color: "var(--muted)",
-            fontFamily: "var(--font-mono)",
-            fontSize: "11px",
-            letterSpacing: "0.6px",
-            textTransform: "uppercase",
-          }}
-        >
+        <div class="hero-builtfor">
           <span class="hero-builtfor__label">Built for</span>
           <span class="hero-builtfor__chip">
             <FlutterLogo size={14} /> Flutter
@@ -126,7 +90,7 @@ const heroCopy = TWEAK_DEFAULTS.heroCopy
           </span>
         </div>
       </div>
-      <div class="fade-in" style={{ animationDelay: "120ms" }}>
+      <div class="fade-in hero-mockup-col">
         {heroVariant === "minimal" && <HeroMinimal />}
         {heroVariant === "split" && <HeroSplit />}
         {heroVariant !== "minimal" && heroVariant !== "split" && <HeroPr />}
@@ -135,11 +99,53 @@ const heroCopy = TWEAK_DEFAULTS.heroCopy
   </div>
 </section>
 
-<style is:global>
+<style>
+  .hero-container {
+    position: relative;
+    z-index: 1;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .hero-eyebrow {
+    margin-bottom: 28px;
+  }
+  .hero-headline {
+    margin: 0;
+    color: var(--ink);
+  }
+  .hero-headline-muted {
+    color: var(--muted);
+  }
+  .hero-body {
+    margin-top: 28px;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+  .hero-cta-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+  .hero-builtfor {
+    margin-top: 36px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+  }
+  .hero-mockup-col {
+    animation-delay: 120ms;
+  }
   @media (max-width: 1100px) {
     .hero-grid {
-      grid-template-columns: 1fr !important;
-      gap: 56px !important;
+      grid-template-columns: 1fr;
+      gap: 56px;
     }
   }
 </style>

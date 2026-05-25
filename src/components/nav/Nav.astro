@@ -26,8 +26,8 @@ const wordmarkHref = isLandingPage ? "#top" : "/"
 ---
 
 <nav class="topnav" data-nav>
-  <div class="container topnav-inner" style={{ position: "relative" }}>
-    <a href={wordmarkHref} style={{ textDecoration: "none" }}>
+  <div class="container topnav-inner topnav-inner-positioned">
+    <a href={wordmarkHref} class="wordmark-link">
       <Wordmark accent={wordmarkAccent} size={30} />
     </a>
 
@@ -94,7 +94,7 @@ const wordmarkHref = isLandingPage ? "#top" : "/"
       data-nav-menu-close
       aria-label="Close menu"
     >
-      <span style={{ display: "inline-flex", transform: "rotate(45deg)" }}>
+      <span class="close-icon">
         <svg
           width="18"
           height="18"
@@ -149,3 +149,24 @@ const wordmarkHref = isLandingPage ? "#top" : "/"
 </div>
 
 <script src="./nav.client.ts"></script>
+
+<style>
+  /* Establish a positioning context for absolutely-positioned descendants
+     of the nav (e.g. the `.tooltip` on coming-soon links). */
+  .topnav-inner-positioned {
+    position: relative;
+  }
+  /* The wordmark sits inside this anchor; suppress the default link
+     underline so only the brand mark shows. */
+  .wordmark-link {
+    text-decoration: none;
+  }
+  /* The mobile close button reuses the `+` SVG and rotates it 45° to form
+     an ×. `inline-flex` keeps the SVG's box from inheriting line-box
+     baseline alignment, which would otherwise nudge the rotated cross
+     off-center inside the button. */
+  .close-icon {
+    display: inline-flex;
+    transform: rotate(45deg);
+  }
+</style>

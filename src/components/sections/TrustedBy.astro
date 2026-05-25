@@ -5,18 +5,21 @@
 // The original .tsx version computed the doubled sequence inside React.useMemo;
 // here we precompute it at build time in the frontmatter — the output is
 // identical bytes.
-type TrustedApp = { src: string; name: string }
+//
+// Logos are imported via `astro:assets` so Astro can emit width/height
+// attributes (no CLS) and hash-fingerprint the files for long-term caching.
+import { Image } from "astro:assets"
+import type { ImageMetadata } from "astro"
+import beehive from "../../assets/customers/beehive.webp"
+import dozy from "../../assets/customers/dozy.webp"
+import pixelBuddy from "../../assets/customers/pixel-buddy.webp"
+
+type TrustedApp = { src: ImageMetadata; name: string }
 
 const TRUSTED_APPS: TrustedApp[] = [
-  {
-    src: "/assets/customers/beehive.webp",
-    name: "Beehive — Word Puzzle Challenge",
-  },
-  { src: "/assets/customers/dozy.webp", name: "Dozy — Commute Companion" },
-  {
-    src: "/assets/customers/pixel-buddy.webp",
-    name: "Pixel Buddy — Coloring Book",
-  },
+  { src: beehive, name: "Beehive — Word Puzzle Challenge" },
+  { src: dozy, name: "Dozy — Commute Companion" },
+  { src: pixelBuddy, name: "Pixel Buddy — Coloring Book" },
 ]
 
 // Repeat the 3-app set, then double the whole strip so translateX(-50%) loops seamlessly.
@@ -28,22 +31,21 @@ const sequence: TrustedApp[] = [...half, ...half]
 
 <section class="trusted-band" aria-label="Apps using Ube in production">
   <div class="trusted-band-grid" aria-hidden="true"></div>
-  <div class="container" style={{ position: "relative", zIndex: "1" }}>
+  <div class="container trusted-label-row">
     <span class="trusted-label">Trusted in production by:</span>
   </div>
-  <div
-    class="trusted-marquee"
-    style={{ position: "relative", zIndex: "1" }}
-  >
+  <div class="trusted-marquee trusted-marquee-layered">
     <div class="trusted-track">
       {
         sequence.map((app) => (
           <div class="trusted-icon" title={app.name}>
-            <img
+            <Image
               src={app.src}
               alt={app.name}
+              width={88}
+              height={88}
               loading="lazy"
-              draggable="false"
+              draggable={false}
             />
           </div>
         ))
@@ -51,3 +53,17 @@ const sequence: TrustedApp[] = [...half, ...half]
     </div>
   </div>
 </section>
+
+<style>
+  /* Lift the label row and marquee above the absolutely-positioned grid
+     backdrop (`.trusted-band-grid`). Kept here rather than in styles.css
+     because these are positioning concerns local to this component. */
+  .trusted-label-row {
+    position: relative;
+    z-index: 1;
+  }
+  .trusted-marquee-layered {
+    position: relative;
+    z-index: 1;
+  }
+</style>

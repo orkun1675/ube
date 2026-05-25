@@ -8,43 +8,19 @@
 // `ArrowRight` is a React icon component but renders here with no `client:*`
 // directive — Astro emits it as inline SVG with zero JS, matching how the
 // other static sections (Problems, Benefits) reuse icons from lib/assets.
-//
-// Note: Astro's `style={{...}}` object syntax does NOT auto-append `px` to
-// numeric values (unlike React). Length values below are explicit strings.
 import { ArrowRight } from "../../lib/assets"
 ---
 
 <section class="cta-band">
   <div class="cta-band-bg"></div>
   <div class="cta-band-grid"></div>
-  <div
-    class="container"
-    style={{ position: "relative", textAlign: "center" }}
-  >
-    <h2
-      class="t-display-lg"
-      style={{
-        margin: "0",
-        marginBottom: "18px",
-        maxWidth: "720px",
-        marginLeft: "auto",
-        marginRight: "auto",
-      }}
-    >
+  <div class="container cta-band-inner">
+    <h2 class="t-display-lg cta-band-headline">
       Stop shipping fixes.
       <br />
       Start shipping features.
     </h2>
-    <p
-      class="t-body-md muted"
-      style={{
-        margin: "0",
-        marginBottom: "32px",
-        maxWidth: "560px",
-        marginLeft: "auto",
-        marginRight: "auto",
-      }}
-    >
+    <p class="t-body-md muted cta-band-subhead">
       Ube handles the maintenance loop so you can spend your sprint on what
       users actually asked for.
     </p>
@@ -56,3 +32,18 @@ import { ArrowRight } from "../../lib/assets"
 </section>
 
 <script src="./final-cta.client.ts"></script>
+
+<style>
+  .cta-band-inner {
+    position: relative;
+    text-align: center;
+  }
+  .cta-band-headline {
+    margin: 0 auto 18px;
+    max-width: 720px;
+  }
+  .cta-band-subhead {
+    margin: 0 auto 32px;
+    max-width: 560px;
+  }
+</style>

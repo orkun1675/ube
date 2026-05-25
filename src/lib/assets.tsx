@@ -2,38 +2,6 @@
 // All sized to 20×20 by default; override via size prop.
 import type React from "react"
 
-type LogoProps = {
-  children: React.ReactNode
-  size?: number
-  bg?: string | null
-  rounded?: number
-  style?: React.CSSProperties
-}
-
-export const Logo = ({
-  children,
-  size = 20,
-  bg = undefined,
-  rounded = 6,
-  style = {},
-}: LogoProps) => (
-  <span
-    style={{
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "center",
-      width: size,
-      height: size,
-      background: bg ?? undefined,
-      borderRadius: rounded,
-      flexShrink: 0,
-      ...style,
-    }}
-  >
-    {children}
-  </span>
-)
-
 // File-based logo wrapper — keeps a consistent square footprint for img-based marks.
 type ImgLogoProps = {
   src: string
@@ -193,19 +161,6 @@ export const MailIconFilled = ({
   </svg>
 )
 
-// Twitter / X
-export const XLogo = ({ size = 18, color = "currentColor" }: IconProps) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill={color}
-    aria-hidden="true"
-  >
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-  </svg>
-)
-
 // LinkedIn
 export const LinkedInLogo = ({
   size = 18,
@@ -272,42 +227,6 @@ export const CheckIcon = ({ size = 14, color = "currentColor" }: IconProps) => (
     aria-hidden="true"
   >
     <path d="M5 12l5 5L20 7" />
-  </svg>
-)
-
-// Error / circle x
-export const ErrorIcon = ({ size = 14, color = "currentColor" }: IconProps) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke={color}
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    <circle cx="12" cy="12" r="9" />
-    <path d="M15 9l-6 6M9 9l6 6" />
-  </svg>
-)
-
-// Warning
-export const WarnIcon = ({ size = 14, color = "currentColor" }: IconProps) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke={color}
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    <path d="M12 3l10 18H2L12 3z" />
-    <path d="M12 10v4M12 17v.1" />
   </svg>
 )
 
@@ -460,14 +379,6 @@ export const ListIcon = ({ size = 16 }: { size?: number }) => (
         <circle cx="4" cy="12" r="1" />
         <circle cx="4" cy="19" r="1" />
       </>
-    }
-  />
-)
-export const WrenchIcon = ({ size = 16 }: { size?: number }) => (
-  <Glyph
-    size={size}
-    paths={
-      <path d="M21 7a4 4 0 0 1-5 5l-7 7-3-3 7-7a4 4 0 0 1 5-5l-2 3 2 2 3-2Z" />
     }
   />
 )

@@ -10,9 +10,9 @@
 // `.wordmark-*` rules in `styles.css`. The `accent` value also flows
 // through the className so existing CSS keeps matching.
 //
-// Note: Astro's `style={{...}}` object syntax does NOT auto-append `px` to
-// numeric values (unlike React), so `fontSize` is serialized as an explicit
-// string with units.
+// The dynamic `size` prop is plumbed through a `--wm-size` CSS custom
+// property so the scoped `<style>` block can consume it without resorting
+// to an inline `style={{ fontSize: ... }}` object.
 //
 // Note: unlike JSX, Astro preserves whitespace-only text nodes between elements
 // and around bare text literals. The umlaut variant mixes raw `u`/`be` text
@@ -28,29 +28,29 @@ export interface Props {
 }
 
 const { accent, size = 30 } = Astro.props
-const style = { fontSize: `${size}px` }
+const sizeVar = `--wm-size: ${size}px`
 ---
 
 {
-  accent === "umlaut" && (
-    <span class="wordmark wordmark-umlaut" style={style}>
+  accent === "umlaut" ? (
+    <span class="wordmark wordmark-umlaut" style={sizeVar}>
       <span class="wm-u-wrap">u<span class="wm-umlaut" aria-hidden="true"><i /><i /></span></span>be</span>
-  )
-}
-{
-  accent === "cursor" && (
-    <span class="wordmark wordmark-cursor" style={style}>
+  ) : accent === "cursor" ? (
+    <span class="wordmark wordmark-cursor" style={sizeVar}>
       <span class="wm-word">ube</span>
       <span class="wm-cursor" aria-hidden="true" />
     </span>
-  )
-}
-{
-  accent === "bracket" && (
-    <span class="wordmark wordmark-bracket" style={style}>
+  ) : (
+    <span class="wordmark wordmark-bracket" style={sizeVar}>
       <span class="wm-bracket wm-bracket-l" aria-hidden="true" />
       <span class="wm-word">ube</span>
       <span class="wm-bracket wm-bracket-r" aria-hidden="true" />
     </span>
   )
 }
+
+<style>
+  .wordmark {
+    font-size: var(--wm-size);
+  }
+</style>

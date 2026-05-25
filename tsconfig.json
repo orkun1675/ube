@@ -18,10 +18,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "noPropertyAccessFromIndexSignature": true
   },
   "include": ["src", "astro.config.mjs", ".astro/types.d.ts"]
 }

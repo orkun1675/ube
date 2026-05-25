@@ -1,0 +1,31 @@
+---
+// =====================================================================
+//  LegalSidebar — shared sidebar nav for /terms-of-service/ and /privacy-policy/
+// =====================================================================
+// Both legal pages render an identical sidebar with two links and an
+// `active` highlight for the current page. The `active` prop picks which
+// link gets the highlight; everything else (markup, styles in styles.css)
+// stays as it was.
+export interface Props {
+  active: "terms" | "privacy"
+}
+
+const { active } = Astro.props
+---
+
+<aside class="legal-sidebar">
+  <nav class="legal-nav" aria-label="Legal pages">
+    <a
+      href="/terms-of-service/"
+      class:list={[{ active: active === "terms" }]}
+    >
+      Terms of Service
+    </a>
+    <a
+      href="/privacy-policy/"
+      class:list={[{ active: active === "privacy" }]}
+    >
+      Privacy Policy
+    </a>
+  </nav>
+</aside>

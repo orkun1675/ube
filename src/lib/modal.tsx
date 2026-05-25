@@ -1,6 +1,8 @@
 // Ube — Shared Modal shell
-// Handles Escape-key close, body-scroll lock, backdrop click-to-close,
-// and the inner panel with the ✕ close button.
+// Native <dialog> with showModal() handles ESC and aria-modal automatically;
+// we still lock body scroll (showModal() doesn't do this consistently) and
+// route backdrop clicks to onClose by sizing the dialog to fill the viewport
+// and detecting clicks on the dialog element itself (not the inner panel).
 import React from "react"
 
 type ModalProps = {
@@ -20,44 +22,57 @@ export const Modal = ({
   labelledBy,
   children,
 }: ModalProps) => {
+  const dialogRef = React.useRef<HTMLDialogElement>(null)
+
+  // Show / hide the native dialog when `open` flips. On unmount while open,
+  // close the dialog so the browser releases focus / top-layer state.
+  React.useEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog) return
+    if (open) {
+      if (!dialog.open) dialog.showModal()
+      return () => {
+        if (dialog.open) dialog.close()
+      }
+    }
+    if (dialog.open) dialog.close()
+    return
+  }, [open])
+
+  // Lock body scroll while open — <dialog>.showModal() doesn't do this
+  // consistently across browsers, and we don't want background scrolling.
   React.useEffect(() => {
     if (!open) return
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose()
-    }
-    document.addEventListener("keydown", onKey)
     const prev = document.body.style.overflow
     document.body.style.overflow = "hidden"
     return () => {
-      document.removeEventListener("keydown", onKey)
       document.body.style.overflow = prev
     }
-  }, [open, onClose])
+  }, [open])
 
-  if (!open) return null
-
-  const panelProps: Record<string, unknown> = {
-    className: panelClassName,
-    role: "dialog",
-    "aria-modal": "true",
+  // Native ESC fires a `cancel` event that closes the dialog; intercept it
+  // so our parent state stays in sync.
+  const onCancel = (e: React.SyntheticEvent<HTMLDialogElement>) => {
+    e.preventDefault()
+    onClose()
   }
-  if (labelledBy) panelProps["aria-labelledby"] = labelledBy
+
+  // Click on the dialog itself (the backdrop area) closes; clicks inside
+  // the inner panel bubble up with `e.target` set to the panel or a child.
+  const onClick = (e: React.MouseEvent<HTMLDialogElement>) => {
+    if (e.target === e.currentTarget) onClose()
+  }
 
   return (
-    // biome-ignore lint/a11y/useSemanticElements: backdrop wraps and centers the modal panel; cannot be a <button> which forbids nested interactive content
-    <div
+    // biome-ignore lint/a11y/useKeyWithClickEvents: keyboard close is handled natively by <dialog> via the cancel event (Escape key); onClick exists only for backdrop click-to-close
+    <dialog
+      ref={dialogRef}
       className={className}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose()
-      }}
-      onKeyDown={(e) => {
-        if (e.key === "Escape") onClose()
-      }}
-      role="button"
-      tabIndex={-1}
-      aria-label="Close modal"
+      onCancel={onCancel}
+      onClick={onClick}
+      aria-labelledby={labelledBy}
     >
-      <div {...panelProps}>
+      <div className={panelClassName}>
         <button
           type="button"
           className="modal-close"
@@ -68,6 +83,6 @@ export const Modal = ({
         </button>
         {children}
       </div>
-    </div>
+    </dialog>
   )
 }

@@ -35,10 +35,14 @@ const description =
   "Ube listens to crash feeds, error dashboards, app reviews, and dependency releases — then triages, reproduces, and opens verified PRs against your repo."
 const canonical = "https://ube.dev/"
 
-// Bake the TWEAK_DEFAULTS-derived CSS variables into an inline style block
-// so production has zero JS for theming. The dev-only TweaksPanel still
-// mutates these at runtime via `document.documentElement.style.setProperty`
-// (which wins over `:root` rules), so live preview keeps working in dev.
+// Bake the TWEAK_DEFAULTS-derived CSS variables into a `:root` style block
+// via Astro's native `define:vars` API (Astro's first-class way to inject
+// build-time values into a stylesheet — it scopes a unique CSS class to
+// the element and emits a small style tag that maps the named vars to its
+// `style="--accent:..."` attribute, so production has zero JS for theming).
+// The dev-only TweaksPanel still mutates these at runtime via
+// `document.documentElement.style.setProperty` (which wins over `:root`
+// rules), so live preview keeps working in dev.
 const ube = getUbe(TWEAK_DEFAULTS.accent)
 const accent = `oklch(${ube.L} ${ube.C} ${ube.H})`
 const accentHover = `oklch(${Math.min(0.72, ube.L + 0.1)} ${ube.C} ${ube.H})`
@@ -123,10 +127,16 @@ const jsonLd = [
   jsonLd={jsonLd}
   accentMode={accentMode}
 >
-  <style
-    is:inline
-    set:html={`:root{--accent:${accent};--accent-hover:${accentHover};--accent-soft:${accentSoft};--accent-tint:${accentTint};--card-bg:${cardBg};--card-border:${cardBorder};}`}
-  />
+  <style define:vars={{ accent, accentHover, accentSoft, accentTint, cardBg, cardBorder }}>
+    :root {
+      --accent: var(--accent);
+      --accent-hover: var(--accent-hover);
+      --accent-soft: var(--accent-soft);
+      --accent-tint: var(--accent-tint);
+      --card-bg: var(--card-bg);
+      --card-border: var(--card-border);
+    }
+  </style>
   <main>
     <Hero />
     <TrustedBy />

@@ -22,11 +22,9 @@ export default defineConfig({
   site: "https://ube.dev",
   output: "static",
   trailingSlash: "always",
+  prefetch: true,
   build: {
     format: "directory",
-  },
-  redirects: {
-    "/maintainer": "/",
   },
   integrations: [react(), sitemap()],
   vite: {

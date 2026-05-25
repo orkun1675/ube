@@ -2,10 +2,6 @@
 // Problems — static "THE PROBLEM" section with 3 content cards.
 // Icons are React components rendered server-side with no client:* directive,
 // so they ship as inline SVG with zero JS.
-//
-// Note: Astro's `style={{...}}` object syntax does NOT auto-append `px` to
-// numeric values (unlike React). Every length below is written as an
-// explicit string with units so it serializes to valid CSS.
 import { ClockIcon, FlaskIcon, StackIcon } from "../../lib/assets"
 
 type Card = {
@@ -33,43 +29,26 @@ const cards: Card[] = [
 ]
 ---
 
-<section class="section" style={{ background: "var(--canvas)" }}>
+<section class="section problems-section">
   <div class="container">
-    <div class="eyebrow" style={{ marginBottom: "18px" }}>
+    <div class="eyebrow problems-eyebrow">
       THE PROBLEM
     </div>
-    <h2 class="t-display-lg" style={{ margin: "0", maxWidth: "760px" }}>
+    <h2 class="t-display-lg problems-headline">
       App maintenance is{" "}
-      <span style={{ color: "var(--accent-2)" }}>cumbersome.</span>
+      <span class="problems-headline-accent">cumbersome.</span>
     </h2>
-    <div class="grid-3 problems-grid" style={{ marginTop: "56px" }}>
+    <div class="grid-3 problems-grid">
       {
         cards.map(({ Icon, title, body }) => (
-          <div class="card card-hover" style={{ padding: "28px" }}>
-            <div
-              style={{
-                width: "50px",
-                height: "50px",
-                borderRadius: "10px",
-                background: "var(--mark-tint)",
-                color: "var(--mark)",
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: "22px",
-                border:
-                  "1px solid color-mix(in oklab, var(--mark) 25%, transparent)",
-              }}
-            >
+          <div class="card card-hover problems-card">
+            <div class="problems-card-icon">
               <Icon size={26} />
             </div>
-            <h3 class="t-title-md ink" style={{ marginBottom: "10px" }}>
+            <h3 class="t-title-md ink problems-card-title">
               {title}
             </h3>
-            <p
-              class="t-body-sm body"
-              style={{ margin: "0", lineHeight: "1.6" }}
-            >
+            <p class="t-body-sm body problems-card-body">
               {body}
             </p>
           </div>
@@ -78,3 +57,44 @@ const cards: Card[] = [
     </div>
   </div>
 </section>
+
+<style>
+  .problems-section {
+    background: var(--canvas);
+  }
+  .problems-eyebrow {
+    margin-bottom: 18px;
+  }
+  .problems-headline {
+    margin: 0;
+    max-width: 760px;
+  }
+  .problems-headline-accent {
+    color: var(--accent-2);
+  }
+  .problems-grid {
+    margin-top: 56px;
+  }
+  .problems-card {
+    padding: 28px;
+  }
+  .problems-card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background: var(--mark-tint);
+    color: var(--mark);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 22px;
+    border: 1px solid color-mix(in oklab, var(--mark) 25%, transparent);
+  }
+  .problems-card-title {
+    margin-bottom: 10px;
+  }
+  .problems-card-body {
+    margin: 0;
+    line-height: 1.6;
+  }
+</style>
