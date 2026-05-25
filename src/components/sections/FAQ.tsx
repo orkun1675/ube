@@ -13,7 +13,7 @@ type FaqItemProps = FaqItem & { defaultOpen?: boolean }
 const FAQItem = ({ q, a, defaultOpen }: FaqItemProps) => {
   const [open, setOpen] = React.useState(!!defaultOpen)
   return (
-    <div className={`${styles["faq-item"]} ${open ? styles["open"] : ""}`}>
+    <div className={`${styles["faq-item"]} ${open ? styles["is-open"] : ""}`}>
       <button
         type="button"
         className={styles["faq-question"]}

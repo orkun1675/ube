@@ -1,7 +1,7 @@
 // =====================================================================
 //  Request Access Modal
 // =====================================================================
-import React from "react"
+import React, { type SubmitEvent } from "react"
 
 import { BASIN_ENDPOINT, GITHUB_URL, RECAPTCHA_SITE_KEY } from "@/constants"
 import { track } from "@/lib/analytics"
@@ -78,7 +78,7 @@ export const RequestAccessModal = ({
       }, 280)
     }
   }, [open, step])
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!product) {
       setProductError(true)

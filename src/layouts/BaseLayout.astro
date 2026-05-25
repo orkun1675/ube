@@ -138,6 +138,7 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
     {
       jsonLdBlocks.map((block) => (
         <script
+          is:inline
           type="application/ld+json"
           set:html={JSON.stringify(block, null, 2)}
         />
@@ -193,7 +194,7 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
       // dev-directory URL appears in the production HTML or bundle
       // (ADR 0003 invariant).
       import.meta.env.DEV && (
-        <script type="module" src="/src/dev/tweaks-panel.client.tsx"></script>
+        <script is:inline type="module" src="/src/dev/tweaks-panel.client.tsx"></script>
       )
     }
     <script src="./page-tracking.client.ts"></script>

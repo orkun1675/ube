@@ -107,8 +107,8 @@ export const SourcesModal = ({ open, onClose }: SourcesModalProps) => {
       <div className={styles["sources-header"]}>
         <div className={styles["sources-scanner"]} aria-hidden="true">
           <span className={styles["scanner-grid"]} />
-          <span className={`${styles["scanner-ring"]} ${styles["r1"]}`} />
-          <span className={`${styles["scanner-ring"]} ${styles["r2"]}`} />
+          <span className={`${styles["scanner-ring"]} ${styles["ring-1"]}`} />
+          <span className={`${styles["scanner-ring"]} ${styles["ring-2"]}`} />
           <span className={styles["scanner-sweep"]} />
           <span className={styles["scanner-dot"]} />
         </div>
