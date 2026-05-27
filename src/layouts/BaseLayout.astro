@@ -165,36 +165,32 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
          Loading it up-front blocks render and pulls Google trackers for every visitor. -->
 
     <!-- Amplitude Analytics + Session Replay (Unified Script — Amplitude CDN).
-         Only initialized on ube.dev (or a subdomain). On localhost the snippet
-         stub installs but `init` is skipped — escape hatch: ?amplitude=1 -->
-    <link rel="preconnect" href="https://cdn.amplitude.com" />
+         The script tag is injected dynamically so it only loads on ube.dev
+         (or a subdomain). Escape hatch for local verification: ?amplitude=1.
+         A static <script src> would fire tracking + session replay
+         immediately on parse — the Unified Script auto-initializes from its
+         dashboard config the moment it executes, so an onload-time gate
+         doesn't actually stop anything. -->
     <script is:inline>
       {
-        window.initUbeAmplitude = () => {
-          const h = location.hostname
-          const enabled =
-            h === "ube.dev" ||
-            h.endsWith(".ube.dev") ||
-            location.search.includes("amplitude=1")
-          if (!enabled || !window.amplitude) return
-
-          if (window.amplitude.add && window.sessionReplay?.plugin) {
-            window.amplitude.add(window.sessionReplay.plugin({ sampleRate: 1 }))
-          }
-          window.amplitude.init?.("7fdbc1ae75a64eb50d90f29ac9721390", {
-            defaultTracking: true,
-            autocapture: true,
-            fetchRemoteConfig: true,
-          })
+        const h = location.hostname
+        const enabled =
+          h === "ube.dev" ||
+          h.endsWith(".ube.dev") ||
+          location.search.includes("amplitude=1")
+        if (enabled) {
+          const preconnect = document.createElement("link")
+          preconnect.rel = "preconnect"
+          preconnect.href = "https://cdn.amplitude.com"
+          document.head.appendChild(preconnect)
+          const s = document.createElement("script")
+          s.src =
+            "https://cdn.amplitude.com/script/7fdbc1ae75a64eb50d90f29ac9721390.js"
+          s.async = true
+          document.head.appendChild(s)
         }
       }
     </script>
-    <script
-      is:inline
-      async
-      src="https://cdn.amplitude.com/script/7fdbc1ae75a64eb50d90f29ac9721390.js"
-      onload="window.initUbeAmplitude?.()"
-    ></script>
   </head>
   <body data-accent-mode={accentMode}>
     <!-- The page itself acts as a "curtain" that lifts off the wordmark
