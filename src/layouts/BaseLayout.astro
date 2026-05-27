@@ -170,7 +170,17 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
          A static <script src> would fire tracking + session replay
          immediately on parse — the Unified Script auto-initializes from its
          dashboard config the moment it executes, so an onload-time gate
-         doesn't actually stop anything. -->
+         doesn't actually stop anything.
+
+         On script load, an enrichment plugin rewrites `[Amplitude] Page
+         Title` from the 50+ char SEO `<title>` (e.g. "Ube Publisher —
+         Mobile App Distribution Orchestrator") to a short, route-keyed
+         label so the event feed stays readable. Applies to every
+         autocapture event that carries the property (page views, element
+         clicks, form interactions). Then `init()` is called explicitly
+         so SDK config stays in version control instead of the Amplitude
+         dashboard's Remote Config — `defaultTracking` is intentionally
+         omitted (superseded by `autocapture`). -->
     <script is:inline>
       {
         const h = location.hostname
@@ -187,6 +197,31 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
           s.src =
             "https://cdn.amplitude.com/script/7fdbc1ae75a64eb50d90f29ac9721390.js"
           s.async = true
+          s.onload = () => {
+            const SHORT_PAGE_TITLES = {
+              "/": "Publisher",
+              "/maintainer/": "Maintainer",
+              "/pricing/": "Pricing",
+              "/privacy-policy/": "Privacy Policy",
+              "/terms-of-service/": "Terms of Service",
+            }
+            window.amplitude?.add?.({
+              name: "ube-short-page-title",
+              type: "enrichment",
+              setup: async () => undefined,
+              execute: async (event) => {
+                const short = SHORT_PAGE_TITLES[location.pathname]
+                if (short && event.event_properties) {
+                  event.event_properties["[Amplitude] Page Title"] = short
+                }
+                return event
+              },
+            })
+            window.amplitude?.init?.("7fdbc1ae75a64eb50d90f29ac9721390", {
+              autocapture: true,
+              fetchRemoteConfig: true,
+            })
+          }
           document.head.appendChild(s)
         }
       }
