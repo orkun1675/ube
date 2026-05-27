@@ -224,7 +224,7 @@ const RetainMockup = () => {
       <div className="mockup-header">
         <div className="traffic-lights"><span/><span/><span/></div>
         <span className="mono" style={{ fontSize: 11, color: "var(--muted)" }}>
-          retention · onboarding funnel
+          Retention · <span className="ink">Onboarding Funnel</span>
         </span>
         <span style={{ flex: 1 }} />
         <span className="pill pill-error">37 % DROP</span>

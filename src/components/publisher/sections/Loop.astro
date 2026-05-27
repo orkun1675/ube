@@ -25,14 +25,16 @@ const steps: Step[] = [
     title: "Analytics, wired up right.",
     body: "SDKs installed, user IDs aligned across platforms, events annotated in plain language. No data soup — a clean taxonomy you can reason about later.",
     learnMore: "Why annotation order matters",
+    disabled: true,
   },
   {
     num: "02",
     label: "Attribute",
     reversed: false,
-    title: "Closes the loop.",
+    title: "Closes the feedback loop.",
     body: "MMP set up, SKAdNetwork configured, revenue forwarded to your ad networks. The full ad → click → install → in-app event chain, working end to end.",
     learnMore: "How attribution works",
+    disabled: true,
   },
   {
     num: "03",
@@ -41,13 +43,14 @@ const steps: Step[] = [
     title: "Dashboards that mean something.",
     body: "D7, CAC, LTV, funnel drop-offs — readable in plain language. Internal users filtered out by default. The numbers you see are the numbers you can act on.",
     learnMore: "Picking metrics that matter",
+    disabled: true,
   },
   {
     num: "04",
     label: "Acquire",
     reversed: false,
     title: "Runs your ads. Tunes them.",
-    body: "Generates creatives, launches campaigns on Meta, Google, and TikTok, and shifts budget toward whatever earns installs at your target CAC. You set the cap.",
+    body: "Generates creatives, launches campaigns on Meta, Google, Reddit,and TikTok, and shifts budget toward the channel that has the best customer acquisition cost.",
     learnMore: "How creatives get made",
     disabled: true,
   },
@@ -57,16 +60,16 @@ const steps: Step[] = [
     reversed: true,
     title: "Spots drop-offs. Tests fixes.",
     body: "Reads your funnel, proposes an A/B test, ships it through Firebase Remote Config, calls the winner once it's statistically conclusive.",
-    learnMore: "A/B test policies",
+    learnMore: "How we run A/B tests",
     disabled: true,
   },
   {
     num: "06",
     label: "Monetize",
     reversed: false,
-    title: "Finds what people will pay.",
-    body: "Trial length, price points, plan order — tested through RevenueCat once retention is sticky. You never have to guess what to charge.",
-    learnMore: "When monetization unlocks",
+    title: "Optimizes pricing.",
+    body: "Trial length, price points, plan order — tested through RevenueCat once retention is sticky. Monetize your app effectively without upsetting your users.",
+    learnMore: "When monetization matters",
     disabled: true,
   },
 ]
@@ -76,11 +79,11 @@ const steps: Step[] = [
   <div class="container">
     <div class="eyebrow">The solution</div>
     <h2 class="t-display-lg publisher-section-title">
-      Measure how your app performs, iteratively improve it, then scale to millions.
+      Measure, iterate, then scale to millions.
     </h2>
     <p class="t-body-md body publisher-section-copy">
-      Six steps from "I shipped an app" to "people are paying for it." Same
-      tools a senior growth team would pick — set up for you, then run.
+      Six steps from the v1 release to establishing recurring revenue.
+      The loop runs daily to generate insights and recommendations.
     </p>
     <div class="publisher-steps">
       {
