@@ -54,7 +54,6 @@ export const TweaksPanelMount = () => {
   }, [tweaks.accent])
 
   React.useEffect(() => {
-    // biome-ignore lint/complexity/useLiteralKeys: tsconfig `noPropertyAccessFromIndexSignature` requires bracket access for Record<string, …>
     const t = CARD_TONES[tweaks.cardTone] || CARD_TONES["warm"]
     if (!t) return
     const r = document.documentElement.style
@@ -66,7 +65,6 @@ export const TweaksPanelMount = () => {
   // for interactive (CTAs, links, focus, "cumbersome", impact stat) and
   // coconut cream takes the structural marks.
   React.useEffect(() => {
-    // biome-ignore lint/complexity/useLiteralKeys: tsconfig `noPropertyAccessFromIndexSignature` requires bracket access for DOMStringMap
     document.body.dataset["accentMode"] = tweaks.accentStrategy || "split"
   }, [tweaks.accentStrategy])
 

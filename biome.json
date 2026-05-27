@@ -58,6 +58,9 @@
         "noUselessElse": "error",
         "useForOf": "error"
       },
+      "complexity": {
+        "useLiteralKeys": "off"
+      },
       "nursery": {
         "noDuplicateSelectors": "error"
       }

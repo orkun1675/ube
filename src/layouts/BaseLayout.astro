@@ -33,6 +33,7 @@
 import { RequestAccessIsland } from "@/components/modals/RequestAccessIsland"
 import Nav from "@/components/nav/Nav.astro"
 import Footer from "@/components/sections/Footer.astro"
+import Amplitude from "./Amplitude.astro"
 
 // Self-hosted variable fonts (cuts ~180ms median LCP vs. the Google CDN).
 // One file per family covers every weight we use — see styles.css where
@@ -153,79 +154,7 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
       ))
     }
 
-    <!-- Fonts: self-hosted via @fontsource-variable (imported in this
-         layout's frontmatter). The variable WOFF2 ships from the same
-         origin via Vite's asset pipeline — no render-blocking call to
-         fonts.googleapis.com. We don't add a <link rel="preload"> here
-         because Vite fingerprints the asset paths per build, so a
-         hardcoded preload href would 404 on every rebuild. -->
-
-    <!-- reCAPTCHA v3 (used by Basin for spam protection on the request-access form)
-         is lazy-loaded from the modal — see src/components/modals/RequestAccessModal.tsx.
-         Loading it up-front blocks render and pulls Google trackers for every visitor. -->
-
-    <!-- Amplitude Analytics + Session Replay (Unified Script — Amplitude CDN).
-         The script tag is injected dynamically so it only loads on ube.dev
-         (or a subdomain). Escape hatch for local verification: ?amplitude=1.
-         A static <script src> would fire tracking + session replay
-         immediately on parse — the Unified Script auto-initializes from its
-         dashboard config the moment it executes, so an onload-time gate
-         doesn't actually stop anything.
-
-         On script load, an enrichment plugin rewrites `[Amplitude] Page
-         Title` from the 50+ char SEO `<title>` (e.g. "Ube Publisher —
-         Mobile App Distribution Orchestrator") to a short, route-keyed
-         label so the event feed stays readable. Applies to every
-         autocapture event that carries the property (page views, element
-         clicks, form interactions). Then `init()` is called explicitly
-         so SDK config stays in version control instead of the Amplitude
-         dashboard's Remote Config — `defaultTracking` is intentionally
-         omitted (superseded by `autocapture`). -->
-    <script is:inline>
-      {
-        const h = location.hostname
-        const enabled =
-          h === "ube.dev" ||
-          h.endsWith(".ube.dev") ||
-          location.search.includes("amplitude=1")
-        if (enabled) {
-          const preconnect = document.createElement("link")
-          preconnect.rel = "preconnect"
-          preconnect.href = "https://cdn.amplitude.com"
-          document.head.appendChild(preconnect)
-          const s = document.createElement("script")
-          s.src =
-            "https://cdn.amplitude.com/script/7fdbc1ae75a64eb50d90f29ac9721390.js"
-          s.async = true
-          s.onload = () => {
-            const SHORT_PAGE_TITLES = {
-              "/": "Publisher",
-              "/maintainer/": "Maintainer",
-              "/pricing/": "Pricing",
-              "/privacy-policy/": "Privacy Policy",
-              "/terms-of-service/": "Terms of Service",
-            }
-            window.amplitude?.add?.({
-              name: "ube-short-page-title",
-              type: "enrichment",
-              setup: async () => undefined,
-              execute: async (event) => {
-                const short = SHORT_PAGE_TITLES[location.pathname]
-                if (short && event.event_properties) {
-                  event.event_properties["[Amplitude] Page Title"] = short
-                }
-                return event
-              },
-            })
-            window.amplitude?.init?.("7fdbc1ae75a64eb50d90f29ac9721390", {
-              autocapture: true,
-              fetchRemoteConfig: true,
-            })
-          }
-          document.head.appendChild(s)
-        }
-      }
-    </script>
+    <Amplitude />
   </head>
   <body data-accent-mode={accentMode}>
     <!-- The page itself acts as a "curtain" that lifts off the wordmark
