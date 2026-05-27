@@ -22,7 +22,8 @@
       "!skills-lock.json",
       "!.astro",
       "!**/*.astro",
-      "!claude_design_publisher_page"
+      "!claude_design_publisher_page",
+      "!.claude/worktrees"
     ]
   },
   "linter": {
