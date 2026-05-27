@@ -17,7 +17,6 @@
 //   * The CSS-variable defaults the tweaks panel mutates at runtime are
 //     baked into the inline `<style>` block below at build time, so prod
 //     gets the chosen accent / cardTone / accentStrategy without any JS.
-import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/constants"
 import { TWEAK_DEFAULTS } from "@/data/tweak-defaults"
 import { FAQ } from "@/components/sections/FAQ"
 import FinalCta from "@/components/maintainer/sections/FinalCta.astro"
@@ -29,6 +28,16 @@ import TrustedBy from "@/components/maintainer/sections/TrustedBy.astro"
 import { CARD_TONES, getUbe } from "@/lib/palette"
 import { FAQ_ITEMS } from "@/data/faq-items"
 import BaseLayout from "@/layouts/BaseLayout.astro"
+import {
+  buildBreadcrumbSchema,
+  buildFaqPageSchema,
+  buildJsonLdGraph,
+  buildMaintainerSchema,
+  buildOrganizationSchema,
+  buildWebPageSchema,
+  buildWebsiteSchema,
+  schemaIds,
+} from "@/lib/schema"
 
 const title = "Ube — AI App Maintenance Agent for Mobile Dev Teams"
 const description =
@@ -57,149 +66,23 @@ const accentMode = TWEAK_DEFAULTS.accentStrategy
 // AI Overviews weight recently-modified pages higher in time-sensitive
 // queries. Matches the format the sitemap integration emits for `lastmod`.
 const dateModified = new Date().toISOString()
-const siteUrl = new URL("/", Astro.site).href
-const publisherUrl = new URL("/publisher/", Astro.site).href
-const pricingUrl = new URL("/pricing/", Astro.site).href
-const orgId = new URL("/#organization", Astro.site).href
-const websiteId = new URL("/#website", Astro.site).href
-const maintainerId = new URL("/#ube-maintainer", Astro.site).href
-const publisherId = new URL("/publisher/#ube-publisher", Astro.site).href
+const pageUrl = new URL("/", Astro.site).href
+const ids = schemaIds(Astro.site)
 
-// Multiple schemas — Astro's BaseLayout iterates and emits each as its own
-// <script type="application/ld+json"> block (single source of truth between
-// the visible FAQ component and the structured-data answers AI engines quote).
-const jsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": orgId,
-    name: "Ube",
-    legalName: "Chunky Tofu Studios, LLC",
-    url: siteUrl,
-    logo: new URL("/assets/favicons/logo-512.png", Astro.site).href,
-    description:
-      "Ube builds AI agents for mobile app teams: Ube Maintainer triages crashes, reviews, and dependency releases into verified pull requests, and Ube Publisher instruments analytics, attribution, paid acquisition, A/B tests, and monetization loops.",
-    contactPoint: {
-      "@type": "ContactPoint",
-      email: CONTACT_EMAIL,
-      contactType: "customer support",
-    },
-    sameAs: [GITHUB_URL, LINKEDIN_URL],
-    knowsAbout: [
-      "mobile app maintenance",
-      "cross-platform app development",
-      "crash triage",
-      "dependency upgrades",
-      "mobile analytics",
-      "mobile attribution",
-      "paid user acquisition",
-      "A/B testing",
-      "app monetization",
-    ],
-    makesOffer: [
-      {
-        "@type": "Offer",
-        name: "Ube Maintainer early access",
-        url: siteUrl,
-        availability: "https://schema.org/PreOrder",
-        itemOffered: {
-          "@type": "SoftwareApplication",
-          "@id": maintainerId,
-          name: "Ube Maintainer",
-          applicationCategory: "DeveloperApplication",
-        },
-      },
-      {
-        "@type": "Offer",
-        name: "Ube Publisher early access",
-        url: publisherUrl,
-        availability: "https://schema.org/PreOrder",
-        itemOffered: {
-          "@type": "SoftwareApplication",
-          "@id": publisherId,
-          name: "Ube Publisher",
-          applicationCategory: "BusinessApplication",
-        },
-      },
-    ],
+const jsonLd = buildJsonLdGraph([
+  buildOrganizationSchema(Astro.site, dateModified),
+  buildWebsiteSchema(Astro.site),
+  buildMaintainerSchema(Astro.site, dateModified),
+  buildWebPageSchema(Astro.site, {
+    pageUrl,
+    title,
+    description,
     dateModified,
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": websiteId,
-    name: "Ube",
-    url: siteUrl,
-    description:
-      "AI agents for maintaining and growing mobile apps, including Ube Maintainer and Ube Publisher.",
-    publisher: { "@id": orgId },
-    inLanguage: "en-US",
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "@id": maintainerId,
-    name: "Ube Maintainer",
-    url: siteUrl,
-    applicationCategory: "DeveloperApplication",
-    operatingSystem: "Web",
-    description:
-      "An agent that listens to crash feeds, error dashboards, app reviews, and dependency releases — then triages, reproduces, and opens verified PRs against your repo. Supports React Native, Expo, Flutter, native iOS (Swift / Obj-C), native Android (Kotlin / Java), and Capacitor / Ionic.",
-    dateModified,
-    featureList: [
-      "Monitors crash feeds, error dashboards, app reviews, and dependency releases",
-      "Deduplicates issues across binaries, OS versions, and dependency upgrades",
-      "Reproduces bugs on emulators, patches, and verifies against your test suite",
-      "Opens verified pull requests with regression-suite coverage",
-      "Closes the loop with the original reporter after release",
-      "Escalates upstream with detailed reproduction reports",
-    ],
-    screenshot: new URL("/assets/social/og-image-maintainer.jpg", Astro.site).href,
-    offers: {
-      "@type": "Offer",
-      name: "Ube Maintainer early access",
-      url: pricingUrl,
-      price: "40",
-      priceCurrency: "USD",
-      availability: "https://schema.org/PreOrder",
-      priceSpecification: {
-        "@type": "UnitPriceSpecification",
-        price: "40",
-        priceCurrency: "USD",
-        unitText: "per app per month",
-      },
-    },
-    creator: {
-      "@type": "Organization",
-      "@id": orgId,
-      name: "Chunky Tofu Studios, LLC",
-      url: siteUrl,
-    },
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Ube Maintainer",
-        item: siteUrl,
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "@id": new URL("/#faq", Astro.site).href,
-    mainEntityOfPage: siteUrl,
-    mainEntity: FAQ_ITEMS.map(({ q, a }) => ({
-      "@type": "Question",
-      name: q,
-      acceptedAnswer: { "@type": "Answer", text: a },
-    })),
-  },
-]
+    aboutId: ids.maintainerId,
+  }),
+  buildBreadcrumbSchema(pageUrl, [{ name: "Ube Maintainer", url: pageUrl }]),
+  buildFaqPageSchema(pageUrl, FAQ_ITEMS),
+])
 ---
 
 <BaseLayout

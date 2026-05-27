@@ -9,6 +9,15 @@ import Moat from "@/components/publisher/sections/Moat.astro"
 import Problems from "@/components/publisher/sections/Problems.astro"
 import Stack from "@/components/publisher/sections/Stack.astro"
 import BaseLayout from "@/layouts/BaseLayout.astro"
+import {
+  buildBreadcrumbSchema,
+  buildJsonLdGraph,
+  buildOrganizationSchema,
+  buildPublisherSchema,
+  buildWebPageSchema,
+  buildWebsiteSchema,
+  schemaIds,
+} from "@/lib/schema"
 
 const title = "Ube Publisher — Mobile App Distribution Orchestrator"
 const description =
@@ -26,71 +35,24 @@ const cardBorder = cardTone?.border ?? "#2a2720"
 const dateModified = new Date().toISOString()
 const siteUrl = new URL("/", Astro.site).href
 const publisherUrl = new URL("/publisher/", Astro.site).href
-const pricingUrl = new URL("/pricing/", Astro.site).href
-const orgId = new URL("/#organization", Astro.site).href
-const websiteId = new URL("/#website", Astro.site).href
-const publisherId = new URL("/publisher/#ube-publisher", Astro.site).href
+const ids = schemaIds(Astro.site)
 
-const jsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "@id": publisherId,
-    name: "Ube Publisher",
-    url: publisherUrl,
-    applicationCategory: "BusinessApplication",
-    operatingSystem: "Web",
+const jsonLd = buildJsonLdGraph([
+  buildOrganizationSchema(Astro.site, dateModified),
+  buildWebsiteSchema(Astro.site),
+  buildPublisherSchema(Astro.site, dateModified, description),
+  buildWebPageSchema(Astro.site, {
+    pageUrl: publisherUrl,
+    title,
     description,
     dateModified,
-    isPartOf: { "@id": websiteId },
-    creator: {
-      "@type": "Organization",
-      "@id": orgId,
-      name: "Chunky Tofu Studios, LLC",
-      url: siteUrl,
-    },
-    featureList: [
-      "Audits and instruments mobile apps with analytics and attribution SDKs",
-      "Sets up dashboards, MMP imports, SKAdNetwork schema, and event forwarding",
-      "Creates and tests ad creatives across paid acquisition channels",
-      "Finds drop-off points and recommends retention and monetization experiments",
-      "Runs A/B tests through Firebase or RevenueCat with approval gates",
-      "Scales budget only after retention, monetization, and campaign math improve",
-    ],
-    offers: {
-      "@type": "Offer",
-      name: "Maintainer + Publisher early access",
-      url: pricingUrl,
-      price: "100",
-      priceCurrency: "USD",
-      availability: "https://schema.org/PreOrder",
-      priceSpecification: {
-        "@type": "UnitPriceSpecification",
-        price: "100",
-        priceCurrency: "USD",
-        unitText: "per app per month",
-      },
-    },
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Ube Maintainer",
-        item: siteUrl,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Ube Publisher",
-        item: publisherUrl,
-      },
-    ],
-  },
-]
+    aboutId: ids.publisherId,
+  }),
+  buildBreadcrumbSchema(publisherUrl, [
+    { name: "Ube", url: siteUrl },
+    { name: "Ube Publisher", url: publisherUrl },
+  ]),
+])
 ---
 
 <BaseLayout

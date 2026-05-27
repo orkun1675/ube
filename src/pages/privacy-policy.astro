@@ -10,58 +10,39 @@
 import LegalSidebar from "@/components/sections/LegalSidebar.astro"
 import { CONTACT_EMAIL } from "@/constants"
 import BaseLayout from "@/layouts/BaseLayout.astro"
+import {
+  buildBreadcrumbSchema,
+  buildJsonLdGraph,
+  buildOrganizationSchema,
+  buildWebPageSchema,
+  buildWebsiteSchema,
+} from "@/lib/schema"
 
 const pageUrl = new URL("/privacy-policy/", Astro.site).href
 const siteUrl = new URL("/", Astro.site).href
-const orgId = new URL("/#organization", Astro.site).href
 const dateModified = "2026-05-24"
-const jsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": pageUrl,
-    name: "Privacy Policy",
-    url: pageUrl,
-    description:
-      "Privacy Policy for Ube, a software platform by Chunky Tofu Studios, LLC.",
+const title = "Privacy Policy — Ube"
+const description =
+  "Privacy Policy for Ube, a software platform by Chunky Tofu Studios, LLC."
+const jsonLd = buildJsonLdGraph([
+  buildOrganizationSchema(Astro.site),
+  buildWebsiteSchema(Astro.site),
+  buildWebPageSchema(Astro.site, {
+    pageUrl,
+    title,
+    description,
     dateModified,
-    isPartOf: {
-      "@type": "WebSite",
-      "@id": new URL("/#website", Astro.site).href,
-      name: "Ube",
-      url: siteUrl,
-    },
-    publisher: {
-      "@type": "Organization",
-      "@id": orgId,
-      name: "Chunky Tofu Studios, LLC",
-      url: siteUrl,
-    },
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Ube",
-        item: siteUrl,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Privacy Policy",
-        item: pageUrl,
-      },
-    ],
-  },
-]
+  }),
+  buildBreadcrumbSchema(pageUrl, [
+    { name: "Ube", url: siteUrl },
+    { name: "Privacy Policy", url: pageUrl },
+  ]),
+])
 ---
 
 <BaseLayout
-  title="Privacy Policy — Ube"
-  description="Privacy Policy for Ube, a software platform by Chunky Tofu Studios, LLC."
+  title={title}
+  description={description}
   jsonLd={jsonLd}
 >
   <main class="legal-page">

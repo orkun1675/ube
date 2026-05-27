@@ -134,6 +134,12 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
 
     <!-- Web app manifest for share-to-homescreen on mobile -->
     <link rel="manifest" href="/site.webmanifest" />
+    <link
+      rel="alternate"
+      type="text/markdown"
+      href="/llms.txt"
+      title="LLMs text"
+    />
 
     <!-- Structured data for search + AI answer engines. Kept in raw HTML
          (rather than injected by React) so non-JS crawlers can read them. -->
