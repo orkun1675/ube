@@ -256,6 +256,67 @@ export const Glyph = ({
   </svg>
 )
 
+// Publisher problem + hero-chip icons
+export const GearIcon = ({ size = 20 }: { size?: number }) => (
+  <Glyph
+    size={size}
+    paths={
+      <>
+        <circle cx="12" cy="12" r="3" />
+        <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.6V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.6-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h.1a1.7 1.7 0 0 0 1-1.6V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v.1a1.7 1.7 0 0 0 1.6 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z" />
+      </>
+    }
+  />
+)
+export const MegaphoneIcon = ({ size = 20 }: { size?: number }) => (
+  <Glyph
+    size={size}
+    paths={
+      <>
+        <path d="M3 11l18-6v14L3 13v-2Z" />
+        <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
+      </>
+    }
+  />
+)
+export const LoopIcon = ({ size = 20 }: { size?: number }) => (
+  <Glyph
+    size={size}
+    paths={
+      <>
+        <path d="M20 12a8 8 0 1 1-2.34-5.66" />
+        <path d="M20 4v4h-4" />
+      </>
+    }
+  />
+)
+export const SparklesIcon = ({ size = 20 }: { size?: number }) => (
+  <Glyph
+    size={size}
+    paths={
+      <>
+        <path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3Z" />
+        <path d="M18 14l.8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8L18 14Z" />
+      </>
+    }
+  />
+)
+export const BarChartIcon = ({ size = 20 }: { size?: number }) => (
+  <Glyph size={size} paths={<path d="M5 20V10M11 20V4M17 20v-7M3 20h18" />} />
+)
+export const SeedlingIcon = ({ size = 20 }: { size?: number }) => (
+  <Glyph
+    size={size}
+    paths={
+      <>
+        <path d="M12 22V10" />
+        <path d="M12 10C12 6 9 4 6 4c0 4 3 6 6 6Z" />
+        <path d="M12 10c0-4 3-6 6-6 0 4-3 6-6 6Z" />
+      </>
+    }
+  />
+)
+
 // Specific problem icons
 export const FlaskIcon = ({ size = 20 }: { size?: number }) => (
   <Glyph

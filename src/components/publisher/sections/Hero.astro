@@ -1,45 +1,58 @@
 ---
-import { ArrowRight } from "@/lib/assets"
-import CreativeStack from "@/components/publisher/mockups/CreativeStack.astro"
-import GrowthConsole from "@/components/publisher/mockups/GrowthConsole.astro"
+import { ArrowRight, ReactLogo, SeedlingIcon, SparklesIcon } from "@/lib/assets"
+import WeeklyMockup from "@/components/publisher/mockups/WeeklyMockup.astro"
 ---
 
 <section class="publisher-hero" id="top">
   <div class="publisher-hero-grid-bg" aria-hidden="true"></div>
   <div class="container publisher-hero-inner">
     <div class="publisher-hero-copy fade-in">
-      <div class="eyebrow publisher-eyebrow">Ube Publisher</div>
+      <div class="eyebrow publisher-hero-eyebrow">Ube Publisher</div>
       <h1 class="t-display-mega publisher-hero-title">
-        App distribution,
+        Everything you need
         <br />
-        <span>without becoming a mobile growth person.</span>
+        <span class="publisher-hero-title-muted">to grow your app.</span>
       </h1>
       <p class="t-body-md body publisher-hero-body">
-        You built the app. Now Ube sets up analytics, attribution, dashboards,
-        creatives, paid ads, and A/B tests so you can learn what to improve
-        before you pour real money into growth.
+        The growth playbook the top-grossing app studios run on, packaged for
+        small teams. Ube instruments, acquires, and prices your app from your
+        first user to your millionth.
       </p>
       <div class="publisher-cta-row">
         <button type="button" class="btn btn-primary" data-publisher-hero-cta>
           Request access
           <ArrowRight size={14} />
         </button>
-        <a class="btn btn-secondary" href="#loop">See the loop</a>
+        <a class="btn btn-secondary" href="#loop">See how it works</a>
       </div>
       <div class="publisher-builtfor">
-        <span>Built for</span>
-        <strong>vibecoders</strong>
-        <strong>solo app studios</strong>
-        <strong>product people</strong>
+        <span class="builtfor-label">Built for</span>
+        <span class="builtfor-chip">
+          <span class="builtfor-chip-mark" style="color: var(--accent)">
+            <SparklesIcon size={12} />
+          </span>
+          Vibecoders
+        </span>
+        <span class="builtfor-chip">
+          <span class="builtfor-chip-mark" style="color: var(--success)">
+            <SeedlingIcon size={12} />
+          </span>
+          Solo founders
+        </span>
+        <span class="builtfor-chip">
+          <span class="builtfor-chip-mark">
+            <ReactLogo size={12} />
+          </span>
+          Indie studios
+        </span>
       </div>
     </div>
 
     <div
       class="publisher-hero-visual fade-in"
-      aria-label="Ube Publisher growth console mockup"
+      aria-label="Ube Publisher weekly brief mockup"
     >
-      <GrowthConsole />
-      <CreativeStack />
+      <WeeklyMockup />
     </div>
   </div>
 </section>
@@ -50,7 +63,7 @@ import GrowthConsole from "@/components/publisher/mockups/GrowthConsole.astro"
   .publisher-hero {
     position: relative;
     overflow: hidden;
-    padding: 112px 0 88px;
+    padding: 144px 0 176px;
     border-bottom: 1px solid var(--hairline-soft);
   }
   .publisher-hero-grid-bg {
@@ -78,20 +91,27 @@ import GrowthConsole from "@/components/publisher/mockups/GrowthConsole.astro"
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
-    gap: 56px;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 60px;
     align-items: center;
   }
-  .publisher-hero-title {
-    margin: 24px 0 0;
+  .publisher-hero-inner > * {
+    min-width: 0;
   }
-  .publisher-hero-title span {
+  .publisher-hero-eyebrow {
+    margin-bottom: 28px;
+  }
+  .publisher-hero-title {
+    margin: 0;
+    color: var(--ink);
+  }
+  .publisher-hero-title-muted {
     color: var(--muted);
   }
   .publisher-hero-body {
-    max-width: 570px;
-    margin: 28px 0 0;
-    line-height: 1.65;
+    margin-top: 32px;
+    max-width: 520px;
+    line-height: 1.6;
   }
   .publisher-cta-row {
     display: flex;
@@ -99,41 +119,69 @@ import GrowthConsole from "@/components/publisher/mockups/GrowthConsole.astro"
     gap: 12px;
     margin-top: 36px;
   }
+
   .publisher-builtfor {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 16px;
-    align-items: center;
-    margin-top: 34px;
-    color: var(--muted);
+    display: block;
+    margin-top: 48px;
+    color: var(--body);
     font-family: var(--font-mono);
     font-size: 11px;
-    letter-spacing: 0.72px;
+    letter-spacing: 0.6px;
     text-transform: uppercase;
   }
-  .publisher-builtfor strong {
-    color: var(--body);
-    font-weight: 500;
+  .publisher-builtfor .builtfor-label,
+  .publisher-builtfor .builtfor-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 14px;
+    margin-block: 6px;
+    white-space: nowrap;
+    vertical-align: middle;
   }
+  .publisher-builtfor .builtfor-label {
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    margin-right: 18px;
+  }
+  .publisher-builtfor .builtfor-chip-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .publisher-hero-visual {
     position: relative;
     min-width: 0;
   }
+
+  @media (min-width: 1025px) {
+    .publisher-hero-title {
+      font-size: clamp(44px, 4.55vw, 56px);
+      letter-spacing: -1.68px;
+      line-height: 1.05;
+      white-space: nowrap;
+    }
+    .publisher-hero-title-muted {
+      white-space: nowrap;
+    }
+  }
   @media (max-width: 1100px) {
     .publisher-hero-inner {
       grid-template-columns: 1fr;
-    }
-    .publisher-hero-visual {
-      max-width: 760px;
-      width: 100%;
+      gap: 56px;
     }
   }
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     .publisher-hero {
-      padding: 78px 0 66px;
+      padding: 104px 0 112px;
     }
   }
   @media (max-width: 640px) {
+    .publisher-hero {
+      padding: 80px 0 88px;
+    }
     .publisher-hero-title br {
       display: none;
     }

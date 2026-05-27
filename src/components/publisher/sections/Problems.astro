@@ -1,30 +1,46 @@
 ---
-type Card = { title: string; body: string }
+import {
+  BarChartIcon,
+  GearIcon,
+  LoopIcon,
+  MegaphoneIcon,
+  SparklesIcon,
+} from "@/lib/assets"
 
-const problemCards: Card[] = [
+type Card = {
+  Icon: typeof GearIcon
+  title: string
+  body: string
+}
+
+const row1: Card[] = [
   {
-    title: "Analytics becomes data soup.",
-    body: "Amplitude, Firebase, RevenueCat, ad revenue, your own user IDs — each tool wants to be the source of truth. Initialize them in the wrong order and every downstream question gets fuzzier.",
+    Icon: GearIcon,
+    title: "Setup takes months.",
+    body: "Three analytics SDKs. An MMP. An SKAdNetwork schema. Months of setup and debugging before your first ad goes live.",
   },
   {
-    title: "Attribution is not a straight line.",
-    body: "Click data, view data, SKAdNetwork, MMP forwarding, privacy thresholds. The happy-path docs do not prepare you for how weird install tracking gets in production.",
+    Icon: MegaphoneIcon,
+    title: "Advertising is a full-time job.",
+    body: "Meta, Google, TikTok, Reddit — each with its own dialect, billing, pixels, and quirks. Learning each one is a full-time job.",
   },
   {
+    Icon: LoopIcon,
+    title: "Growth is a feedback loop.",
+    body: "Tune onboarding. Tune difficulty. Tune paywalls. All repetitive work, with a lot of waiting in between steps.",
+  },
+]
+
+const row2: Card[] = [
+  {
+    Icon: SparklesIcon,
+    title: "Ad creatives are relentless.",
+    body: "Images, videos, playables, seasonal hooks. You need fresh creatives every month to keep customer acquisition costs low.",
+  },
+  {
+    Icon: BarChartIcon,
     title: "Dashboards need code context.",
-    body: "A chart built from twenty-character event names is not enough. The person who wrote the annotation code has to be in the room, otherwise everyone is quietly guessing.",
-  },
-  {
-    title: "Ad accounts are their own product.",
-    body: "Meta, Google, TikTok, Reddit, Snapchat. Each asks for accounts, billing, pixels, integrations, campaign types, and a small sacrifice to its UI learning curve.",
-  },
-  {
-    title: "Creatives are not hard. They are relentless.",
-    body: "Images, videos, playables, seasonal hooks, audience angles. Coming up with decent attempts is doable. Keeping the treadmill moving is what eats the week.",
-  },
-  {
-    title: "A/B tests lose their thread.",
-    body: "Optional sign up, paywall copy, onboarding order, trial length. Doing one experiment is fun. Remembering why four of them are still running three weeks later is less fun.",
+    body: "Twenty-character event names don't explain themselves. Without the engineer who wrote them in the room, everyone is guessing.",
   },
 ]
 ---
@@ -32,23 +48,41 @@ const problemCards: Card[] = [
 <section class="section publisher-problems">
   <div class="container">
     <div class="eyebrow">The problem</div>
-    <h2 class="t-display-lg publisher-section-title">
-      The bottleneck moved from building to distribution.
+    <h2 class="t-display-lg publisher-problems-headline">
+      You shipped the app.{" "}
+      <span class="publisher-problems-headline-accent">
+        Now the hard part starts.
+      </span>
     </h2>
-    <p class="t-body-md body publisher-section-copy">
-      This was true before the LLM era. It just feels a lot more obvious now
-      that more people can actually build the app.
+    <p class="t-body-md body publisher-problems-intro">
+      Building isn't the moat anymore. Distribution is. The gap between "it
+      works" and "people use it" is where companies are won and lost.
     </p>
-    <div class="grid-3 publisher-problem-grid">
+
+    <div class="grid-3 publisher-problems-grid">
       {
-        problemCards.map((card, i) => (
-          <article class="card card-hover publisher-problem-card">
-            <span class="problem-index">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <h3 class="t-title-md ink">{card.title}</h3>
-            <p class="t-body-sm body">{card.body}</p>
-          </article>
+        row1.map(({ Icon, title, body }) => (
+          <div class="card card-hover publisher-problem-card">
+            <div class="publisher-problem-card-icon">
+              <Icon size={26} />
+            </div>
+            <h3 class="t-title-md ink publisher-problem-card-title">{title}</h3>
+            <p class="t-body-sm body publisher-problem-card-body">{body}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="publisher-problems-grid-secondary">
+      {
+        row2.map(({ Icon, title, body }) => (
+          <div class="card card-hover publisher-problem-card">
+            <div class="publisher-problem-card-icon">
+              <Icon size={26} />
+            </div>
+            <h3 class="t-title-md ink publisher-problem-card-title">{title}</h3>
+            <p class="t-body-sm body publisher-problem-card-body">{body}</p>
+          </div>
         ))
       }
     </div>
@@ -56,36 +90,70 @@ const problemCards: Card[] = [
 </section>
 
 <style>
-  .publisher-section-title {
-    margin: 18px 0 0;
-    max-width: 840px;
+  .publisher-problems {
+    background: var(--canvas-soft);
+    border-block: 1px solid var(--hairline-soft);
   }
-  .publisher-section-copy {
+  .publisher-problems-headline {
     margin: 18px 0 0;
-    max-width: 680px;
+    max-width: 880px;
+  }
+  .publisher-problems-headline-accent {
+    color: var(--accent-2);
+  }
+  .publisher-problems-intro {
+    margin: 24px 0 0;
+    max-width: 640px;
     line-height: 1.65;
   }
-  .publisher-problem-grid {
-    margin-top: 52px;
+  .publisher-problems-grid {
+    margin-top: 64px;
+    gap: 24px;
+    grid-template-columns: repeat(3, 1fr);
   }
-  .publisher-problem-card {
-    padding: 24px;
-    min-height: 252px;
-  }
-  .problem-index {
-    display: inline-flex;
-    color: var(--accent-2);
-    font-family: var(--font-mono);
-    font-size: 12px;
-    margin-bottom: 34px;
-  }
-  .publisher-problem-card p {
-    margin: 12px 0 0;
-    line-height: 1.62;
-  }
-  @media (max-width: 640px) {
-    .publisher-problem-card {
-      min-height: auto;
+  /* The 3→2 collapse leaves an orphan, so jump straight to a single
+     column once the layout can't hold all three across. */
+  @media (max-width: 1024px) {
+    .publisher-problems-grid {
+      grid-template-columns: 1fr;
     }
+  }
+
+  /* Secondary row: two cards centered, matching the column width of the
+     three-up grid above. Hidden once the main grid collapses. */
+  .publisher-problems-grid-secondary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    margin: 24px auto 0;
+    max-width: calc((100% * 2 - 24px) / 3);
+  }
+  @media (max-width: 1024px) {
+    .publisher-problems-grid-secondary {
+      display: none;
+    }
+  }
+
+  .publisher-problem-card {
+    padding: 32px;
+  }
+  .publisher-problem-card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background: var(--mark-tint);
+    color: var(--mark);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 22px;
+    border: 1px solid color-mix(in oklab, var(--mark) 25%, transparent);
+  }
+  .publisher-problem-card-title {
+    margin-bottom: 10px;
+  }
+  .publisher-problem-card-body {
+    margin: 0;
+    line-height: 1.6;
   }
 </style>
