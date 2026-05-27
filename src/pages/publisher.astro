@@ -1,0 +1,1042 @@
+---
+import { Image } from "astro:assets"
+import type { ImageMetadata } from "astro"
+import beehive from "@/assets/customers/beehive.webp"
+import dozy from "@/assets/customers/dozy.webp"
+import pixelBuddy from "@/assets/customers/pixel-buddy.webp"
+import { TWEAK_DEFAULTS } from "@/data/tweak-defaults"
+import { CARD_TONES, getUbe } from "@/lib/palette"
+import { ArrowRight, CheckIcon, ClockIcon, RocketIcon, SparkIcon, TrendIcon } from "@/lib/assets"
+import BaseLayout from "@/layouts/BaseLayout.astro"
+
+const title = "Ube Publisher — Mobile App Distribution Orchestrator"
+const description =
+  "Ube Publisher sets up analytics, attribution, dashboards, paid ads, creatives, and A/B tests so mobile app builders can learn what to improve before scaling spend."
+
+const ube = getUbe(TWEAK_DEFAULTS.accent)
+const accent = `oklch(${ube.L} ${ube.C} ${ube.H})`
+const accentHover = `oklch(${Math.min(0.72, ube.L + 0.1)} ${ube.C} ${ube.H})`
+const accentSoft = `oklch(${Math.max(0.18, ube.L - 0.26)} ${Math.max(0.06, ube.C - 0.08)} ${ube.H})`
+const accentTint = `oklch(${ube.L} ${ube.C} ${ube.H} / 0.14)`
+const cardTone = CARD_TONES[TWEAK_DEFAULTS.cardTone] ?? CARD_TONES["warm"]
+const cardBg = cardTone?.bg ?? "#1d1b15"
+const cardBorder = cardTone?.border ?? "#2a2720"
+
+type AppIcon = { src: ImageMetadata; name: string; metric: string }
+const apps: AppIcon[] = [
+  { src: beehive, name: "Beehive", metric: "D7 +14%" },
+  { src: dozy, name: "Dozy", metric: "CAC -22%" },
+  { src: pixelBuddy, name: "Pixel Buddy", metric: "LTV +31%" },
+]
+
+const problemCards = [
+  {
+    title: "Analytics becomes data soup.",
+    body: "Amplitude, Firebase, RevenueCat, ad revenue, your own user IDs — each tool wants to be the source of truth. Initialize them in the wrong order and every downstream question gets fuzzier.",
+  },
+  {
+    title: "Attribution is not a straight line.",
+    body: "Click data, view data, SKAdNetwork, MMP forwarding, privacy thresholds. The happy-path docs do not prepare you for how weird install tracking gets in production.",
+  },
+  {
+    title: "Dashboards need code context.",
+    body: "A chart built from twenty-character event names is not enough. The person who wrote the annotation code has to be in the room, otherwise everyone is quietly guessing.",
+  },
+  {
+    title: "Ad accounts are their own product.",
+    body: "Meta, Google, TikTok, Reddit, Snapchat. Each asks for accounts, billing, pixels, integrations, campaign types, and a small sacrifice to its UI learning curve.",
+  },
+  {
+    title: "Creatives are not hard. They are relentless.",
+    body: "Images, videos, playables, seasonal hooks, audience angles. Coming up with decent attempts is doable. Keeping the treadmill moving is what eats the week.",
+  },
+  {
+    title: "A/B tests lose their thread.",
+    body: "Optional sign up, paywall copy, onboarding order, trial length. Doing one experiment is fun. Remembering why four of them are still running three weeks later is less fun.",
+  },
+]
+
+const steps = [
+  {
+    label: "Audit",
+    title: "First, make the app measurable.",
+    body: "Ube reads the app, proposes an event taxonomy, adds the SDKs in the right order, and wires user IDs so Firebase, Amplitude, RevenueCat, AppsFlyer, and your own backend can agree on who did what.",
+    gate: "Code review",
+  },
+  {
+    label: "Route",
+    title: "Then connect the distribution stack.",
+    body: "Dashboards, MMP imports, SKAdNetwork schema, ad-network forwarding, revenue events, and the central data lake. Ube does not invent a new stack. It sets up the market-leading tools without making you become an account manager.",
+    gate: "Service access",
+  },
+  {
+    label: "Launch",
+    title: "Use paid ads as a learning engine.",
+    body: "Small budgets bring a steady stream of real users. Ube tests creative angles, finds what gets people to install, and watches what they do after the install instead of pretending that a cheap click is the goal.",
+    gate: "Spend approval",
+  },
+  {
+    label: "Improve",
+    title: "Turn the traffic into product work.",
+    body: "Where do people drop off? Which feature earns repeat sessions? Should sign up be optional? Ube recommends A/B tests, deploys them through Firebase or RevenueCat, and keeps the experiment context alive.",
+    gate: "Experiment approval",
+  },
+  {
+    label: "Scale",
+    title: "Only scale when the math deserves it.",
+    body: "If retention, monetization, and creative performance look good, Ube can move budget toward the channels that are buying the best users. If the app is leaking users, it tells you where to patch the product first.",
+    gate: "Budget increase",
+  },
+]
+
+const stackLogos = [
+  ["Firebase", "/assets/integrations/firebase.svg"],
+  ["Amplitude", "/assets/integrations/amplitude.svg"],
+  ["Clarity", "/assets/integrations/clarity.png"],
+  ["RevenueCat", "/assets/integrations/revenuecat.svg"],
+  ["AppsFlyer", "/assets/integrations/appsflyer.svg"],
+  ["AdMob", "/assets/integrations/admob.svg"],
+  ["Google Ads", "/assets/integrations/google_ads.svg"],
+  ["Meta", "/assets/integrations/meta.svg"],
+  ["TikTok", "/assets/integrations/tiktok.svg"],
+  ["Creatify", "/assets/integrations/creatify.png"],
+  ["Sett", "/assets/integrations/sett.svg"],
+]
+
+const dateModified = new Date().toISOString()
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Ube Publisher",
+  url: new URL("/publisher/", Astro.site).href,
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  description,
+  dateModified,
+  featureList: [
+    "Audits and instruments mobile apps with analytics and attribution SDKs",
+    "Sets up dashboards, MMP imports, SKAdNetwork schema, and event forwarding",
+    "Creates and tests ad creatives across paid acquisition channels",
+    "Finds drop-off points and recommends retention and monetization experiments",
+    "Runs A/B tests through Firebase or RevenueCat with approval gates",
+    "Scales budget only after retention, monetization, and campaign math improve",
+  ],
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+    availability: "https://schema.org/PreOrder",
+  },
+}
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd} accentMode="split">
+  <style define:vars={{ accent, accentHover, accentSoft, accentTint, cardBg, cardBorder }}>
+    main {
+      --accent-hover: var(--accentHover);
+      --accent-soft: var(--accentSoft);
+      --accent-tint: var(--accentTint);
+      --card-bg: var(--cardBg);
+      --card-border: var(--cardBorder);
+    }
+  </style>
+
+  <main class="publisher-page">
+    <section class="publisher-hero" id="top">
+      <div class="publisher-hero-grid-bg" aria-hidden="true"></div>
+      <div class="container publisher-hero-inner">
+        <div class="publisher-hero-copy fade-in">
+          <div class="eyebrow publisher-eyebrow">Ube Publisher</div>
+          <h1 class="t-display-mega publisher-hero-title">
+            App distribution,
+            <br />
+            <span>without becoming a mobile growth person.</span>
+          </h1>
+          <p class="t-body-md body publisher-hero-body">
+            You built the app. Now Ube sets up analytics, attribution,
+            dashboards, creatives, paid ads, and A/B tests so you can learn what
+            to improve before you pour real money into growth.
+          </p>
+          <div class="publisher-cta-row">
+            <button type="button" class="btn btn-primary" data-publisher-cta="hero">
+              Request access
+              <ArrowRight size={14} />
+            </button>
+            <a class="btn btn-secondary" href="#loop">See the loop</a>
+          </div>
+          <div class="publisher-builtfor">
+            <span>Built for</span>
+            <strong>vibecoders</strong>
+            <strong>solo app studios</strong>
+            <strong>product people</strong>
+          </div>
+        </div>
+
+        <div class="publisher-hero-visual fade-in" aria-label="Ube Publisher growth console mockup">
+          <div class="growth-console mockup-chrome">
+            <div class="mockup-header">
+              <div class="traffic-lights"><span></span><span></span><span></span></div>
+              <div class="mono muted">ube / publisher / week-03</div>
+              <span class="pill pill-warning">Approval needed</span>
+            </div>
+            <div class="growth-console-body">
+              <div class="growth-summary">
+                <div>
+                  <span class="t-caption-uc muted">Learning budget</span>
+                  <strong>$20/day</strong>
+                </div>
+                <div>
+                  <span class="t-caption-uc muted">Installs this week</span>
+                  <strong>312</strong>
+                </div>
+                <div>
+                  <span class="t-caption-uc muted">Best creative</span>
+                  <strong>Finals week</strong>
+                </div>
+              </div>
+
+              <div class="campaign-card">
+                <div class="campaign-card-head">
+                  <div>
+                    <span class="t-caption-uc muted">Recommended next move</span>
+                    <h3>Make sign up optional for the first session.</h3>
+                  </div>
+                  <span class="pill pill-accent">A/B test</span>
+                </div>
+                <div class="funnel-mini" aria-hidden="true">
+                  <div style="--w: 100%"><span>Install</span><strong>312</strong></div>
+                  <div style="--w: 74%"><span>Open</span><strong>232</strong></div>
+                  <div style="--w: 42%"><span>Onboard</span><strong>131</strong></div>
+                  <div style="--w: 19%"><span>Sign up</span><strong>59</strong></div>
+                </div>
+                <p class="t-body-sm body">
+                  Biggest drop-off is before account creation. Keep the ad spend
+                  low, test the onboarding change, and do not scale budget yet.
+                </p>
+              </div>
+
+              <div class="approval-strip">
+                <span class="approval-dot"></span>
+                <span>Approve campaign launch on Google Ads + Meta?</span>
+                <button type="button">Approve</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="creative-stack" aria-hidden="true">
+            {
+              apps.map((app) => (
+                <div class="creative-card">
+                  <Image src={app.src} alt="" width={56} height={56} loading="eager" />
+                  <div>
+                    <strong>{app.name}</strong>
+                    <span>{app.metric}</span>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section publisher-problems">
+      <div class="container">
+        <div class="eyebrow">The problem</div>
+        <h2 class="t-display-lg publisher-section-title">
+          The bottleneck moved from building to distribution.
+        </h2>
+        <p class="t-body-md body publisher-section-copy">
+          This was true before the LLM era. It just feels a lot more obvious
+          now that more people can actually build the app.
+        </p>
+        <div class="grid-3 publisher-problem-grid">
+          {
+            problemCards.map((card, i) => (
+              <article class="card card-hover publisher-problem-card">
+                <span class="problem-index">{String(i + 1).padStart(2, "0")}</span>
+                <h3 class="t-title-md ink">{card.title}</h3>
+                <p class="t-body-sm body">{card.body}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section stack-section">
+      <div class="container stack-layout">
+        <div>
+          <div class="eyebrow">The stack</div>
+          <h2 class="t-display-lg publisher-section-title">
+            Ube is the orchestrator, not one more dashboard.
+          </h2>
+          <p class="t-body-md body publisher-section-copy">
+            It uses the tools you would eventually need anyway. The difference
+            is that Ube knows how your app is instrumented, where the events go,
+            which campaigns use them, and which product experiments they are
+            supposed to answer.
+          </p>
+        </div>
+        <div class="stack-map" aria-label="Distribution stack integrations">
+          <div class="stack-core">
+            <span class="mono">[ube]</span>
+            <strong>company brain</strong>
+          </div>
+          {
+            stackLogos.map(([name, src]) => (
+              <div class="stack-node">
+                <img src={src} alt="" loading="lazy" />
+                <span>{name}</span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section loop-section" id="loop">
+      <div class="container">
+        <div class="eyebrow">The loop</div>
+        <h2 class="t-display-lg publisher-section-title">
+          Spend a little, learn a lot, improve the app, then decide whether to
+          scale.
+        </h2>
+        <div class="publisher-steps">
+          {
+            steps.map((step, i) => (
+              <article class="card-band publisher-step">
+                <div class="step-copy">
+                  <div class="step-kicker">
+                    <span class="step-num">{String(i + 1).padStart(2, "0")}</span>
+                    <span class="eyebrow">{step.label}</span>
+                  </div>
+                  <h3 class="t-display-md ink">{step.title}</h3>
+                  <p class="t-body-md body">{step.body}</p>
+                  <span class="pill pill-muted">{step.gate}</span>
+                </div>
+                <div class="publisher-step-visual" aria-hidden="true">
+                  <div class="loop-node">
+                    {i === 0 && <SparkIcon size={24} />}
+                    {i === 1 && <CheckIcon size={24} />}
+                    {i === 2 && <RocketIcon size={24} />}
+                    {i === 3 && <TrendIcon size={24} />}
+                    {i === 4 && <ClockIcon size={24} />}
+                  </div>
+                  <div class="loop-lines">
+                    <span style={`--h:${36 + i * 9}%`}></span>
+                    <span style={`--h:${58 + i * 6}%`}></span>
+                    <span style={`--h:${44 + i * 11}%`}></span>
+                    <span style={`--h:${68 - i * 5}%`}></span>
+                  </div>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section insights-section">
+      <div class="container insights-layout">
+        <div class="insights-copy">
+          <div class="eyebrow">What you learn</div>
+          <h2 class="t-display-lg publisher-section-title">
+            The useful output is not a prettier report. It is a ranked list of
+            product work.
+          </h2>
+          <p class="t-body-md body publisher-section-copy">
+            Ube tells you which parts of the app need attention, where the
+            biggest drop-offs are, how retention could improve, and whether
+            monetization is ready for more traffic.
+          </p>
+        </div>
+        <div class="insight-board mockup-chrome">
+          <div class="mockup-header">
+            <div class="traffic-lights"><span></span><span></span><span></span></div>
+            <div class="mono muted">insights.sql → actions</div>
+          </div>
+          <div class="insight-board-body">
+            <div class="insight-row high">
+              <span>01</span>
+              <div>
+                <strong>Onboarding asks for too much too early.</strong>
+                <p>42% of paid users leave before sign up. Test guest mode.</p>
+              </div>
+            </div>
+            <div class="insight-row">
+              <span>02</span>
+              <div>
+                <strong>Best users come from the study-session creative.</strong>
+                <p>D7 retention is 18% higher than generic productivity ads.</p>
+              </div>
+            </div>
+            <div class="insight-row">
+              <span>03</span>
+              <div>
+                <strong>Paywall is too early for ad-acquired users.</strong>
+                <p>Move the trial offer after first completed project.</p>
+              </div>
+            </div>
+            <div class="insight-row">
+              <span>04</span>
+              <div>
+                <strong>Do not raise spend yet.</strong>
+                <p>CAC is promising, but activation still leaks too much.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section moat-section">
+      <div class="container moat-layout">
+        <div class="moat-card">
+          <div class="eyebrow">Why Ube</div>
+          <h2 class="t-display-lg publisher-section-title">
+            No platform's agent will tell you to spend less on its own platform.
+          </h2>
+          <p class="t-body-md body">
+            Meta will not shift budget to Google. Apple will not tune your Play
+            Console listing. RevenueCat and AdMob live in different lanes. Ube
+            sits outside those incentives, which matters once your app becomes
+            subscription plus ads plus IAP, because that hybrid mess is
+            increasingly the default.
+          </p>
+        </div>
+        <div class="moat-matrix" aria-hidden="true">
+          <div><span>Meta</span><strong>Meta spend</strong></div>
+          <div><span>RevenueCat</span><strong>Subscriptions</strong></div>
+          <div><span>AdMob</span><strong>Ads</strong></div>
+          <div><span>Ube</span><strong>Whole app math</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="publisher-final">
+      <div class="publisher-final-grid" aria-hidden="true"></div>
+      <div class="container publisher-final-inner">
+        <h2 class="t-display-lg">
+          You do not need a growth department to learn whether the app has legs.
+        </h2>
+        <p class="t-body-md muted">
+          Start with a small budget, keep approval over the scary parts, and let
+          Ube turn the traffic into concrete product work.
+        </p>
+        <button type="button" class="btn btn-primary" data-publisher-cta="final">
+          Request access
+          <ArrowRight size={14} />
+        </button>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<script>
+  import { openRequestAccess } from "@/stores/request-access"
+
+  const buttons = document.querySelectorAll<HTMLButtonElement>("[data-publisher-cta]")
+  for (const button of buttons) {
+    button.addEventListener("click", () => {
+      openRequestAccess(button.dataset["publisherCta"] === "final" ? "final_cta" : "hero")
+    })
+  }
+</script>
+
+<style>
+  .publisher-page {
+    background: var(--canvas);
+  }
+  .publisher-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 112px 0 88px;
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+  .publisher-hero-grid-bg,
+  .publisher-final-grid {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+    background-size: 32px 32px;
+    opacity: 0.55;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse 80% 62% at 50% 28%, #000 0%, transparent 76%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 62% at 50% 28%, #000 0%, transparent 76%);
+  }
+  .publisher-hero-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
+    gap: 56px;
+    align-items: center;
+  }
+  .publisher-hero-title {
+    margin: 24px 0 0;
+  }
+  .publisher-hero-title span {
+    color: var(--muted);
+  }
+  .publisher-hero-body {
+    max-width: 570px;
+    margin: 28px 0 0;
+    line-height: 1.65;
+  }
+  .publisher-cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 36px;
+  }
+  .publisher-builtfor {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    align-items: center;
+    margin-top: 34px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.72px;
+    text-transform: uppercase;
+  }
+  .publisher-builtfor strong {
+    color: var(--body);
+    font-weight: 500;
+  }
+  .publisher-hero-visual {
+    position: relative;
+    min-width: 0;
+  }
+  .growth-console {
+    box-shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
+  }
+  .growth-console .mockup-header {
+    justify-content: space-between;
+  }
+  .growth-console-body {
+    padding: 20px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 38%),
+      var(--surface-card);
+  }
+  .growth-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .growth-summary > div,
+  .campaign-card,
+  .approval-strip,
+  .creative-card {
+    background: rgba(14, 14, 17, 0.48);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-lg);
+  }
+  .growth-summary > div {
+    padding: 13px;
+  }
+  .growth-summary span,
+  .growth-summary strong {
+    display: block;
+  }
+  .growth-summary strong {
+    margin-top: 5px;
+    color: var(--ink);
+    font-size: 18px;
+    line-height: 1.15;
+  }
+  .campaign-card {
+    padding: 18px;
+  }
+  .campaign-card-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+    margin-bottom: 18px;
+  }
+  .campaign-card h3 {
+    margin: 5px 0 0;
+    font-size: 20px;
+    line-height: 1.25;
+    font-weight: 550;
+    letter-spacing: 0;
+  }
+  .campaign-card p {
+    margin: 16px 0 0;
+  }
+  .funnel-mini {
+    display: grid;
+    gap: 8px;
+  }
+  .funnel-mini div {
+    width: var(--w);
+    min-width: 42%;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 9px 12px;
+    border-radius: var(--r-sm);
+    background: linear-gradient(90deg, var(--accent-tint), rgba(255, 255, 255, 0.035));
+    border: 1px solid color-mix(in oklab, var(--accent) 18%, transparent);
+    color: var(--body);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .funnel-mini strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .approval-strip {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    margin-top: 14px;
+    padding: 12px;
+    color: var(--body);
+    font-size: 13px;
+  }
+  .approval-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--warning);
+    box-shadow: 0 0 0 4px rgba(216, 162, 75, 0.12);
+  }
+  .approval-strip button {
+    height: 30px;
+    padding: 0 12px;
+    border: 1px solid var(--hairline-strong);
+    border-radius: var(--r-pill);
+    background: var(--ink);
+    color: var(--canvas);
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .creative-stack {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .creative-card {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 10px;
+    align-items: center;
+    padding: 9px;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(8px);
+  }
+  .creative-card img {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: block;
+  }
+  .creative-card strong,
+  .creative-card span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .creative-card strong {
+    color: var(--ink);
+    font-size: 13px;
+  }
+  .creative-card span {
+    color: var(--success);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    margin-top: 2px;
+  }
+
+  .publisher-section-title {
+    margin: 18px 0 0;
+    max-width: 840px;
+  }
+  .publisher-section-copy {
+    margin: 18px 0 0;
+    max-width: 680px;
+    line-height: 1.65;
+  }
+  .publisher-problem-grid {
+    margin-top: 52px;
+  }
+  .publisher-problem-card {
+    padding: 24px;
+    min-height: 252px;
+  }
+  .problem-index {
+    display: inline-flex;
+    color: var(--accent-2);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    margin-bottom: 34px;
+  }
+  .publisher-problem-card p {
+    margin: 12px 0 0;
+    line-height: 1.62;
+  }
+
+  .stack-section,
+  .insights-section {
+    background: var(--canvas-soft);
+    border-block: 1px solid var(--hairline-soft);
+  }
+  .stack-layout,
+  .insights-layout,
+  .moat-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(420px, 1fr);
+    gap: 56px;
+    align-items: center;
+  }
+  .stack-map {
+    position: relative;
+    min-height: 480px;
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-xl);
+    background:
+      radial-gradient(circle at center, var(--accent-tint), transparent 46%),
+      radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+    background-size: auto, 24px 24px;
+    overflow: hidden;
+  }
+  .stack-map::before,
+  .stack-map::after {
+    content: "";
+    position: absolute;
+    inset: 16%;
+    border: 1px solid color-mix(in oklab, var(--accent) 18%, transparent);
+    border-radius: 50%;
+  }
+  .stack-map::after {
+    inset: 27%;
+  }
+  .stack-core {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    top: 50%;
+    width: 172px;
+    height: 172px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    gap: 7px;
+    background: #18181c;
+    border: 1px solid var(--accent);
+    box-shadow: 0 0 60px rgba(107, 63, 160, 0.28);
+  }
+  .stack-core span {
+    color: var(--ink);
+    font-size: 24px;
+  }
+  .stack-core strong {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+  }
+  .stack-node {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 11px;
+    border-radius: var(--r-pill);
+    background: rgba(14, 14, 17, 0.72);
+    border: 1px solid var(--hairline-strong);
+    color: var(--body);
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .stack-node img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+  .stack-node:nth-of-type(2) { left: 9%; top: 12%; }
+  .stack-node:nth-of-type(3) { right: 10%; top: 10%; }
+  .stack-node:nth-of-type(4) { left: 7%; top: 34%; }
+  .stack-node:nth-of-type(5) { right: 6%; top: 32%; }
+  .stack-node:nth-of-type(6) { left: 12%; bottom: 31%; }
+  .stack-node:nth-of-type(7) { right: 9%; bottom: 30%; }
+  .stack-node:nth-of-type(8) { left: 10%; bottom: 11%; }
+  .stack-node:nth-of-type(9) { right: 12%; bottom: 10%; }
+  .stack-node:nth-of-type(10) { left: 41%; top: 7%; }
+  .stack-node:nth-of-type(11) { left: 38%; bottom: 7%; }
+  .stack-node:nth-of-type(12) { right: 35%; top: 22%; }
+
+  .loop-section {
+    background: var(--canvas);
+  }
+  .publisher-steps {
+    display: grid;
+    gap: 24px;
+    margin-top: 52px;
+  }
+  .publisher-step {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 40px;
+    align-items: center;
+  }
+  .publisher-step .step-kicker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .publisher-step h3,
+  .publisher-step p {
+    margin: 0;
+  }
+  .publisher-step p {
+    margin-top: 14px;
+    margin-bottom: 20px;
+    line-height: 1.65;
+  }
+  .publisher-step-visual {
+    min-height: 178px;
+    position: relative;
+    border-radius: var(--r-lg);
+    background: #17171b;
+    border: 1px solid var(--hairline);
+    overflow: hidden;
+  }
+  .loop-node {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    top: 50%;
+    width: 72px;
+    height: 72px;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mark);
+    background: var(--mark-tint);
+    border: 1px solid color-mix(in oklab, var(--mark) 28%, transparent);
+    border-radius: 50%;
+  }
+  .loop-lines {
+    position: absolute;
+    inset: 20px 24px;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    gap: 12px;
+  }
+  .loop-lines span {
+    width: 28px;
+    height: var(--h);
+    border-radius: var(--r-pill) var(--r-pill) 0 0;
+    background: linear-gradient(180deg, var(--accent), rgba(255, 255, 255, 0.05));
+    opacity: 0.82;
+  }
+
+  .insights-layout {
+    grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1fr);
+  }
+  .insight-board {
+    min-width: 0;
+  }
+  .insight-board-body {
+    padding: 16px;
+    display: grid;
+    gap: 10px;
+  }
+  .insight-row {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 14px;
+    padding: 15px;
+    background: rgba(14, 14, 17, 0.48);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-lg);
+  }
+  .insight-row.high {
+    border-color: color-mix(in oklab, var(--accent) 38%, var(--hairline));
+    background: linear-gradient(90deg, var(--accent-tint), rgba(14, 14, 17, 0.48));
+  }
+  .insight-row span {
+    color: var(--accent-2);
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  .insight-row strong {
+    display: block;
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.35;
+  }
+  .insight-row p {
+    color: var(--body);
+    margin: 5px 0 0;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .moat-section {
+    background: var(--canvas);
+  }
+  .moat-card {
+    max-width: 650px;
+  }
+  .moat-card p {
+    margin: 22px 0 0;
+    line-height: 1.7;
+  }
+  .moat-matrix {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .moat-matrix div {
+    min-height: 150px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--r-lg);
+  }
+  .moat-matrix div:last-child {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, var(--accent-tint), var(--card-bg));
+  }
+  .moat-matrix span {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+  }
+  .moat-matrix strong {
+    color: var(--ink);
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 500;
+  }
+
+  .publisher-final {
+    position: relative;
+    overflow: hidden;
+    padding: 136px 0;
+    text-align: center;
+    border-top: 1px solid var(--hairline-soft);
+  }
+  .publisher-final::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(107, 63, 160, 0.31), transparent 62%);
+    pointer-events: none;
+  }
+  .publisher-final-inner {
+    position: relative;
+    z-index: 1;
+  }
+  .publisher-final h2 {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+  .publisher-final p {
+    max-width: 620px;
+    margin: 20px auto 32px;
+  }
+
+  @media (max-width: 1100px) {
+    .publisher-hero-inner,
+    .stack-layout,
+    .insights-layout,
+    .moat-layout {
+      grid-template-columns: 1fr;
+    }
+    .publisher-hero-visual,
+    .stack-map,
+    .insight-board {
+      max-width: 760px;
+      width: 100%;
+    }
+  }
+  @media (max-width: 800px) {
+    .publisher-hero {
+      padding: 78px 0 66px;
+    }
+    .growth-summary,
+    .publisher-step,
+    .moat-matrix {
+      grid-template-columns: 1fr;
+    }
+    .creative-stack {
+      grid-template-columns: 1fr;
+    }
+    .publisher-step-visual {
+      min-height: 150px;
+    }
+    .stack-map {
+      min-height: auto;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding: 18px;
+    }
+    .stack-map::before,
+    .stack-map::after {
+      display: none;
+    }
+    .stack-core,
+    .stack-node {
+      position: static;
+      transform: none;
+    }
+    .stack-core {
+      grid-column: 1 / -1;
+      width: auto;
+      height: auto;
+      border-radius: var(--r-lg);
+      padding: 22px;
+    }
+    .stack-node {
+      justify-content: flex-start;
+      min-width: 0;
+      white-space: normal;
+    }
+  }
+  @media (max-width: 640px) {
+    .publisher-hero-title br {
+      display: none;
+    }
+    .publisher-problem-card {
+      min-height: auto;
+    }
+    .approval-strip {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+    .approval-strip button {
+      grid-column: 1 / -1;
+      width: 100%;
+    }
+    .stack-map {
+      grid-template-columns: 1fr;
+    }
+    .publisher-final {
+      padding: 92px 0;
+    }
+  }
+</style>

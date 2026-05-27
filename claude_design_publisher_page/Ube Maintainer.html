@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ube — AI App Maintenance Agent for Mobile Dev Teams</title>
+  <link rel="icon" href="assets/logos/favicon.png" type="image/png" />
+  <link rel="stylesheet" href="colors_and_type.css" />
+  <link rel="stylesheet" href="kit.css" />
+  <script>
+    // Asset-base override for portability — components read window.UBE_ASSETS
+    window.UBE_ASSETS = "assets";
+  </script>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <!-- Persisted-defaults block. Tweaks panel reads + writes back through
+       this region; keep it as valid JSON. -->
+  <script>
+    window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "accent": "lift",
+      "wordmarkAccent": "bracket",
+      "cardTone": "neutral",
+      "accentStrategy": "default"
+    }/*EDITMODE-END*/;
+  </script>
+
+  <!-- Components — order matters: lower-level first, then composites. -->
+  <script type="text/babel" src="components/Icons.jsx"></script>
+  <script type="text/babel" src="components/Wordmark.jsx"></script>
+  <script type="text/babel" src="components/maintainer/TopNav.jsx"></script>
+  <script type="text/babel" src="components/maintainer/HeroPrMockup.jsx"></script>
+  <script type="text/babel" src="components/maintainer/Hero.jsx"></script>
+  <script type="text/babel" src="components/maintainer/TrustedBy.jsx"></script>
+  <script type="text/babel" src="components/maintainer/Problems.jsx"></script>
+  <script type="text/babel" src="components/maintainer/StepMockups.jsx"></script>
+  <script type="text/babel" src="components/maintainer/HowItWorks.jsx"></script>
+  <script type="text/babel" src="components/maintainer/Benefits.jsx"></script>
+  <script type="text/babel" src="components/maintainer/FAQ.jsx"></script>
+  <script type="text/babel" src="components/maintainer/FinalCta.jsx"></script>
+  <script type="text/babel" src="components/maintainer/Footer.jsx"></script>
+  <script type="text/babel" src="components/maintainer/RequestAccessModal.jsx"></script>
+
+  <style>
+    /* Apply tweak defaults at boot — these become the live values the
+       rest of the page reads. Production resolves these in Astro's
+       frontmatter; here we wire them on init from window.TWEAK_DEFAULTS. */
+    [data-accent-mode] { /* placeholder — applied via setAttribute below */ }
+
+    /* The accent palette swatches (ube spectrum). Same numbers as
+       src/lib/palette.ts. */
+    body[data-accent="lift"]  { --accent: oklch(0.62 0.20 319); --accent-hover: oklch(0.72 0.20 319); --accent-soft: oklch(0.36 0.12 319); --accent-tint: oklch(0.62 0.20 319 / 0.14); }
+    body[data-accent="flesh"] { --accent: oklch(0.56 0.21 321); --accent-hover: oklch(0.66 0.21 321); --accent-soft: oklch(0.30 0.13 321); --accent-tint: oklch(0.56 0.21 321 / 0.14); }
+    body[data-accent="heart"] { --accent: oklch(0.48 0.20 322); --accent-hover: oklch(0.58 0.20 322); --accent-soft: oklch(0.22 0.12 322); --accent-tint: oklch(0.48 0.20 322 / 0.14); }
+    body[data-accent="deep"]  { --accent: oklch(0.40 0.17 324); --accent-hover: oklch(0.50 0.17 324); --accent-soft: oklch(0.18 0.09 324); --accent-tint: oklch(0.40 0.17 324 / 0.14); }
+    body[data-accent="core"]  { --accent: oklch(0.33 0.14 325); --accent-hover: oklch(0.43 0.14 325); --accent-soft: oklch(0.18 0.06 325); --accent-tint: oklch(0.33 0.14 325 / 0.14); }
+    body[data-accent="wine"]  { --accent: oklch(0.24 0.10 327); --accent-hover: oklch(0.34 0.10 327); --accent-soft: oklch(0.18 0.04 327); --accent-tint: oklch(0.24 0.10 327 / 0.14); }
+
+    body[data-card-tone="warm"]    { --card-bg: #1D1B15; --card-border: #2A2720; }
+    body[data-card-tone="neutral"] { --card-bg: #161617; --card-border: #23232A; }
+    body[data-card-tone="slate"]   { --card-bg: #13151B; --card-border: #21242E; }
+    body[data-card-tone="plum"]    { --card-bg: #181320; --card-border: #251E33; }
+    body[data-card-tone="forest"]  { --card-bg: #121814; --card-border: #1F2A23; }
+  </style>
+</head>
+<body data-accent="lift" data-card-tone="neutral">
+
+<div id="app"></div>
+
+<script type="text/babel" data-presets="env,react">
+function App() {
+  const [modal, setModal] = React.useState({ open: false, source: null });
+  const t = window.TWEAK_DEFAULTS;
+
+  // Mirror tweak defaults onto <body> data-attributes so the CSS
+  // selectors above can drive the palette swap without any JS reads.
+  React.useEffect(() => {
+    document.body.setAttribute("data-accent",    t.accent);
+    document.body.setAttribute("data-card-tone", t.cardTone);
+    if (t.accentStrategy === "primary") {
+      document.body.setAttribute("data-accent-mode", "primary");
+    } else {
+      document.body.removeAttribute("data-accent-mode");
+    }
+  }, [t.accent, t.cardTone, t.accentStrategy]);
+
+  const onRequestAccess = (source) => setModal({ open: true, source });
+  const onClose = () => setModal({ ...modal, open: false });
+
+  return (
+    <React.Fragment>
+      <TopNav wordmarkAccent={t.wordmarkAccent} onRequestAccess={onRequestAccess} />
+      <main>
+        <Hero onRequestAccess={onRequestAccess} />
+        <TrustedBy />
+        <Problems />
+        <HowItWorks />
+        <Benefits />
+        <FAQ />
+        <FinalCta onRequestAccess={onRequestAccess} />
+      </main>
+      <Footer wordmarkAccent={t.wordmarkAccent} />
+      <RequestAccessModal open={modal.open} source={modal.source} onClose={onClose} />
+    </React.Fragment>
+  );
+}
+ReactDOM.createRoot(document.getElementById("app")).render(<App />);
+</script>
+
+</body>
+</html>

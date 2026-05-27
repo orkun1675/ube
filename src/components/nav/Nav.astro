@@ -18,10 +18,12 @@ const wordmarkAccent = TWEAK_DEFAULTS.wordmarkAccent
 
 const pathname = Astro.url.pathname
 const isLandingPage = pathname === "/"
+const isPublisherPage = pathname === "/publisher/"
 // `/maintainer` redirects to `/`, so on the landing page the Maintainer
 // nav item is "where we are". Other routes (terms, privacy) don't have a
 // nav-center entry — nothing highlights.
 const maintainerActive = isLandingPage
+const publisherActive = isPublisherPage
 const wordmarkHref = isLandingPage ? "#top" : "/"
 ---
 
@@ -32,10 +34,12 @@ const wordmarkHref = isLandingPage ? "#top" : "/"
     </a>
 
     <div class="nav-center">
-      <span class="nav-link coming-soon">
+      <a
+        href="/publisher/"
+        class:list={["nav-link", { active: publisherActive }]}
+      >
         Publisher
-        <span class="tooltip">Coming soon</span>
-      </span>
+      </a>
       <a
         href="/"
         class:list={["nav-link", { active: maintainerActive }]}
@@ -111,9 +115,13 @@ const wordmarkHref = isLandingPage ? "#top" : "/"
     </button>
   </div>
   <div class="mobile-menu-links">
-    <span class="mobile-menu-link coming-soon">
-      Publisher <span class="mobile-menu-tag">soon</span>
-    </span>
+    <a
+      href="/publisher/"
+      class:list={["mobile-menu-link", { active: publisherActive }]}
+      data-nav-menu-link
+    >
+      Publisher
+    </a>
     <a
       href="/"
       class:list={["mobile-menu-link", { active: maintainerActive }]}

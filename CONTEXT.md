@@ -24,6 +24,9 @@ A top-level page region (Hero, Problems, HowItWorks, Benefits, FAQ, FinalCTA, et
 **Mockup**:
 An in-page visual representation of the Ube product (IntakeMockup, TriageMockup, FixMockup, ReportSuccessMockup, ReportFailureMockup, and the Hero mockup variants). Mockups are visual, not functional product surfaces.
 
+**Ube Publisher**:
+The Ube product for mobile app distribution. It sets up the distribution stack, keeps the paid-acquisition-to-product-learning loop running, and asks for approval at expensive or risky points such as account creation, ad spend, campaign launches, monetization changes, and larger budget increases. Paid ads are treated as a measurement engine first: they create a steady stream of users so Ube can find working creatives, identify drop-off points, recommend A/B tests, improve retention and monetization, and only then help scale the app by investing dollars more efficiently.
+
 **Source** (analytics):
 A coarse label identifying which CTA fired an analytics event — `"nav"`, `"hero"`, `"final_cta"`. Page-level breakdown comes from Amplitude's auto-captured URL, not from the source label.
 
