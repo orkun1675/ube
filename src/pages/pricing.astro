@@ -26,6 +26,11 @@ const accentMode = TWEAK_DEFAULTS.accentStrategy
 const dateModified = new Date().toISOString()
 const pricingUrl = new URL("/pricing/", Astro.site).href
 const siteUrl = new URL("/", Astro.site).href
+const publisherUrl = new URL("/publisher/", Astro.site).href
+const orgId = new URL("/#organization", Astro.site).href
+const websiteId = new URL("/#website", Astro.site).href
+const maintainerId = new URL("/#ube-maintainer", Astro.site).href
+const publisherId = new URL("/publisher/#ube-publisher", Astro.site).href
 
 const offers = [
   {
@@ -35,11 +40,47 @@ const offers = [
     price: "40",
     priceCurrency: "USD",
     availability: "https://schema.org/PreOrder",
+    itemOffered: {
+      "@type": "SoftwareApplication",
+      "@id": maintainerId,
+      name: "Ube Maintainer",
+      applicationCategory: "DeveloperApplication",
+    },
     priceSpecification: {
       "@type": "UnitPriceSpecification",
       price: "40",
       priceCurrency: "USD",
       unitText: "per app per month",
+    },
+    eligibleDuration: {
+      "@type": "QuantitativeValue",
+      value: 1,
+      unitCode: "MON",
+    },
+  },
+  {
+    "@type": "Offer",
+    name: "Maintainer yearly",
+    url: pricingUrl,
+    price: "32",
+    priceCurrency: "USD",
+    availability: "https://schema.org/PreOrder",
+    itemOffered: {
+      "@type": "SoftwareApplication",
+      "@id": maintainerId,
+      name: "Ube Maintainer",
+      applicationCategory: "DeveloperApplication",
+    },
+    priceSpecification: {
+      "@type": "UnitPriceSpecification",
+      price: "32",
+      priceCurrency: "USD",
+      unitText: "per app per month, billed yearly",
+    },
+    eligibleDuration: {
+      "@type": "QuantitativeValue",
+      value: 1,
+      unitCode: "ANN",
     },
   },
   {
@@ -49,20 +90,79 @@ const offers = [
     price: "100",
     priceCurrency: "USD",
     availability: "https://schema.org/PreOrder",
+    itemOffered: {
+      "@type": "Product",
+      name: "Ube Maintainer + Publisher",
+      isRelatedTo: [
+        {
+          "@type": "SoftwareApplication",
+          "@id": maintainerId,
+          name: "Ube Maintainer",
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": publisherId,
+          name: "Ube Publisher",
+        },
+      ],
+    },
     priceSpecification: {
       "@type": "UnitPriceSpecification",
       price: "100",
       priceCurrency: "USD",
       unitText: "per app per month",
     },
+    eligibleDuration: {
+      "@type": "QuantitativeValue",
+      value: 1,
+      unitCode: "MON",
+    },
+  },
+  {
+    "@type": "Offer",
+    name: "Maintainer + Publisher yearly",
+    url: pricingUrl,
+    price: "80",
+    priceCurrency: "USD",
+    availability: "https://schema.org/PreOrder",
+    itemOffered: {
+      "@type": "Product",
+      name: "Ube Maintainer + Publisher",
+      isRelatedTo: [
+        {
+          "@type": "SoftwareApplication",
+          "@id": maintainerId,
+          name: "Ube Maintainer",
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": publisherId,
+          name: "Ube Publisher",
+        },
+      ],
+    },
+    priceSpecification: {
+      "@type": "UnitPriceSpecification",
+      price: "80",
+      priceCurrency: "USD",
+      unitText: "per app per month, billed yearly",
+    },
+    eligibleDuration: {
+      "@type": "QuantitativeValue",
+      value: 1,
+      unitCode: "ANN",
+    },
   },
   {
     "@type": "Offer",
     name: "Enterprise",
     url: pricingUrl,
-    price: "0",
     priceCurrency: "USD",
     availability: "https://schema.org/PreOrder",
+    itemOffered: {
+      "@type": "Product",
+      name: "Ube Enterprise",
+    },
     priceSpecification: {
       "@type": "PriceSpecification",
       priceCurrency: "USD",
@@ -75,17 +175,60 @@ const jsonLd = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
+    "@id": new URL("/pricing/#ube-plans", Astro.site).href,
     name: "Ube",
     url: siteUrl,
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
     description,
     dateModified,
+    isPartOf: { "@id": websiteId },
+    creator: {
+      "@type": "Organization",
+      "@id": orgId,
+      name: "Chunky Tofu Studios, LLC",
+      url: siteUrl,
+    },
     offers,
   },
   {
     "@context": "https://schema.org",
+    "@type": "OfferCatalog",
+    "@id": new URL("/pricing/#offer-catalog", Astro.site).href,
+    name: "Ube pricing plans",
+    url: pricingUrl,
+    itemListElement: offers,
+    provider: { "@id": orgId },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Ube Maintainer",
+        item: siteUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Ube Publisher",
+        item: publisherUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Pricing",
+        item: pricingUrl,
+      },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
     "@type": "FAQPage",
+    "@id": new URL("/pricing/#faq", Astro.site).href,
+    mainEntityOfPage: pricingUrl,
     mainEntity: PRICING_FAQ_ITEMS.map(({ q, a }) => ({
       "@type": "Question",
       name: q,

@@ -1,7 +1,7 @@
 {
   "name": "Ube",
   "short_name": "Ube",
-  "description": "An AI agent that maintains your app — listens to crash feeds, error dashboards, app reviews, and dependency releases, then opens verified PRs.",
+  "description": "AI agents that maintain and grow mobile apps with verified PRs, analytics, attribution, paid acquisition, A/B tests, and monetization loops.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

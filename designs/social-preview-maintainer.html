@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <title>Ube — social preview</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" />
   <style>
     :root {
       --canvas: #1e1e22;
@@ -26,8 +28,15 @@
       --inset-y: 64px;
       --inset-x: 72px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body {
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
       width: 1200px;
       height: 630px;
       background: var(--canvas);
@@ -36,6 +45,7 @@
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
+
     body {
       position: relative;
       overflow: hidden;
@@ -49,8 +59,8 @@
       background-size: 32px 32px;
       opacity: 0.16;
       pointer-events: none;
-      mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
-      -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+      mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 60%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 60%, transparent 100%);
     }
 
     /* Soft accent glow */
@@ -84,6 +94,7 @@
       color: var(--ink);
       line-height: 1;
     }
+
     .wm-bracket {
       display: inline-block;
       width: 12px;
@@ -91,9 +102,18 @@
       border: 6px solid var(--accent);
       transform: translateY(2px);
     }
-    .wm-bracket-l { border-right: none; }
-    .wm-bracket-r { border-left: none; }
-    .wm-word { padding: 0 4px; }
+
+    .wm-bracket-l {
+      border-right: none;
+    }
+
+    .wm-bracket-r {
+      border-left: none;
+    }
+
+    .wm-word {
+      padding: 0 4px;
+    }
 
     .slogan {
       position: absolute;
@@ -108,6 +128,7 @@
       margin: 0;
       white-space: nowrap;
     }
+
     .slogan .muted-line {
       color: var(--muted);
     }
@@ -121,6 +142,7 @@
       gap: 10px;
       align-items: center;
     }
+
     .pill {
       display: inline-flex;
       align-items: center;
@@ -136,6 +158,7 @@
       color: var(--ink);
       border: 1px solid var(--hairline-strong);
     }
+
     .pill-dot {
       width: 7px;
       height: 7px;
@@ -156,6 +179,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="glow"></div>
   <div class="dot-grid"></div>
@@ -168,7 +192,7 @@
     </div>
 
     <h1 class="slogan">
-      App maintenance,<br/>
+      App maintenance,<br />
       <span class="muted-line">on autopilot.</span>
     </h1>
 
@@ -182,4 +206,5 @@
     <div class="url">ube.dev</div>
   </div>
 </body>
+
 </html>

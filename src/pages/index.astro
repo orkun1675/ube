@@ -57,6 +57,13 @@ const accentMode = TWEAK_DEFAULTS.accentStrategy
 // AI Overviews weight recently-modified pages higher in time-sensitive
 // queries. Matches the format the sitemap integration emits for `lastmod`.
 const dateModified = new Date().toISOString()
+const siteUrl = new URL("/", Astro.site).href
+const publisherUrl = new URL("/publisher/", Astro.site).href
+const pricingUrl = new URL("/pricing/", Astro.site).href
+const orgId = new URL("/#organization", Astro.site).href
+const websiteId = new URL("/#website", Astro.site).href
+const maintainerId = new URL("/#ube-maintainer", Astro.site).href
+const publisherId = new URL("/publisher/#ube-publisher", Astro.site).href
 
 // Multiple schemas — Astro's BaseLayout iterates and emits each as its own
 // <script type="application/ld+json"> block (single source of truth between
@@ -65,25 +72,75 @@ const jsonLd = [
   {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": orgId,
     name: "Ube",
     legalName: "Chunky Tofu Studios, LLC",
-    url: new URL("/", Astro.site).href,
+    url: siteUrl,
     logo: new URL("/assets/favicons/logo-512.png", Astro.site).href,
     description:
-      "Ube is an AI agent that maintains mobile and cross-platform apps — triaging crash reports, user feedback, and dependency upgrades, then opening verified pull requests against your repo.",
+      "Ube builds AI agents for mobile app teams: Ube Maintainer triages crashes, reviews, and dependency releases into verified pull requests, and Ube Publisher instruments analytics, attribution, paid acquisition, A/B tests, and monetization loops.",
     contactPoint: {
       "@type": "ContactPoint",
       email: CONTACT_EMAIL,
       contactType: "customer support",
     },
     sameAs: [GITHUB_URL, LINKEDIN_URL],
+    knowsAbout: [
+      "mobile app maintenance",
+      "cross-platform app development",
+      "crash triage",
+      "dependency upgrades",
+      "mobile analytics",
+      "mobile attribution",
+      "paid user acquisition",
+      "A/B testing",
+      "app monetization",
+    ],
+    makesOffer: [
+      {
+        "@type": "Offer",
+        name: "Ube Maintainer early access",
+        url: siteUrl,
+        availability: "https://schema.org/PreOrder",
+        itemOffered: {
+          "@type": "SoftwareApplication",
+          "@id": maintainerId,
+          name: "Ube Maintainer",
+          applicationCategory: "DeveloperApplication",
+        },
+      },
+      {
+        "@type": "Offer",
+        name: "Ube Publisher early access",
+        url: publisherUrl,
+        availability: "https://schema.org/PreOrder",
+        itemOffered: {
+          "@type": "SoftwareApplication",
+          "@id": publisherId,
+          name: "Ube Publisher",
+          applicationCategory: "BusinessApplication",
+        },
+      },
+    ],
     dateModified,
   },
   {
     "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": websiteId,
+    name: "Ube",
+    url: siteUrl,
+    description:
+      "AI agents for maintaining and growing mobile apps, including Ube Maintainer and Ube Publisher.",
+    publisher: { "@id": orgId },
+    inLanguage: "en-US",
+  },
+  {
+    "@context": "https://schema.org",
     "@type": "SoftwareApplication",
+    "@id": maintainerId,
     name: "Ube Maintainer",
-    url: new URL("/", Astro.site).href,
+    url: siteUrl,
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
     description:
@@ -97,22 +154,45 @@ const jsonLd = [
       "Closes the loop with the original reporter after release",
       "Escalates upstream with detailed reproduction reports",
     ],
-    screenshot: new URL("/assets/social/og-image.jpg", Astro.site).href,
+    screenshot: new URL("/assets/social/og-image-maintainer.jpg", Astro.site).href,
     offers: {
       "@type": "Offer",
-      price: "0",
+      name: "Ube Maintainer early access",
+      url: pricingUrl,
+      price: "40",
       priceCurrency: "USD",
       availability: "https://schema.org/PreOrder",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: "40",
+        priceCurrency: "USD",
+        unitText: "per app per month",
+      },
     },
     creator: {
       "@type": "Organization",
+      "@id": orgId,
       name: "Chunky Tofu Studios, LLC",
-      url: new URL("/", Astro.site).href,
+      url: siteUrl,
     },
   },
   {
     "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Ube Maintainer",
+        item: siteUrl,
+      },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
     "@type": "FAQPage",
+    "@id": new URL("/#faq", Astro.site).href,
+    mainEntityOfPage: siteUrl,
     mainEntity: FAQ_ITEMS.map(({ q, a }) => ({
       "@type": "Question",
       name: q,
@@ -125,6 +205,8 @@ const jsonLd = [
 <BaseLayout
   title={title}
   description={description}
+  ogImage={new URL("/assets/social/og-image-maintainer.jpg", Astro.site).href}
+  ogImageAlt="Ube - App maintenance, on autopilot."
   jsonLd={jsonLd}
   accentMode={accentMode}
 >

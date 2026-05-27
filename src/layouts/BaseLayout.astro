@@ -49,6 +49,7 @@ export interface Props {
   // so every route has a canonical without duplicating the host string.
   canonical?: string
   ogImage?: string
+  ogImageAlt?: string
   ogType?: string
   jsonLd?: object | object[]
   // Optional accent-mode flag rendered as `body[data-accent-mode]`. Only
@@ -60,11 +61,15 @@ export interface Props {
   accentMode?: string
 }
 
+const defaultOgImagePath = "/assets/social/og-image.jpg"
+const defaultOgImageAlt = "Ube - App growth, on autopilot."
+
 const {
   title,
   description,
   canonical = new URL(Astro.url.pathname, Astro.site).href,
-  ogImage = new URL("/assets/social/og-image.jpg", Astro.site).href,
+  ogImage = new URL(defaultOgImagePath, Astro.site).href,
+  ogImageAlt = defaultOgImageAlt,
   ogType = "website",
   jsonLd,
   accentMode,
@@ -82,6 +87,7 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href={canonical} />
 
     <!-- Favicon: off-white "u" between purple brackets on charcoal —
@@ -114,16 +120,14 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta
-      property="og:image:alt"
-      content="Ube — App maintenance, on autopilot."
-    />
+    <meta property="og:image:alt" content={ogImageAlt} />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <!-- Browser chrome tint (matches --canvas in styles.css) -->
     <meta name="theme-color" content="#1e1e22" />

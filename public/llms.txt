@@ -1,21 +1,36 @@
 # Ube
 
-> An AI agent that maintains mobile and cross-platform apps — listens to crash feeds, error dashboards, app reviews, and dependency releases, then triages, reproduces, and opens verified pull requests against your repo.
+> Ube builds AI agents for mobile app teams. Ube Maintainer keeps apps healthy by turning crashes, app reviews, support signals, and dependency releases into verified pull requests. Ube Publisher helps teams grow apps by wiring analytics, attribution, paid acquisition, creative testing, A/B tests, and monetization loops.
 
 ## Key facts
 
-- **What it is**: Ube Maintainer is an autonomous software maintenance agent. It reads crash reports (Firebase Crashlytics, Sentry, Play Console ANRs), app store reviews, support inboxes, and dependency releases on a single timeline; deduplicates issues across binaries; reproduces and patches them on emulators; runs your test suite plus a generated regression suite; opens a PR with the diff and a recorded reproduction; and writes back to the original reporter after the fix ships.
-- **Built for**: React Native, Expo, Flutter, native iOS (Swift / Obj-C), native Android (Kotlin / Java), and Capacitor / Ionic. Other stacks onboardable on request.
-- **Auto-merge policy**: Ube always opens PRs — never force-merges. Auto-merge is opt-in per repository and remains gated behind your existing branch protections and required checks.
+- **Company**: Chunky Tofu Studios, LLC.
+- **Status**: Pre-launch. The site is a demand probe and accepts early-access requests at https://ube.dev.
+- **Products**: Ube Maintainer, Ube Publisher, and combined Maintainer + Publisher plans.
+- **Pricing**: Maintainer is listed at $40/app/month or $32/app/month billed yearly. Maintainer + Publisher is listed at $100/app/month or $80/app/month billed yearly. Enterprise is custom. Ad spend and optional creative-generation fees are paid directly to those platforms.
 - **Code privacy**: User code runs in ephemeral, per-repo sandboxes that are destroyed after each job. Ube does not train on user code and does not retain it after the run. Self-hosting is offered for enterprise customers with strict privacy requirements.
-- **Outcome claim**: Early teams running Ube reclaim 10–30% of their engineering time previously spent on triage and dependency maintenance.
-- **Status**: Pre-launch. The site is a demand probe — request access via the form on ube.dev.
-- **Maker**: Chunky Tofu Studios, LLC.
-- **Adjacent product (coming)**: Ube Publisher — same maker, separate product. The "which matters more" radio on the request-access form is how interest is measured.
+- **Auto-merge policy**: Ube always opens PRs for review. Auto-merge is opt-in per repository and remains gated behind existing branch protections and required checks.
+
+## Ube Maintainer
+
+- **What it is**: An autonomous software maintenance agent for mobile and cross-platform app teams.
+- **Built for**: React Native, Expo, Flutter, native iOS (Swift / Obj-C), native Android (Kotlin / Java), and Capacitor / Ionic. Other stacks are onboardable on request.
+- **Inputs**: Firebase Crashlytics, Sentry, Play Console ANRs, app store reviews, support inboxes, dependency releases, and repository context.
+- **Workflow**: Deduplicates issues across binaries, OS versions, and dependency upgrades; reproduces bugs on emulators; patches and verifies against the test suite; opens a pull request with the diff and recorded reproduction; writes back to the original reporter after the fix ships.
+- **Outcome claim**: Early teams running Ube reclaim 10-30% of their engineering time previously spent on triage and dependency maintenance.
+
+## Ube Publisher
+
+- **What it is**: A mobile app distribution orchestrator for small teams, solo founders, indie studios, and vibecoders.
+- **Built for**: Teams that need the growth stack used by larger app studios without spending months wiring tools before learning from users.
+- **Workflow**: Instruments analytics, aligns user IDs and event taxonomy, sets up attribution and SKAdNetwork, builds dashboards, runs acquisition campaigns, refreshes creatives, proposes retention tests, and optimizes monetization once retention is sticky.
+- **Integrations mentioned on the site**: Amplitude, Firebase, AppsFlyer, RevenueCat, Meta, Google Ads, TikTok, AdMob, Apple, Google Play, Sentry, Codemagic, Docker, Bun, Dart, npm, GitHub, Codex, Claude Code, Sett, Clarity, and Creatify.
 
 ## Pages
 
-- [Landing page](https://ube.dev/): product overview, How It Works (5 steps), Outcomes, FAQ, request access
+- [Ube Maintainer](https://ube.dev/): maintainer product overview, workflow, outcomes, FAQ, and request access.
+- [Ube Publisher](https://ube.dev/publisher/): publisher product overview, growth stack, distribution loop, insights, and request access.
+- [Pricing](https://ube.dev/pricing/): Maintainer, Maintainer + Publisher, and Enterprise plans.
 - [Terms of Service](https://ube.dev/terms-of-service/)
 - [Privacy Policy](https://ube.dev/privacy-policy/)
 
