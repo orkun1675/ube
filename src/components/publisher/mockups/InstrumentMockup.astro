@@ -117,4 +117,20 @@ import { PlusIcon, SparkleIcon } from "@phosphor-icons/react"
     display: block;
     object-fit: contain;
   }
+  .instrument-footer :global(.pill) {
+    margin-left: auto;
+  }
+  @media (max-width: 640px) {
+    .code {
+      font-size: 10px;
+      line-height: 1.55;
+      padding: 12px 14px;
+      overflow-x: hidden;
+    }
+    .code :global(.diff-add),
+    .code :global(.diff-ctx) {
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  }
 </style>

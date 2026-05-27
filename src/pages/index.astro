@@ -1,56 +1,30 @@
 ---
-// Landing page — the demand-probe homepage.
-//
-// Architecture (post-spec-0008):
-// - Static `.astro` sections (Nav, Footer, TrustedBy, Problems, Hero,
-//   Benefits, FinalCta) render as plain HTML. Nav + Footer live in
-//   BaseLayout.astro. Hero's CTA is wired by a colocated `*.client.ts`
-//   script (same pattern as Nav / FinalCta).
-// - HowItWorks and FAQ are the only remaining React sections on this page.
-//   They mount as their own `client:visible` islands so React + their
-//   subtree only download/hydrate once the user scrolls them into view
-//   (both are below the fold). The old `LandingPageApp` wrapper that
-//   used to host them — and the engagement/scroll-depth tracker hooks
-//   plus the tweaks panel — is gone:
-//   * Trackers run from a plain `<script>` in BaseLayout (page-tracking).
-//   * Tweaks panel is mounted by BaseLayout, gated by `import.meta.env.DEV`.
-//   * The CSS-variable defaults the tweaks panel mutates at runtime are
-//     baked into the inline `<style>` block below at build time, so prod
-//     gets the chosen accent / cardTone / accentStrategy without any JS.
+// Landing page — the demand-probe homepage, now leading with the
+// Publisher product. The Maintainer page lives at /maintainer/.
 import { TWEAK_DEFAULTS } from "@/data/tweak-defaults"
-import { FAQ } from "@/components/sections/FAQ"
-import FinalCta from "@/components/maintainer/sections/FinalCta.astro"
-import Hero from "@/components/maintainer/sections/Hero.astro"
-import { HowItWorks } from "@/components/maintainer/sections/HowItWorks"
-import Benefits from "@/components/maintainer/sections/Benefits.astro"
-import Problems from "@/components/maintainer/sections/Problems.astro"
-import TrustedBy from "@/components/maintainer/sections/TrustedBy.astro"
 import { CARD_TONES, getUbe } from "@/lib/palette"
-import { FAQ_ITEMS } from "@/data/faq-items"
+import FinalCta from "@/components/publisher/sections/FinalCta.astro"
+import Hero from "@/components/publisher/sections/Hero.astro"
+import Insights from "@/components/publisher/sections/Insights.astro"
+import Loop from "@/components/publisher/sections/Loop.astro"
+import Moat from "@/components/publisher/sections/Moat.astro"
+import Problems from "@/components/publisher/sections/Problems.astro"
+import Stack from "@/components/publisher/sections/Stack.astro"
 import BaseLayout from "@/layouts/BaseLayout.astro"
 import {
   buildBreadcrumbSchema,
-  buildFaqPageSchema,
   buildJsonLdGraph,
-  buildMaintainerSchema,
   buildOrganizationSchema,
+  buildPublisherSchema,
   buildWebPageSchema,
   buildWebsiteSchema,
   schemaIds,
 } from "@/lib/schema"
 
-const title = "Ube — AI App Maintenance Agent for Mobile Dev Teams"
+const title = "Ube Publisher — Mobile App Distribution Orchestrator"
 const description =
-  "Ube monitors crash feeds, error dashboards, reviews, and dependency releases, then opens verified PRs against your repo."
+  "Ube Publisher sets up analytics, attribution, dashboards, paid ads, creatives, and A/B tests so app builders learn what to improve before scaling spend."
 
-// Bake the TWEAK_DEFAULTS-derived CSS variables into a `:root` style block
-// via Astro's native `define:vars` API (Astro's first-class way to inject
-// build-time values into a stylesheet — it scopes a unique CSS class to
-// the element and emits a small style tag that maps the named vars to its
-// `style="--accent:..."` attribute, so production has zero JS for theming).
-// The dev-only TweaksPanel still mutates these at runtime via
-// `document.documentElement.style.setProperty` (which wins over `:root`
-// rules), so live preview keeps working in dev.
 const ube = getUbe(TWEAK_DEFAULTS.accent)
 const accent = `oklch(${ube.L} ${ube.C} ${ube.H})`
 const accentHover = `oklch(${Math.min(0.72, ube.L + 0.1)} ${ube.C} ${ube.H})`
@@ -59,12 +33,7 @@ const accentTint = `oklch(${ube.L} ${ube.C} ${ube.H} / 0.14)`
 const cardTone = CARD_TONES[TWEAK_DEFAULTS.cardTone] ?? CARD_TONES["warm"]
 const cardBg = cardTone?.bg ?? "#1d1b15"
 const cardBorder = cardTone?.border ?? "#2a2720"
-const accentMode = TWEAK_DEFAULTS.accentStrategy
 
-// Build-time ISO 8601 timestamp emitted as `dateModified` on the
-// Organization and SoftwareApplication blocks below. Perplexity and Google
-// AI Overviews weight recently-modified pages higher in time-sensitive
-// queries. Matches the format the sitemap integration emits for `lastmod`.
 const dateModified = new Date().toISOString()
 const pageUrl = new URL("/", Astro.site).href
 const ids = schemaIds(Astro.site)
@@ -72,51 +41,44 @@ const ids = schemaIds(Astro.site)
 const jsonLd = buildJsonLdGraph([
   buildOrganizationSchema(Astro.site, dateModified),
   buildWebsiteSchema(Astro.site),
-  buildMaintainerSchema(Astro.site, dateModified),
+  buildPublisherSchema(Astro.site, dateModified, description),
   buildWebPageSchema(Astro.site, {
     pageUrl,
     title,
     description,
     dateModified,
-    aboutId: ids.maintainerId,
+    aboutId: ids.publisherId,
   }),
-  buildBreadcrumbSchema(pageUrl, [{ name: "Ube Maintainer", url: pageUrl }]),
-  buildFaqPageSchema(pageUrl, FAQ_ITEMS),
+  buildBreadcrumbSchema(pageUrl, [{ name: "Ube Publisher", url: pageUrl }]),
 ])
 ---
 
 <BaseLayout
   title={title}
   description={description}
-  ogImage={new URL("/assets/social/og-image-maintainer.jpg", Astro.site).href}
-  ogImageAlt="Ube - App maintenance, on autopilot."
   jsonLd={jsonLd}
-  accentMode={accentMode}
+  accentMode="split"
 >
-  <style define:vars={{ accent, accentHover, accentSoft, accentTint, cardBg, cardBorder }}>
-    /* `define:vars` attaches the camelCase tokens (--accent, --accentHover,
-       --cardBg, …) as inline styles on this <style>'s parent — which Astro
-       resolves to <main>. Astro 3+ no longer auto-emits a kebab-case alias,
-       so re-export the multi-word names under the kebab-case versions that
-       styles.css and the rest of the codebase actually consume. Scoping to
-       `main` ensures the cascade reaches every section, card, and mockup
-       descendant. (`--accent` is one word, so its camel/kebab forms match
-       and no re-export is needed.) */
+  <style
+    define:vars={{ accent, accentHover, accentSoft, accentTint, cardBg, cardBorder }}
+  >
     main {
       --accent-hover: var(--accentHover);
       --accent-soft: var(--accentSoft);
       --accent-tint: var(--accentTint);
       --card-bg: var(--cardBg);
       --card-border: var(--cardBorder);
+      background: var(--canvas);
     }
   </style>
-  <main>
+
+  <main class="publisher-page">
     <Hero />
-    <TrustedBy />
     <Problems />
-    <HowItWorks client:visible />
-    <Benefits />
-    <FAQ client:visible items={FAQ_ITEMS} />
+    <Stack />
+    <Loop />
+    <Insights />
+    <Moat />
     <FinalCta />
   </main>
 </BaseLayout>

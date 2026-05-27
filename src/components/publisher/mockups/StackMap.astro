@@ -173,44 +173,61 @@ const stackLogos: StackLogo[] = [
     .stack-map {
       max-width: 760px;
       width: 100%;
-    }
-  }
-  @media (max-width: 800px) {
-    .stack-map {
-      min-height: auto;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      padding: 18px;
-    }
-    .stack-map::before,
-    .stack-map::after {
-      display: none;
-    }
-    .stack-dotgrid {
-      display: none;
-    }
-    .stack-core,
-    .stack-node {
-      position: static;
-      transform: none;
-    }
-    .stack-core {
-      grid-column: 1 / -1;
-      width: auto;
-      height: auto;
-      border-radius: var(--r-lg);
-      padding: 22px;
-    }
-    .stack-node {
-      justify-content: flex-start;
-      min-width: 0;
-      white-space: normal;
+      margin: 0 auto;
     }
   }
   @media (max-width: 640px) {
     .stack-map {
-      grid-template-columns: 1fr;
+      min-height: 420px;
+    }
+    .stack-node {
+      gap: 5px;
+      padding: 5px 8px;
+      font-size: 10px;
+    }
+    .stack-node img {
+      width: 14px;
+      height: 14px;
+    }
+    .stack-core {
+      width: 116px;
+      height: 116px;
+      gap: 4px;
+    }
+    .stack-core strong {
+      font-size: 9px;
+      letter-spacing: 0.4px;
+    }
+    .stack-node:nth-of-type(3) { left: 1%; top: 8%; }
+    .stack-node:nth-of-type(4) { right: 1%; top: 8%; }
+    .stack-node:nth-of-type(5) { left: 0%; top: 32%; }
+    .stack-node:nth-of-type(6) { right: 0%; top: 32%; }
+    .stack-node:nth-of-type(7) { left: 1%; bottom: 32%; }
+    .stack-node:nth-of-type(8) { right: 1%; bottom: 32%; }
+    .stack-node:nth-of-type(9) { left: 1%; bottom: 8%; }
+    .stack-node:nth-of-type(10) { right: 1%; bottom: 8%; }
+    .stack-node:nth-of-type(11) { left: 32%; top: 2%; }
+    .stack-node:nth-of-type(12) { left: 36%; bottom: 4%; }
+    .stack-node:nth-of-type(13) { right: 32%; top: 16%; }
+  }
+  @media (max-width: 380px) {
+    .stack-map {
+      min-height: 380px;
+    }
+    .stack-node {
+      padding: 4px 6px;
+      font-size: 9px;
+    }
+    .stack-node img {
+      width: 12px;
+      height: 12px;
+    }
+    .stack-core {
+      width: 100px;
+      height: 100px;
+    }
+    .stack-core strong {
+      font-size: 8px;
     }
   }
 </style>

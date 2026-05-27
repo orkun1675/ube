@@ -20,13 +20,13 @@ import Wordmark from "@/components/Wordmark.astro"
 
 const pathname = Astro.url.pathname
 const isLandingPage = pathname === "/"
-const isPublisherPage = pathname === "/publisher/"
+const isMaintainerPage = pathname === "/maintainer/"
 const isPricingPage = pathname === "/pricing/"
-// `/maintainer` redirects to `/`, so on the landing page the Maintainer
+// `/publisher` redirects to `/`, so on the landing page the Publisher
 // nav item is "where we are". Other routes (terms, privacy) don't have a
 // nav-center entry — nothing highlights.
-const maintainerActive = isLandingPage
-const publisherActive = isPublisherPage
+const publisherActive = isLandingPage
+const maintainerActive = isMaintainerPage
 const pricingActive = isPricingPage
 const wordmarkHref = isLandingPage ? "#top" : "/"
 ---
@@ -39,13 +39,13 @@ const wordmarkHref = isLandingPage ? "#top" : "/"
 
     <div class="nav-center">
       <a
-        href="/publisher/"
+        href="/"
         class:list={["nav-link", { active: publisherActive }]}
       >
         Publisher
       </a>
       <a
-        href="/"
+        href="/maintainer/"
         class:list={["nav-link", { active: maintainerActive }]}
       >
         Maintainer
@@ -101,14 +101,14 @@ const wordmarkHref = isLandingPage ? "#top" : "/"
   </div>
   <div class="mobile-menu-links">
     <a
-      href="/publisher/"
+      href="/"
       class:list={["mobile-menu-link", { active: publisherActive }]}
       data-nav-menu-link
     >
       Publisher
     </a>
     <a
-      href="/"
+      href="/maintainer/"
       class:list={["mobile-menu-link", { active: maintainerActive }]}
       data-nav-menu-link
     >

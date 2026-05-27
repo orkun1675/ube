@@ -28,8 +28,8 @@
 
 ## Pages
 
-- [Ube Maintainer](https://ube.dev/): maintainer product overview, workflow, outcomes, FAQ, and request access.
-- [Ube Publisher](https://ube.dev/publisher/): publisher product overview, growth stack, distribution loop, insights, and request access.
+- [Ube Publisher](https://ube.dev/): publisher product overview, growth stack, distribution loop, insights, and request access.
+- [Ube Maintainer](https://ube.dev/maintainer/): maintainer product overview, workflow, outcomes, FAQ, and request access.
 - [Pricing](https://ube.dev/pricing/): Maintainer, Maintainer + Publisher, and Enterprise plans.
 - [Terms of Service](https://ube.dev/terms-of-service/)
 - [Privacy Policy](https://ube.dev/privacy-policy/)

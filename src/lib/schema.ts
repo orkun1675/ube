@@ -33,8 +33,8 @@ export const schemaIds = (site: SiteUrl) => ({
   siteUrl: absoluteUrl(site, "/"),
   orgId: absoluteUrl(site, "/#organization"),
   websiteId: absoluteUrl(site, "/#website"),
-  maintainerId: absoluteUrl(site, "/#ube-maintainer"),
-  publisherId: absoluteUrl(site, "/publisher/#ube-publisher"),
+  maintainerId: absoluteUrl(site, "/maintainer/#ube-maintainer"),
+  publisherId: absoluteUrl(site, "/#ube-publisher"),
   offerCatalogId: absoluteUrl(site, "/pricing/#offer-catalog"),
 })
 
@@ -73,26 +73,26 @@ export const buildOrganizationSchema = (
     makesOffer: [
       {
         "@type": "Offer",
-        name: "Ube Maintainer early access",
-        url: ids.siteUrl,
-        availability: "https://schema.org/PreOrder",
-        itemOffered: {
-          "@type": "SoftwareApplication",
-          "@id": ids.maintainerId,
-          name: "Ube Maintainer",
-          applicationCategory: "DeveloperApplication",
-        },
-      },
-      {
-        "@type": "Offer",
         name: "Ube Publisher early access",
-        url: absoluteUrl(site, "/publisher/"),
+        url: ids.siteUrl,
         availability: "https://schema.org/PreOrder",
         itemOffered: {
           "@type": "SoftwareApplication",
           "@id": ids.publisherId,
           name: "Ube Publisher",
           applicationCategory: "BusinessApplication",
+        },
+      },
+      {
+        "@type": "Offer",
+        name: "Ube Maintainer early access",
+        url: absoluteUrl(site, "/maintainer/"),
+        availability: "https://schema.org/PreOrder",
+        itemOffered: {
+          "@type": "SoftwareApplication",
+          "@id": ids.maintainerId,
+          name: "Ube Maintainer",
+          applicationCategory: "DeveloperApplication",
         },
       },
     ],
@@ -125,7 +125,7 @@ export const buildMaintainerSchema = (
     "@type": "SoftwareApplication",
     "@id": ids.maintainerId,
     name: "Ube Maintainer",
-    url: ids.siteUrl,
+    url: absoluteUrl(site, "/maintainer/"),
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
     description:
@@ -171,7 +171,7 @@ export const buildPublisherSchema = (
     "@type": "SoftwareApplication",
     "@id": ids.publisherId,
     name: "Ube Publisher",
-    url: absoluteUrl(site, "/publisher/"),
+    url: ids.siteUrl,
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     description,

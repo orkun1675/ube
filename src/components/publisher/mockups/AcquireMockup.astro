@@ -2,6 +2,7 @@
 type CreativeRow = {
   thumb: "v1" | "v2" | "v3" | "v4"
   name: string
+  shortName: string
   network: string
   spend: string
   cac: string
@@ -13,6 +14,7 @@ const rows: CreativeRow[] = [
   {
     thumb: "v1",
     name: "playable · word puzzle",
+    shortName: "playable",
     network: "Meta",
     spend: "$48",
     cac: "$1.42",
@@ -22,6 +24,7 @@ const rows: CreativeRow[] = [
   {
     thumb: "v2",
     name: "video · jump-cut hook",
+    shortName: "video",
     network: "TikTok",
     spend: "$36",
     cac: "$1.71",
@@ -30,6 +33,7 @@ const rows: CreativeRow[] = [
   {
     thumb: "v3",
     name: "static · daily challenge",
+    shortName: "static",
     network: "Google",
     spend: "$22",
     cac: "$2.04",
@@ -38,6 +42,7 @@ const rows: CreativeRow[] = [
   {
     thumb: "v4",
     name: "ugc · founder reel",
+    shortName: "ugc",
     network: "Meta",
     spend: "$18",
     cac: "$2.88",
@@ -67,7 +72,10 @@ const rows: CreativeRow[] = [
               <span class={`creative-thumb ${r.thumb}`} aria-hidden="true">
                 {r.thumb.toUpperCase()}
               </span>
-              <span class="creative-name">{r.name}</span>
+              <span class="creative-name">
+                <span class="creative-name-full">{r.name}</span>
+                <span class="creative-name-short">{r.shortName}</span>
+              </span>
               <span class="camp-network">{r.network}</span>
             </span>
             <span class="cell num">{r.spend}</span>
@@ -138,6 +146,9 @@ const rows: CreativeRow[] = [
     min-width: 0;
     flex: 1 1 auto;
   }
+  .creative-name-short {
+    display: none;
+  }
   .creative-thumb {
     width: 28px;
     height: 28px;
@@ -184,6 +195,12 @@ const rows: CreativeRow[] = [
     }
     .camp-network {
       display: none;
+    }
+    .creative-name-full {
+      display: none;
+    }
+    .creative-name-short {
+      display: inline;
     }
   }
 </style>

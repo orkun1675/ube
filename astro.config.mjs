@@ -2,8 +2,8 @@
 //
 // Static SSG output (no server runtime — GitHub Pages serves dist/). Each
 // route in src/pages/ becomes a real HTML file. React islands hydrate on the
-// client via @astrojs/react. /maintainer → / lives here so it's emitted by
-// the build (replaces public/maintainer/index.html).
+// client via @astrojs/react. /publisher → / lives here so it's emitted by
+// the build (the Publisher landing was promoted from /publisher/ to /).
 //
 // The `tweaksWritebackPlugin` is registered with `apply: "serve"` so it is
 // skipped entirely during `astro build` — its source path is the only point
@@ -22,12 +22,12 @@ export default defineConfig({
   site: "https://ube.dev",
   output: "static",
   trailingSlash: "always",
-  // /maintainer is referenced by older external links (and Nav docstrings)
-  // even though the route was folded into /. Emit a meta-refresh redirect
-  // page so external backlinks don't 404 on GitHub Pages, which has no
-  // server-side redirect primitive.
+  // /publisher used to be the publisher landing page before it was promoted
+  // to the homepage at /. Emit a meta-refresh redirect page so external
+  // backlinks don't 404 on GitHub Pages, which has no server-side redirect
+  // primitive.
   redirects: {
-    "/maintainer": "/",
+    "/publisher": "/",
   },
   build: {
     format: "directory",

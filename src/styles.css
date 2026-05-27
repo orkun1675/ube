@@ -127,6 +127,7 @@ body {
 
 body {
   overflow-x: hidden;
+  overscroll-behavior-y: none;
 }
 
 /* Smooth scroll */
@@ -496,6 +497,8 @@ section[id] {
   font-weight: 600;
   letter-spacing: 0.6px;
   text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .pill-accent {
   background: var(--accent-tint);

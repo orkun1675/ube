@@ -19,7 +19,7 @@ const funnel: FunnelRow[] = [
 
 <div class="mockup-chrome">
   <div class="mockup-header">
-    <span class="mono header-label">Retention · Onboarding Funnel</span>
+    <span class="mono header-label"><span class="header-label-prefix">Retention · </span>Onboarding Funnel</span>
     <span class="spacer"></span>
     <span class="pill pill-error">37 % DROP</span>
   </div>
@@ -212,8 +212,14 @@ const funnel: FunnelRow[] = [
   }
   @media (max-width: 540px) {
     .funnel-row {
-      grid-template-columns: 80px minmax(0, 1fr) 50px 50px;
+      grid-template-columns: 90px minmax(0, 1fr) 50px;
       gap: 8px;
+    }
+    .funnel-row .delta {
+      display: none;
+    }
+    .header-label-prefix {
+      display: none;
     }
     .ab-grid {
       grid-template-columns: 1fr;
