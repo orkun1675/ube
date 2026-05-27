@@ -1,0 +1,141 @@
+---
+import { ArrowRight } from "@/lib/assets"
+import CreativeStack from "@/components/publisher/mockups/CreativeStack.astro"
+import GrowthConsole from "@/components/publisher/mockups/GrowthConsole.astro"
+---
+
+<section class="publisher-hero" id="top">
+  <div class="publisher-hero-grid-bg" aria-hidden="true"></div>
+  <div class="container publisher-hero-inner">
+    <div class="publisher-hero-copy fade-in">
+      <div class="eyebrow publisher-eyebrow">Ube Publisher</div>
+      <h1 class="t-display-mega publisher-hero-title">
+        App distribution,
+        <br />
+        <span>without becoming a mobile growth person.</span>
+      </h1>
+      <p class="t-body-md body publisher-hero-body">
+        You built the app. Now Ube sets up analytics, attribution, dashboards,
+        creatives, paid ads, and A/B tests so you can learn what to improve
+        before you pour real money into growth.
+      </p>
+      <div class="publisher-cta-row">
+        <button type="button" class="btn btn-primary" data-publisher-hero-cta>
+          Request access
+          <ArrowRight size={14} />
+        </button>
+        <a class="btn btn-secondary" href="#loop">See the loop</a>
+      </div>
+      <div class="publisher-builtfor">
+        <span>Built for</span>
+        <strong>vibecoders</strong>
+        <strong>solo app studios</strong>
+        <strong>product people</strong>
+      </div>
+    </div>
+
+    <div
+      class="publisher-hero-visual fade-in"
+      aria-label="Ube Publisher growth console mockup"
+    >
+      <GrowthConsole />
+      <CreativeStack />
+    </div>
+  </div>
+</section>
+
+<script src="./hero.client.ts"></script>
+
+<style>
+  .publisher-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 112px 0 88px;
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+  .publisher-hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+      rgba(255, 255, 255, 0.14) 1px,
+      transparent 1px
+    );
+    background-size: 32px 32px;
+    opacity: 0.55;
+    pointer-events: none;
+    mask-image: radial-gradient(
+      ellipse 80% 62% at 50% 28%,
+      #000 0%,
+      transparent 76%
+    );
+    -webkit-mask-image: radial-gradient(
+      ellipse 80% 62% at 50% 28%,
+      #000 0%,
+      transparent 76%
+    );
+  }
+  .publisher-hero-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
+    gap: 56px;
+    align-items: center;
+  }
+  .publisher-hero-title {
+    margin: 24px 0 0;
+  }
+  .publisher-hero-title span {
+    color: var(--muted);
+  }
+  .publisher-hero-body {
+    max-width: 570px;
+    margin: 28px 0 0;
+    line-height: 1.65;
+  }
+  .publisher-cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 36px;
+  }
+  .publisher-builtfor {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    align-items: center;
+    margin-top: 34px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.72px;
+    text-transform: uppercase;
+  }
+  .publisher-builtfor strong {
+    color: var(--body);
+    font-weight: 500;
+  }
+  .publisher-hero-visual {
+    position: relative;
+    min-width: 0;
+  }
+  @media (max-width: 1100px) {
+    .publisher-hero-inner {
+      grid-template-columns: 1fr;
+    }
+    .publisher-hero-visual {
+      max-width: 760px;
+      width: 100%;
+    }
+  }
+  @media (max-width: 800px) {
+    .publisher-hero {
+      padding: 78px 0 66px;
+    }
+  }
+  @media (max-width: 640px) {
+    .publisher-hero-title br {
+      display: none;
+    }
+  }
+</style>

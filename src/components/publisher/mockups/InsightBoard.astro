@@ -1,0 +1,90 @@
+---
+---
+
+<div class="insight-board mockup-chrome">
+  <div class="mockup-header">
+    <div class="traffic-lights"><span></span><span></span><span></span></div>
+    <div class="mono muted">insights.sql → actions</div>
+  </div>
+  <div class="insight-board-body">
+    <div class="insight-row high">
+      <span>01</span>
+      <div>
+        <strong>Onboarding asks for too much too early.</strong>
+        <p>42% of paid users leave before sign up. Test guest mode.</p>
+      </div>
+    </div>
+    <div class="insight-row">
+      <span>02</span>
+      <div>
+        <strong>Best users come from the study-session creative.</strong>
+        <p>D7 retention is 18% higher than generic productivity ads.</p>
+      </div>
+    </div>
+    <div class="insight-row">
+      <span>03</span>
+      <div>
+        <strong>Paywall is too early for ad-acquired users.</strong>
+        <p>Move the trial offer after first completed project.</p>
+      </div>
+    </div>
+    <div class="insight-row">
+      <span>04</span>
+      <div>
+        <strong>Do not raise spend yet.</strong>
+        <p>CAC is promising, but activation still leaks too much.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .insight-board {
+    min-width: 0;
+  }
+  .insight-board-body {
+    padding: 16px;
+    display: grid;
+    gap: 10px;
+  }
+  .insight-row {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 14px;
+    padding: 15px;
+    background: rgba(14, 14, 17, 0.48);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-lg);
+  }
+  .insight-row.high {
+    border-color: color-mix(in oklab, var(--accent) 38%, var(--hairline));
+    background: linear-gradient(
+      90deg,
+      var(--accent-tint),
+      rgba(14, 14, 17, 0.48)
+    );
+  }
+  .insight-row span {
+    color: var(--accent-2);
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  .insight-row strong {
+    display: block;
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.35;
+  }
+  .insight-row p {
+    color: var(--body);
+    margin: 5px 0 0;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  @media (max-width: 1100px) {
+    .insight-board {
+      max-width: 760px;
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,188 @@
+---
+const stackLogos: [string, string][] = [
+  ["Firebase", "/assets/integrations/firebase.svg"],
+  ["Amplitude", "/assets/integrations/amplitude.svg"],
+  ["Clarity", "/assets/integrations/clarity.png"],
+  ["RevenueCat", "/assets/integrations/revenuecat.svg"],
+  ["AppsFlyer", "/assets/integrations/appsflyer.svg"],
+  ["AdMob", "/assets/integrations/admob.svg"],
+  ["Google Ads", "/assets/integrations/google_ads.svg"],
+  ["Meta", "/assets/integrations/meta.svg"],
+  ["TikTok", "/assets/integrations/tiktok.svg"],
+  ["Creatify", "/assets/integrations/creatify.png"],
+  ["Sett", "/assets/integrations/sett.svg"],
+]
+---
+
+<div class="stack-map" aria-label="Distribution stack integrations">
+  <div class="stack-core">
+    <span class="mono">[ube]</span>
+    <strong>company brain</strong>
+  </div>
+  {
+    stackLogos.map(([name, src]) => (
+      <div class="stack-node">
+        <img src={src} alt="" loading="lazy" />
+        <span>{name}</span>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .stack-map {
+    position: relative;
+    min-height: 480px;
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-xl);
+    background:
+      radial-gradient(circle at center, var(--accent-tint), transparent 46%),
+      radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+    background-size:
+      auto,
+      24px 24px;
+    overflow: hidden;
+  }
+  .stack-map::before,
+  .stack-map::after {
+    content: "";
+    position: absolute;
+    inset: 16%;
+    border: 1px solid color-mix(in oklab, var(--accent) 18%, transparent);
+    border-radius: 50%;
+  }
+  .stack-map::after {
+    inset: 27%;
+  }
+  .stack-core {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    top: 50%;
+    width: 172px;
+    height: 172px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    gap: 7px;
+    background: #18181c;
+    border: 1px solid var(--accent);
+    box-shadow: 0 0 60px rgba(107, 63, 160, 0.28);
+  }
+  .stack-core span {
+    color: var(--ink);
+    font-size: 24px;
+  }
+  .stack-core strong {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+  }
+  .stack-node {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 11px;
+    border-radius: var(--r-pill);
+    background: rgba(14, 14, 17, 0.72);
+    border: 1px solid var(--hairline-strong);
+    color: var(--body);
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .stack-node img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+  .stack-node:nth-of-type(2) {
+    left: 9%;
+    top: 12%;
+  }
+  .stack-node:nth-of-type(3) {
+    right: 10%;
+    top: 10%;
+  }
+  .stack-node:nth-of-type(4) {
+    left: 7%;
+    top: 34%;
+  }
+  .stack-node:nth-of-type(5) {
+    right: 6%;
+    top: 32%;
+  }
+  .stack-node:nth-of-type(6) {
+    left: 12%;
+    bottom: 31%;
+  }
+  .stack-node:nth-of-type(7) {
+    right: 9%;
+    bottom: 30%;
+  }
+  .stack-node:nth-of-type(8) {
+    left: 10%;
+    bottom: 11%;
+  }
+  .stack-node:nth-of-type(9) {
+    right: 12%;
+    bottom: 10%;
+  }
+  .stack-node:nth-of-type(10) {
+    left: 41%;
+    top: 7%;
+  }
+  .stack-node:nth-of-type(11) {
+    left: 38%;
+    bottom: 7%;
+  }
+  .stack-node:nth-of-type(12) {
+    right: 35%;
+    top: 22%;
+  }
+  @media (max-width: 1100px) {
+    .stack-map {
+      max-width: 760px;
+      width: 100%;
+    }
+  }
+  @media (max-width: 800px) {
+    .stack-map {
+      min-height: auto;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding: 18px;
+    }
+    .stack-map::before,
+    .stack-map::after {
+      display: none;
+    }
+    .stack-core,
+    .stack-node {
+      position: static;
+      transform: none;
+    }
+    .stack-core {
+      grid-column: 1 / -1;
+      width: auto;
+      height: auto;
+      border-radius: var(--r-lg);
+      padding: 22px;
+    }
+    .stack-node {
+      justify-content: flex-start;
+      min-width: 0;
+      white-space: normal;
+    }
+  }
+  @media (max-width: 640px) {
+    .stack-map {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

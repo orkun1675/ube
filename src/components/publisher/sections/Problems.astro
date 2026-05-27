@@ -1,0 +1,91 @@
+---
+type Card = { title: string; body: string }
+
+const problemCards: Card[] = [
+  {
+    title: "Analytics becomes data soup.",
+    body: "Amplitude, Firebase, RevenueCat, ad revenue, your own user IDs — each tool wants to be the source of truth. Initialize them in the wrong order and every downstream question gets fuzzier.",
+  },
+  {
+    title: "Attribution is not a straight line.",
+    body: "Click data, view data, SKAdNetwork, MMP forwarding, privacy thresholds. The happy-path docs do not prepare you for how weird install tracking gets in production.",
+  },
+  {
+    title: "Dashboards need code context.",
+    body: "A chart built from twenty-character event names is not enough. The person who wrote the annotation code has to be in the room, otherwise everyone is quietly guessing.",
+  },
+  {
+    title: "Ad accounts are their own product.",
+    body: "Meta, Google, TikTok, Reddit, Snapchat. Each asks for accounts, billing, pixels, integrations, campaign types, and a small sacrifice to its UI learning curve.",
+  },
+  {
+    title: "Creatives are not hard. They are relentless.",
+    body: "Images, videos, playables, seasonal hooks, audience angles. Coming up with decent attempts is doable. Keeping the treadmill moving is what eats the week.",
+  },
+  {
+    title: "A/B tests lose their thread.",
+    body: "Optional sign up, paywall copy, onboarding order, trial length. Doing one experiment is fun. Remembering why four of them are still running three weeks later is less fun.",
+  },
+]
+---
+
+<section class="section publisher-problems">
+  <div class="container">
+    <div class="eyebrow">The problem</div>
+    <h2 class="t-display-lg publisher-section-title">
+      The bottleneck moved from building to distribution.
+    </h2>
+    <p class="t-body-md body publisher-section-copy">
+      This was true before the LLM era. It just feels a lot more obvious now
+      that more people can actually build the app.
+    </p>
+    <div class="grid-3 publisher-problem-grid">
+      {
+        problemCards.map((card, i) => (
+          <article class="card card-hover publisher-problem-card">
+            <span class="problem-index">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <h3 class="t-title-md ink">{card.title}</h3>
+            <p class="t-body-sm body">{card.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .publisher-section-title {
+    margin: 18px 0 0;
+    max-width: 840px;
+  }
+  .publisher-section-copy {
+    margin: 18px 0 0;
+    max-width: 680px;
+    line-height: 1.65;
+  }
+  .publisher-problem-grid {
+    margin-top: 52px;
+  }
+  .publisher-problem-card {
+    padding: 24px;
+    min-height: 252px;
+  }
+  .problem-index {
+    display: inline-flex;
+    color: var(--accent-2);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    margin-bottom: 34px;
+  }
+  .publisher-problem-card p {
+    margin: 12px 0 0;
+    line-height: 1.62;
+  }
+  @media (max-width: 640px) {
+    .publisher-problem-card {
+      min-height: auto;
+    }
+  }
+</style>

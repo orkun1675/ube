@@ -1,0 +1,169 @@
+---
+import {
+  CheckIcon,
+  ClockIcon,
+  RocketIcon,
+  SparkIcon,
+  TrendIcon,
+} from "@/lib/assets"
+
+type Step = { label: string; title: string; body: string; gate: string }
+
+const steps: Step[] = [
+  {
+    label: "Audit",
+    title: "First, make the app measurable.",
+    body: "Ube reads the app, proposes an event taxonomy, adds the SDKs in the right order, and wires user IDs so Firebase, Amplitude, RevenueCat, AppsFlyer, and your own backend can agree on who did what.",
+    gate: "Code review",
+  },
+  {
+    label: "Route",
+    title: "Then connect the distribution stack.",
+    body: "Dashboards, MMP imports, SKAdNetwork schema, ad-network forwarding, revenue events, and the central data lake. Ube does not invent a new stack. It sets up the market-leading tools without making you become an account manager.",
+    gate: "Service access",
+  },
+  {
+    label: "Launch",
+    title: "Use paid ads as a learning engine.",
+    body: "Small budgets bring a steady stream of real users. Ube tests creative angles, finds what gets people to install, and watches what they do after the install instead of pretending that a cheap click is the goal.",
+    gate: "Spend approval",
+  },
+  {
+    label: "Improve",
+    title: "Turn the traffic into product work.",
+    body: "Where do people drop off? Which feature earns repeat sessions? Should sign up be optional? Ube recommends A/B tests, deploys them through Firebase or RevenueCat, and keeps the experiment context alive.",
+    gate: "Experiment approval",
+  },
+  {
+    label: "Scale",
+    title: "Only scale when the math deserves it.",
+    body: "If retention, monetization, and creative performance look good, Ube can move budget toward the channels that are buying the best users. If the app is leaking users, it tells you where to patch the product first.",
+    gate: "Budget increase",
+  },
+]
+---
+
+<section class="section loop-section" id="loop">
+  <div class="container">
+    <div class="eyebrow">The loop</div>
+    <h2 class="t-display-lg publisher-section-title">
+      Spend a little, learn a lot, improve the app, then decide whether to
+      scale.
+    </h2>
+    <div class="publisher-steps">
+      {
+        steps.map((step, i) => (
+          <article class="card-band publisher-step">
+            <div class="step-copy">
+              <div class="step-kicker">
+                <span class="step-num">{String(i + 1).padStart(2, "0")}</span>
+                <span class="eyebrow">{step.label}</span>
+              </div>
+              <h3 class="t-display-md ink">{step.title}</h3>
+              <p class="t-body-md body">{step.body}</p>
+              <span class="pill pill-muted">{step.gate}</span>
+            </div>
+            <div class="publisher-step-visual" aria-hidden="true">
+              <div class="loop-node">
+                {i === 0 && <SparkIcon size={24} />}
+                {i === 1 && <CheckIcon size={24} />}
+                {i === 2 && <RocketIcon size={24} />}
+                {i === 3 && <TrendIcon size={24} />}
+                {i === 4 && <ClockIcon size={24} />}
+              </div>
+              <div class="loop-lines">
+                <span style={`--h:${36 + i * 9}%`} />
+                <span style={`--h:${58 + i * 6}%`} />
+                <span style={`--h:${44 + i * 11}%`} />
+                <span style={`--h:${68 - i * 5}%`} />
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .loop-section {
+    background: var(--canvas);
+  }
+  .publisher-section-title {
+    margin: 18px 0 0;
+    max-width: 840px;
+  }
+  .publisher-steps {
+    display: grid;
+    gap: 24px;
+    margin-top: 52px;
+  }
+  .publisher-step {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 40px;
+    align-items: center;
+  }
+  .publisher-step .step-kicker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .publisher-step h3,
+  .publisher-step p {
+    margin: 0;
+  }
+  .publisher-step p {
+    margin-top: 14px;
+    margin-bottom: 20px;
+    line-height: 1.65;
+  }
+  .publisher-step-visual {
+    min-height: 178px;
+    position: relative;
+    border-radius: var(--r-lg);
+    background: #17171b;
+    border: 1px solid var(--hairline);
+    overflow: hidden;
+  }
+  .loop-node {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    top: 50%;
+    width: 72px;
+    height: 72px;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mark);
+    background: var(--mark-tint);
+    border: 1px solid color-mix(in oklab, var(--mark) 28%, transparent);
+    border-radius: 50%;
+  }
+  .loop-lines {
+    position: absolute;
+    inset: 20px 24px;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    gap: 12px;
+  }
+  .loop-lines span {
+    width: 28px;
+    height: var(--h);
+    border-radius: var(--r-pill) var(--r-pill) 0 0;
+    background: linear-gradient(180deg, var(--accent), rgba(255, 255, 255, 0.05));
+    opacity: 0.82;
+  }
+  @media (max-width: 800px) {
+    .publisher-step {
+      grid-template-columns: 1fr;
+    }
+    .publisher-step-visual {
+      min-height: 150px;
+    }
+  }
+</style>

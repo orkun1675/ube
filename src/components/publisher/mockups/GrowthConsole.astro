@@ -1,0 +1,181 @@
+---
+---
+
+<div class="growth-console mockup-chrome">
+  <div class="mockup-header">
+    <div class="traffic-lights"><span></span><span></span><span></span></div>
+    <div class="mono muted">ube / publisher / week-03</div>
+    <span class="pill pill-warning">Approval needed</span>
+  </div>
+  <div class="growth-console-body">
+    <div class="growth-summary">
+      <div>
+        <span class="t-caption-uc muted">Learning budget</span>
+        <strong>$20/day</strong>
+      </div>
+      <div>
+        <span class="t-caption-uc muted">Installs this week</span>
+        <strong>312</strong>
+      </div>
+      <div>
+        <span class="t-caption-uc muted">Best creative</span>
+        <strong>Finals week</strong>
+      </div>
+    </div>
+
+    <div class="campaign-card">
+      <div class="campaign-card-head">
+        <div>
+          <span class="t-caption-uc muted">Recommended next move</span>
+          <h3>Make sign up optional for the first session.</h3>
+        </div>
+        <span class="pill pill-accent">A/B test</span>
+      </div>
+      <div class="funnel-mini" aria-hidden="true">
+        <div style="--w: 100%"><span>Install</span><strong>312</strong></div>
+        <div style="--w: 74%"><span>Open</span><strong>232</strong></div>
+        <div style="--w: 42%"><span>Onboard</span><strong>131</strong></div>
+        <div style="--w: 19%"><span>Sign up</span><strong>59</strong></div>
+      </div>
+      <p class="t-body-sm body">
+        Biggest drop-off is before account creation. Keep the ad spend low,
+        test the onboarding change, and do not scale budget yet.
+      </p>
+    </div>
+
+    <div class="approval-strip">
+      <span class="approval-dot"></span>
+      <span>Approve campaign launch on Google Ads + Meta?</span>
+      <button type="button">Approve</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .growth-console {
+    box-shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
+  }
+  .growth-console .mockup-header {
+    justify-content: space-between;
+  }
+  .growth-console-body {
+    padding: 20px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 38%),
+      var(--surface-card);
+  }
+  .growth-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .growth-summary > div,
+  .campaign-card,
+  .approval-strip {
+    background: rgba(14, 14, 17, 0.48);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-lg);
+  }
+  .growth-summary > div {
+    padding: 13px;
+  }
+  .growth-summary span,
+  .growth-summary strong {
+    display: block;
+  }
+  .growth-summary strong {
+    margin-top: 5px;
+    color: var(--ink);
+    font-size: 18px;
+    line-height: 1.15;
+  }
+  .campaign-card {
+    padding: 18px;
+  }
+  .campaign-card-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+    margin-bottom: 18px;
+  }
+  .campaign-card h3 {
+    margin: 5px 0 0;
+    font-size: 20px;
+    line-height: 1.25;
+    font-weight: 550;
+    letter-spacing: 0;
+  }
+  .campaign-card p {
+    margin: 16px 0 0;
+  }
+  .funnel-mini {
+    display: grid;
+    gap: 8px;
+  }
+  .funnel-mini div {
+    width: var(--w);
+    min-width: 42%;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 9px 12px;
+    border-radius: var(--r-sm);
+    background: linear-gradient(
+      90deg,
+      var(--accent-tint),
+      rgba(255, 255, 255, 0.035)
+    );
+    border: 1px solid color-mix(in oklab, var(--accent) 18%, transparent);
+    color: var(--body);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .funnel-mini strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .approval-strip {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    margin-top: 14px;
+    padding: 12px;
+    color: var(--body);
+    font-size: 13px;
+  }
+  .approval-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--warning);
+    box-shadow: 0 0 0 4px rgba(216, 162, 75, 0.12);
+  }
+  .approval-strip button {
+    height: 30px;
+    padding: 0 12px;
+    border: 1px solid var(--hairline-strong);
+    border-radius: var(--r-pill);
+    background: var(--ink);
+    color: var(--canvas);
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  @media (max-width: 800px) {
+    .growth-summary {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 640px) {
+    .approval-strip {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+    .approval-strip button {
+      grid-column: 1 / -1;
+      width: 100%;
+    }
+  }
+</style>

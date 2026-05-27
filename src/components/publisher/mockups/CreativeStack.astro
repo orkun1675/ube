@@ -1,0 +1,77 @@
+---
+import { Image } from "astro:assets"
+import type { ImageMetadata } from "astro"
+import beehive from "@/assets/customers/beehive.webp"
+import dozy from "@/assets/customers/dozy.webp"
+import pixelBuddy from "@/assets/customers/pixel-buddy.webp"
+
+type AppIcon = { src: ImageMetadata; name: string; metric: string }
+const apps: AppIcon[] = [
+  { src: beehive, name: "Beehive", metric: "D7 +14%" },
+  { src: dozy, name: "Dozy", metric: "CAC -22%" },
+  { src: pixelBuddy, name: "Pixel Buddy", metric: "LTV +31%" },
+]
+---
+
+<div class="creative-stack" aria-hidden="true">
+  {
+    apps.map((app) => (
+      <div class="creative-card">
+        <Image src={app.src} alt="" width={56} height={56} loading="eager" />
+        <div>
+          <strong>{app.name}</strong>
+          <span>{app.metric}</span>
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .creative-stack {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .creative-card {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 10px;
+    align-items: center;
+    padding: 9px;
+    background: rgba(14, 14, 17, 0.48);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-lg);
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(8px);
+  }
+  .creative-card img {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: block;
+  }
+  .creative-card strong,
+  .creative-card span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .creative-card strong {
+    color: var(--ink);
+    font-size: 13px;
+  }
+  .creative-card span {
+    color: var(--success);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    margin-top: 2px;
+  }
+  @media (max-width: 800px) {
+    .creative-stack {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,48 @@
+---
+import InsightBoard from "@/components/publisher/mockups/InsightBoard.astro"
+---
+
+<section class="section insights-section">
+  <div class="container insights-layout">
+    <div class="insights-copy">
+      <div class="eyebrow">What you learn</div>
+      <h2 class="t-display-lg publisher-section-title">
+        The useful output is not a prettier report. It is a ranked list of
+        product work.
+      </h2>
+      <p class="t-body-md body publisher-section-copy">
+        Ube tells you which parts of the app need attention, where the
+        biggest drop-offs are, how retention could improve, and whether
+        monetization is ready for more traffic.
+      </p>
+    </div>
+    <InsightBoard />
+  </div>
+</section>
+
+<style>
+  .insights-section {
+    background: var(--canvas-soft);
+    border-block: 1px solid var(--hairline-soft);
+  }
+  .insights-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1fr);
+    gap: 56px;
+    align-items: center;
+  }
+  .publisher-section-title {
+    margin: 18px 0 0;
+    max-width: 840px;
+  }
+  .publisher-section-copy {
+    margin: 18px 0 0;
+    max-width: 680px;
+    line-height: 1.65;
+  }
+  @media (max-width: 1100px) {
+    .insights-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

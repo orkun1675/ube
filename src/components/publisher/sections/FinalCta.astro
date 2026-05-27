@@ -1,0 +1,81 @@
+---
+import { ArrowRight } from "@/lib/assets"
+---
+
+<section class="publisher-final">
+  <div class="publisher-final-grid" aria-hidden="true"></div>
+  <div class="container publisher-final-inner">
+    <h2 class="t-display-lg">
+      You do not need a growth department to learn whether the app has legs.
+    </h2>
+    <p class="t-body-md muted">
+      Start with a small budget, keep approval over the scary parts, and let
+      Ube turn the traffic into concrete product work.
+    </p>
+    <button type="button" class="btn btn-primary" data-publisher-final-cta>
+      Request access
+      <ArrowRight size={14} />
+    </button>
+  </div>
+</section>
+
+<script src="./final-cta.client.ts"></script>
+
+<style>
+  .publisher-final {
+    position: relative;
+    overflow: hidden;
+    padding: 136px 0;
+    text-align: center;
+    border-top: 1px solid var(--hairline-soft);
+  }
+  .publisher-final::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(107, 63, 160, 0.31),
+      transparent 62%
+    );
+    pointer-events: none;
+  }
+  .publisher-final-grid {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+      rgba(255, 255, 255, 0.14) 1px,
+      transparent 1px
+    );
+    background-size: 32px 32px;
+    opacity: 0.55;
+    pointer-events: none;
+    mask-image: radial-gradient(
+      ellipse 80% 62% at 50% 28%,
+      #000 0%,
+      transparent 76%
+    );
+    -webkit-mask-image: radial-gradient(
+      ellipse 80% 62% at 50% 28%,
+      #000 0%,
+      transparent 76%
+    );
+  }
+  .publisher-final-inner {
+    position: relative;
+    z-index: 1;
+  }
+  .publisher-final h2 {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+  .publisher-final p {
+    max-width: 620px;
+    margin: 20px auto 32px;
+  }
+  @media (max-width: 640px) {
+    .publisher-final {
+      padding: 92px 0;
+    }
+  }
+</style>

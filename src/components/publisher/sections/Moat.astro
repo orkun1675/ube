@@ -1,0 +1,91 @@
+---
+---
+
+<section class="section moat-section">
+  <div class="container moat-layout">
+    <div class="moat-card">
+      <div class="eyebrow">Why Ube</div>
+      <h2 class="t-display-lg publisher-section-title">
+        No platform's agent will tell you to spend less on its own platform.
+      </h2>
+      <p class="t-body-md body">
+        Meta will not shift budget to Google. Apple will not tune your Play
+        Console listing. RevenueCat and AdMob live in different lanes. Ube
+        sits outside those incentives, which matters once your app becomes
+        subscription plus ads plus IAP, because that hybrid mess is
+        increasingly the default.
+      </p>
+    </div>
+    <div class="moat-matrix" aria-hidden="true">
+      <div><span>Meta</span><strong>Meta spend</strong></div>
+      <div><span>RevenueCat</span><strong>Subscriptions</strong></div>
+      <div><span>AdMob</span><strong>Ads</strong></div>
+      <div><span>Ube</span><strong>Whole app math</strong></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .moat-section {
+    background: var(--canvas);
+  }
+  .moat-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(420px, 1fr);
+    gap: 56px;
+    align-items: center;
+  }
+  .publisher-section-title {
+    margin: 18px 0 0;
+    max-width: 840px;
+  }
+  .moat-card {
+    max-width: 650px;
+  }
+  .moat-card p {
+    margin: 22px 0 0;
+    line-height: 1.7;
+  }
+  .moat-matrix {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .moat-matrix div {
+    min-height: 150px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--r-lg);
+  }
+  .moat-matrix div:last-child {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, var(--accent-tint), var(--card-bg));
+  }
+  .moat-matrix span {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+  }
+  .moat-matrix strong {
+    color: var(--ink);
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 500;
+  }
+  @media (max-width: 1100px) {
+    .moat-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 800px) {
+    .moat-matrix {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
