@@ -92,13 +92,27 @@ const PlanPrice = ({
   billingPeriod: BillingPeriod
 }) => {
   if (plan.priceLabel) {
-    return <div className={styles["price-custom"]}>{plan.priceLabel}</div>
+    return (
+      <div className={styles["price-block"]}>
+        <div className={styles["price-row"]}>
+          <span className={styles["price-custom"]}>{plan.priceLabel}</span>
+        </div>
+        <div
+          className={`${styles["savings-note"]} ${styles["savings-note-placeholder"]}`}
+          aria-hidden="true"
+        >
+          &nbsp;
+        </div>
+      </div>
+    )
   }
 
   const activePrice =
     billingPeriod === "yearly"
       ? (plan.yearlyMonthlyPrice ?? plan.monthlyPrice)
       : plan.monthlyPrice
+  const hasVisibleSavings =
+    billingPeriod === "yearly" && Boolean(plan.yearlySavings)
 
   return (
     <div className={styles["price-block"]}>
@@ -106,12 +120,22 @@ const PlanPrice = ({
         {billingPeriod === "yearly" && plan.monthlyPrice && (
           <span className={styles["price-original"]}>${plan.monthlyPrice}</span>
         )}
-        <span className={styles["price-value"]}>${activePrice}</span>
+        <span
+          className={styles["price-value"]}
+          key={`${plan.name}-${billingPeriod}`}
+        >
+          ${activePrice}
+        </span>
         {plan.unit && <span className={styles["price-unit"]}>{plan.unit}</span>}
       </div>
-      {billingPeriod === "yearly" && plan.yearlySavings && (
-        <div className={styles["savings-note"]}>{plan.yearlySavings}</div>
-      )}
+      <div
+        className={`${styles["savings-note"]} ${
+          hasVisibleSavings ? "" : styles["savings-note-placeholder"]
+        }`}
+        aria-hidden={!hasVisibleSavings}
+      >
+        {hasVisibleSavings ? plan.yearlySavings : "\u00a0"}
+      </div>
     </div>
   )
 }

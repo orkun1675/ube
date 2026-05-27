@@ -10,7 +10,7 @@
 - **Code privacy**: User code runs in ephemeral, per-repo sandboxes that are destroyed after each job. Ube does not train on user code and does not retain it after the run. Self-hosting is offered for enterprise customers with strict privacy requirements.
 - **Outcome claim**: Early teams running Ube reclaim 10–30% of their engineering time previously spent on triage and dependency maintenance.
 - **Status**: Pre-launch. The site is a demand probe — request access via the form on ube.dev.
-- **Maker**: Chunky Tofu Studios, LLC. Founder: Orkun Duman.
+- **Maker**: Chunky Tofu Studios, LLC.
 - **Adjacent product (coming)**: Ube Publisher — same maker, separate product. The "which matters more" radio on the request-access form is how interest is measured.
 
 ## Pages
@@ -23,4 +23,4 @@
 
 - Email: hello@chunkytofustudios.com
 - GitHub: https://github.com/orkun1675/ube
-- LinkedIn (founder): https://www.linkedin.com/in/orkun-duman/
+- LinkedIn: https://www.linkedin.com/company/chunky-tofu-studios/

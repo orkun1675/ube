@@ -1,5 +1,5 @@
 ---
-import { SparkleIcon } from "@phosphor-icons/react"
+import { CheckIcon, SparkleIcon } from "@phosphor-icons/react"
 ---
 
 <div class="mockup-chrome">
@@ -17,14 +17,44 @@ import { SparkleIcon } from "@phosphor-icons/react"
     />
   </div>
   <div class="paywall-mockup">
-    <div class="mono paywall-meta">Test 12 · Day 9 of 14</div>
     <div class="paywall-grid">
       <div class="paywall-variant">
         <span class="lbl mono">A · control</span>
-        <div class="paywall-frame">
-          <span class="h">Unlock Pro</span>
-          <span class="price mono">$9.99 / mo</span>
-          <span class="btn-fake">Start</span>
+        <div class="phone">
+          <div class="phone-statusbar">
+            <span class="phone-time mono">9:41</span>
+            <span class="phone-notch"></span>
+            <div class="phone-signal">
+              <span class="bar"></span>
+              <span class="bar"></span>
+              <span class="bar"></span>
+            </div>
+          </div>
+          <div class="phone-screen">
+            <div class="phone-icon">
+              <span>U</span>
+            </div>
+            <div class="phone-title">Unlock Pro</div>
+            <ul class="phone-features">
+              <li>
+                <CheckIcon size={11} weight="bold" aria-hidden="true" />
+                <span class="phone-feature-bar"></span>
+              </li>
+              <li>
+                <CheckIcon size={11} weight="bold" aria-hidden="true" />
+                <span class="phone-feature-bar"></span>
+              </li>
+              <li>
+                <CheckIcon size={11} weight="bold" aria-hidden="true" />
+                <span class="phone-feature-bar"></span>
+              </li>
+            </ul>
+            <div class="phone-price">
+              <span class="phone-price-amount mono">$9.99</span>
+              <span class="phone-price-unit mono">/ mo</span>
+            </div>
+            <div class="phone-cta">Continue</div>
+          </div>
         </div>
         <div class="paywall-stats">
           <div class="stat">
@@ -39,12 +69,45 @@ import { SparkleIcon } from "@phosphor-icons/react"
       </div>
       <div class="paywall-variant winner">
         <span class="lbl mono">B · variant</span>
-        <div class="paywall-frame paywall-frame-winner">
-          <span class="h">Try Pro free</span>
-          <span class="price mono">
-            <span class="strike">$9.99</span>$4.99 / mo · 3 d free
-          </span>
-          <span class="btn-fake">Start free trial</span>
+        <div class="phone phone-winner">
+          <div class="phone-statusbar">
+            <span class="phone-time mono">9:41</span>
+            <span class="phone-notch"></span>
+            <div class="phone-signal">
+              <span class="bar"></span>
+              <span class="bar"></span>
+              <span class="bar"></span>
+            </div>
+          </div>
+          <div class="phone-screen">
+            <div class="phone-icon">
+              <span>U</span>
+            </div>
+            <div class="phone-badge mono">3-day free trial</div>
+            <div class="phone-title">Try Pro free</div>
+            <ul class="phone-features">
+              <li>
+                <CheckIcon size={11} weight="bold" aria-hidden="true" />
+                <span class="phone-feature-bar"></span>
+              </li>
+              <li>
+                <CheckIcon size={11} weight="bold" aria-hidden="true" />
+                <span class="phone-feature-bar"></span>
+              </li>
+              <li>
+                <CheckIcon size={11} weight="bold" aria-hidden="true" />
+                <span class="phone-feature-bar"></span>
+              </li>
+            </ul>
+            <div class="phone-price phone-price-stacked">
+              <span class="phone-price-strike mono">$9.99</span>
+              <span>
+                <span class="phone-price-amount mono">$4.99</span>
+                <span class="phone-price-unit mono">/ mo</span>
+              </span>
+            </div>
+            <div class="phone-cta">Start Trial</div>
+          </div>
         </div>
         <div class="paywall-stats">
           <div class="stat win">
@@ -61,7 +124,7 @@ import { SparkleIcon } from "@phosphor-icons/react"
     <div class="paywall-suggest mono">
       <SparkleIcon size={12} aria-hidden="true" />
       <span class="paywall-suggest-prefix">Ube suggests:</span>
-      <span>roll variant B to 100 % · expected lift +54 % ARPU</span>
+      <span>rollout variant B · expected lift +54 % ARPU</span>
     </div>
   </div>
 </div>
@@ -77,17 +140,10 @@ import { SparkleIcon } from "@phosphor-icons/react"
   .paywall-mockup {
     padding: 18px;
   }
-  .paywall-meta {
-    font-size: 10.5px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-  }
   .paywall-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    margin-top: 12px;
   }
   .paywall-variant {
     border: 1px solid var(--hairline);
@@ -105,49 +161,191 @@ import { SparkleIcon } from "@phosphor-icons/react"
     letter-spacing: 0.6px;
     text-transform: uppercase;
   }
-  .paywall-frame {
-    margin-top: 8px;
-    border: 1px solid var(--hairline);
-    border-radius: 8px;
-    padding: 16px 12px;
-    background: var(--canvas-soft);
-    text-align: center;
+
+  .phone {
+    width: 172px;
+    max-width: 100%;
+    aspect-ratio: 9 / 16.8;
+    margin: 10px auto 0;
+    border: 1px solid color-mix(in oklab, var(--ink) 14%, transparent);
+    border-radius: 28px;
+    background: #101014;
+    padding: 5px;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    box-shadow:
+      0 16px 32px rgb(0 0 0 / 0.22),
+      inset 0 0 0 1px rgb(255 255 255 / 0.04);
+  }
+  .phone-winner {
+    border-color: color-mix(in oklab, var(--accent) 45%, var(--hairline));
+  }
+  .phone-statusbar {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-  }
-  .paywall-frame-winner {
-    border-color: color-mix(in oklab, var(--accent) 40%, var(--hairline));
-  }
-  .paywall-frame .h {
-    font-size: 12px;
-    font-weight: 500;
+    padding: 8px 14px 3px;
+    border-radius: 22px 22px 0 0;
+    background: var(--canvas);
     color: var(--ink);
   }
-  .paywall-frame .price {
-    color: var(--ink);
-    font-size: 14px;
+  .phone-time {
+    font-size: 8.5px;
+    font-weight: 600;
   }
-  .paywall-frame .price .strike {
+  .phone-notch {
+    position: absolute;
+    left: 50%;
+    top: 5px;
+    transform: translateX(-50%);
+    width: 34px;
+    height: 6px;
+    background: #08080a;
+    border-radius: 999px;
+  }
+  .phone-signal {
+    display: flex;
+    align-items: flex-end;
+    gap: 1.5px;
+  }
+  .phone-signal .bar {
+    width: 2px;
+    background: currentColor;
+    border-radius: 1px;
+    opacity: 0.7;
+  }
+  .phone-signal .bar:nth-child(1) {
+    height: 3px;
+  }
+  .phone-signal .bar:nth-child(2) {
+    height: 5px;
+  }
+  .phone-signal .bar:nth-child(3) {
+    height: 7px;
+  }
+  .phone-screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    min-height: 0;
+    padding: 12px 13px 13px;
+    border-radius: 0 0 22px 22px;
+    background: var(--canvas);
+    text-align: center;
+  }
+  .phone-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(
+      135deg,
+      color-mix(in oklab, var(--accent) 65%, var(--ink)),
+      color-mix(in oklab, var(--accent) 30%, var(--canvas))
+    );
+    display: grid;
+    place-items: center;
+    color: var(--ink);
+    font-size: 18px;
+    font-weight: 700;
+    box-shadow: 0 8px 18px rgb(0 0 0 / 0.22);
+  }
+  .phone-badge {
+    font-size: 8px;
+    color: var(--accent);
+    background: color-mix(in oklab, var(--accent) 14%, transparent);
+    padding: 3px 8px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    font-weight: 600;
+  }
+  .phone-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.15;
+  }
+  .phone-features {
+    list-style: none;
+    padding: 0;
+    margin: 2px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+    color: var(--accent);
+    width: 100%;
+  }
+  .phone-features li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1.2;
+  }
+  .phone-feature-bar {
+    display: block;
+    height: 7px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--ink) 24%, transparent);
+  }
+  .phone-features li:nth-child(1) .phone-feature-bar {
+    width: 78px;
+  }
+  .phone-features li:nth-child(2) .phone-feature-bar {
+    width: 98px;
+  }
+  .phone-features li:nth-child(3) .phone-feature-bar {
+    width: 64px;
+  }
+  .phone-price {
+    margin-top: 4px;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .phone-price-strike {
     color: var(--muted);
     text-decoration: line-through;
-    margin-right: 6px;
-    font-size: 11px;
+    font-size: 10.5px;
   }
-  .paywall-frame .btn-fake {
+  .phone-price-stacked {
+    align-items: center;
+    flex-direction: column;
+    gap: 2px;
+    line-height: 1.05;
+  }
+  .phone-price-amount {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .phone-price-unit {
+    font-size: 10.5px;
+    color: var(--muted);
+  }
+  .phone-cta {
+    width: 100%;
     background: var(--accent);
-    color: var(--cta-text);
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-size: 10px;
-    font-weight: 500;
+    color: var(--ink);
+    padding: 9px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: auto;
+    text-align: center;
   }
+
   .paywall-stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 6px;
-    margin-top: 10px;
+    margin-top: 12px;
   }
   .paywall-stats .stat .v {
     font-size: 12px;
