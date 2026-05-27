@@ -26,6 +26,9 @@ const AMPLITUDE_API_KEY = "7fdbc1ae75a64eb50d90f29ac9721390"
       s.src = `https://cdn.amplitude.com/script/${AMPLITUDE_API_KEY}.js`
       s.async = true
       s.onload = () => {
+        if (window.sessionReplay?.plugin) {
+          window.amplitude?.add?.(window.sessionReplay.plugin({ sampleRate: 1 }))
+        }
         window.amplitude?.init?.(AMPLITUDE_API_KEY, {
           autocapture: true,
           fetchRemoteConfig: true,
