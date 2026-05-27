@@ -1,11 +1,10 @@
 // =====================================================================
 //  STEP 1: Intake — multi-source inbox
 // =====================================================================
+import { EnvelopeIcon, TrayIcon } from "@phosphor-icons/react"
 import {
   AppStoreLogo,
   CrashlyticsLogo,
-  InboxIcon,
-  MailIcon,
   PlayLogo,
   ReactLogo,
   SentryLogo,
@@ -52,7 +51,7 @@ export const IntakeMockup = () => {
     },
     {
       src: "support",
-      logo: <MailIcon size={16} color="var(--body)" />,
+      logo: <EnvelopeIcon size={16} color="var(--body)" aria-hidden="true" />,
       label: "Support",
       title: "Camera freezes on iPhone 15",
       meta: "tara@hey.com · 2 replies",
@@ -82,7 +81,7 @@ export const IntakeMockup = () => {
           background: "var(--surface-elevated)",
         }}
       >
-        <InboxIcon size={14} />
+        <TrayIcon size={14} aria-hidden="true" />
         <span
           className="mono"
           style={{

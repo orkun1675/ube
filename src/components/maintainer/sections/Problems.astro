@@ -2,7 +2,7 @@
 // Problems — static "THE PROBLEM" section with 3 content cards.
 // Icons are React components rendered server-side with no client:* directive,
 // so they ship as inline SVG with zero JS.
-import { ClockIcon, FlaskIcon, StackIcon } from "@/lib/assets"
+import { ClockIcon, FlaskIcon, StackIcon } from "@phosphor-icons/react"
 
 type Card = {
   Icon: typeof FlaskIcon
@@ -43,7 +43,7 @@ const cards: Card[] = [
         cards.map(({ Icon, title, body }) => (
           <div class="card card-hover problems-card">
             <div class="problems-card-icon">
-              <Icon size={26} />
+              <Icon size={26} aria-hidden="true" />
             </div>
             <h3 class="t-title-md ink problems-card-title">
               {title}

@@ -8,7 +8,8 @@
 import Wordmark from "@/components/Wordmark.astro"
 import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/constants"
 import { TWEAK_DEFAULTS } from "@/data/tweak-defaults"
-import { GitHubLogo, LinkedInLogo, MailIcon } from "@/lib/assets"
+import { EnvelopeIcon } from "@phosphor-icons/react"
+import { GitHubLogo, LinkedInLogo } from "@/lib/assets"
 
 const wordmarkAccent = TWEAK_DEFAULTS.wordmarkAccent
 ---
@@ -62,7 +63,7 @@ const wordmarkAccent = TWEAK_DEFAULTS.wordmarkAccent
         <ul>
           <li>
             <a href={`mailto:${CONTACT_EMAIL}`} class="footer-contact-link">
-              <MailIcon size={14} /> {CONTACT_EMAIL}
+              <EnvelopeIcon size={14} aria-hidden="true" /> {CONTACT_EMAIL}
             </a>
           </li>
           <li>

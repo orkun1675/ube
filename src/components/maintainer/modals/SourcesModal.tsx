@@ -1,8 +1,8 @@
 // =====================================================================
 //  Sources Modal — signal sources Ube listens to
 // =====================================================================
+import { EnvelopeIcon } from "@phosphor-icons/react"
 import { CONTACT_EMAIL } from "@/constants"
-import { MailIconFilled } from "@/lib/assets"
 import { Modal } from "@/lib/modal"
 import styles from "./sources-modal.module.css"
 
@@ -167,7 +167,11 @@ export const SourcesModal = ({ open, onClose }: SourcesModalProps) => {
                           className={s.logoInvert ? "logo-invert" : ""}
                         />
                       ) : s.icon === "mail" ? (
-                        <MailIconFilled size={28} color="var(--accent)" />
+                        <EnvelopeIcon
+                          size={28}
+                          color="var(--accent)"
+                          aria-hidden="true"
+                        />
                       ) : (
                         s.mono
                       )}

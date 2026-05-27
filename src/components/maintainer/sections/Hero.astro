@@ -14,11 +14,11 @@
 // Layout-specific styling lives in the scoped <style> block at the bottom
 // of this file (Astro auto-scopes per-component, so class names like
 // `.hero-eyebrow` won't leak).
+import { ArrowRightIcon } from "@phosphor-icons/react"
 import { TWEAK_DEFAULTS } from "@/data/tweak-defaults"
 import {
   AndroidLogo,
   AppleLogo,
-  ArrowRight,
   ExpoLogo,
   FlutterLogo,
   ReactLogo,
@@ -65,7 +65,7 @@ const heroCopy = TWEAK_DEFAULTS.heroCopy
         <div class="hero-cta-row">
           <button type="button" class="btn btn-primary" data-hero-cta>
             Request access
-            <ArrowRight size={14} />
+            <ArrowRightIcon size={14} aria-hidden="true" />
           </button>
           <a class="btn btn-secondary" href="#how">
             See how it works

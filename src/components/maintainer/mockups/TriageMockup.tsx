@@ -1,7 +1,7 @@
 // =====================================================================
 //  STEP 2: Triage — Kanban board grouped by state
 // =====================================================================
-import { LinkIcon, ListIcon } from "@/lib/assets"
+import { LinkIcon, ListDashesIcon } from "@phosphor-icons/react"
 import styles from "./triage-mockup.module.css"
 
 type TriageCard = {
@@ -92,7 +92,7 @@ export const TriageMockup = () => {
           background: "var(--surface-elevated)",
         }}
       >
-        <ListIcon size={14} />
+        <ListDashesIcon size={14} aria-hidden="true" />
         <span
           className="mono"
           style={{
@@ -211,7 +211,7 @@ export const TriageMockup = () => {
                       style={{ marginLeft: "auto" }}
                       className="pill pill-accent"
                     >
-                      <LinkIcon size={7} />
+                      <LinkIcon size={7} aria-hidden="true" />
                       up
                     </span>
                   )}

@@ -1,13 +1,8 @@
 // =====================================================================
 //  STEP 4: Report (success) — timeline
 // =====================================================================
-import {
-  ActionsLogo,
-  BellIcon,
-  CheckIcon,
-  GitHubLogo,
-  MailIcon,
-} from "@/lib/assets"
+import { BellIcon, CheckIcon, EnvelopeIcon } from "@phosphor-icons/react"
+import { ActionsLogo, GitHubLogo } from "@/lib/assets"
 
 export const ReportSuccessMockup = () => {
   const events = [
@@ -55,7 +50,7 @@ export const ReportSuccessMockup = () => {
       pill: <span className="pill pill-success">PRODUCTION</span>,
     },
     {
-      icon: <MailIcon size={14} color="var(--body)" />,
+      icon: <EnvelopeIcon size={14} color="var(--body)" aria-hidden="true" />,
       title: "Closed the loop with reporter",
       meta: "tara@hey.com · sent by ube",
       time: "May 26 · 11:34",
@@ -76,7 +71,7 @@ export const ReportSuccessMockup = () => {
           background: "var(--surface-elevated)",
         }}
       >
-        <BellIcon size={14} />
+        <BellIcon size={14} aria-hidden="true" />
         <span
           className="mono"
           style={{
@@ -90,7 +85,7 @@ export const ReportSuccessMockup = () => {
         </span>
         <span style={{ flex: 1 }} />
         <span className="pill pill-success">
-          <CheckIcon size={9} />
+          <CheckIcon size={9} aria-hidden="true" />
           CLOSED
         </span>
       </div>

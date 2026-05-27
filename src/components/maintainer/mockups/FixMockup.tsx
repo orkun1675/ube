@@ -1,7 +1,8 @@
 // =====================================================================
 //  STEP 3: Fix — emulator + verified Actions checks (clean two-pane)
 // =====================================================================
-import { ActionsLogo, AndroidLogo, CheckIcon, GitHubLogo } from "@/lib/assets"
+import { CheckIcon } from "@phosphor-icons/react"
+import { ActionsLogo, AndroidLogo, GitHubLogo } from "@/lib/assets"
 import styles from "./fix-mockup.module.css"
 
 export const FixMockup = () => (
@@ -304,7 +305,7 @@ export const FixMockup = () => (
           </span>
           <span style={{ flex: 1 }} />
           <span className="pill pill-success">
-            <CheckIcon size={9} />
+            <CheckIcon size={9} aria-hidden="true" />
             VERIFIED
           </span>
         </div>
@@ -329,7 +330,7 @@ export const FixMockup = () => (
               justifyContent: "center",
             }}
           >
-            <CheckIcon size={11} color="var(--success)" />
+            <CheckIcon size={11} color="var(--success)" aria-hidden="true" />
           </span>
           <span style={{ fontSize: 13, color: "var(--ink)", fontWeight: 500 }}>
             All checks have passed
@@ -381,7 +382,7 @@ export const FixMockup = () => (
               >
                 {c.time}
               </span>
-              <CheckIcon size={11} color="var(--success)" />
+              <CheckIcon size={11} color="var(--success)" aria-hidden="true" />
             </div>
           ))}
         </div>

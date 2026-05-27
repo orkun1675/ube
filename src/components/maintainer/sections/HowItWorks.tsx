@@ -1,6 +1,8 @@
 // =====================================================================
 //  How It Works
 // =====================================================================
+
+import { ArrowRightIcon } from "@phosphor-icons/react"
 import React from "react"
 import { FixMockup } from "@/components/maintainer/mockups/FixMockup"
 import { IntakeMockup } from "@/components/maintainer/mockups/IntakeMockup"
@@ -11,7 +13,6 @@ import { DedupeModal } from "@/components/maintainer/modals/DedupeModal"
 import { FixLoopModal } from "@/components/maintainer/modals/FixLoopModal"
 import { SourcesModal } from "@/components/maintainer/modals/SourcesModal"
 import { track } from "@/lib/analytics"
-import { ArrowRight } from "@/lib/assets"
 
 type StepProps = {
   num: string
@@ -86,12 +87,12 @@ const Step = ({
             aria-disabled="true"
             style={{ opacity: 0.4 }}
           >
-            {learnMore} <ArrowRight size={12} />
+            {learnMore} <ArrowRightIcon size={12} aria-hidden="true" />
             <span className="tooltip">Coming soon</span>
           </span>
         ) : (
           <button type="button" className="inline-link" onClick={onLearnMore}>
-            {learnMore} <ArrowRight size={12} />
+            {learnMore} <ArrowRightIcon size={12} aria-hidden="true" />
           </button>
         ))}
     </div>

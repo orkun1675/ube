@@ -74,7 +74,7 @@ export function UbeHuePicker({
               <span className="ube-hue-name">{u.name}</span>
               {on && (
                 <span className="ube-hue-check">
-                  <CheckIcon color="#111" weight="regular" aria-hidden="true" />
+                  <CheckIcon color="#111" aria-hidden="true" />
                 </span>
               )}
             </button>

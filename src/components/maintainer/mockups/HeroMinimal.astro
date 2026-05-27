@@ -7,7 +7,7 @@
 // Note: Astro's `style={{...}}` object syntax does NOT auto-append `px` to
 // numeric values (unlike React). Every length below is written as an explicit
 // string with units so it serializes to valid CSS.
-import { CheckIcon } from "@/lib/assets"
+import { CheckIcon } from "@phosphor-icons/react"
 ---
 
 <div style={{ width: "100%", maxWidth: "560px", marginLeft: "auto" }}>
@@ -64,7 +64,7 @@ import { CheckIcon } from "@/lib/assets"
           marginTop: "14px",
         }}
       >
-        <CheckIcon size={11} color="var(--success)" />
+        <CheckIcon size={11} color="var(--success)" aria-hidden="true" />
         <span
           class="mono"
           style={{ fontSize: "11.5px", color: "var(--body)" }}

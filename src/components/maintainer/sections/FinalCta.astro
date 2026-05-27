@@ -5,10 +5,10 @@
 // `final-cta.client.ts` so it routes into `openRequestAccess('maintainer_final_cta')`
 // from the nano store (preserving the analytics source label).
 //
-// `ArrowRight` is a React icon component but renders here with no `client:*`
-// directive — Astro emits it as inline SVG with zero JS, matching how the
-// other static sections (Problems, Benefits) reuse icons from lib/assets.
-import { ArrowRight } from "@/lib/assets"
+// `ArrowRightIcon` is a Phosphor React component but renders here with no
+// `client:*` directive — Astro emits it as inline SVG with zero JS, matching
+// how the other static sections (Problems, Benefits) render their icons.
+import { ArrowRightIcon } from "@phosphor-icons/react"
 ---
 
 <section class="cta-band">
@@ -26,7 +26,7 @@ import { ArrowRight } from "@/lib/assets"
     </p>
     <button type="button" class="btn btn-primary" data-final-cta>
       Request access
-      <ArrowRight size={14} />
+      <ArrowRightIcon size={14} aria-hidden="true" />
     </button>
   </div>
 </section>

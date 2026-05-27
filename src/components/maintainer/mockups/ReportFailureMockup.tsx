@@ -1,7 +1,8 @@
 // =====================================================================
 //  STEP 5: Report (failure) — internal issue + upstream link
 // =====================================================================
-import { ExpoLogo, GitHubLogo, LinkIcon } from "@/lib/assets"
+import { LinkIcon } from "@phosphor-icons/react"
+import { ExpoLogo, GitHubLogo } from "@/lib/assets"
 
 // Mimics a GitHub "Open" state dot + label
 const GhOpenBadge = ({
@@ -144,7 +145,7 @@ export const ReportFailureMockup = () => (
             marginBottom: 10,
           }}
         >
-          <LinkIcon size={12} />
+          <LinkIcon size={12} aria-hidden="true" />
           <span
             className="mono"
             style={{

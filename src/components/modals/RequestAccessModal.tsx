@@ -1,11 +1,11 @@
 // =====================================================================
 //  Request Access Modal
 // =====================================================================
-import React, { type SubmitEvent } from "react"
 
+import { ArrowRightIcon, CheckIcon } from "@phosphor-icons/react"
+import React, { type SubmitEvent } from "react"
 import { BASIN_ENDPOINT, GITHUB_URL, RECAPTCHA_SITE_KEY } from "@/constants"
 import { track } from "@/lib/analytics"
-import { ArrowRight, CheckIcon } from "@/lib/assets"
 import { Modal } from "@/lib/modal"
 
 declare global {
@@ -331,7 +331,7 @@ export const RequestAccessModal = ({
                 <span className="spinner" />
               ) : (
                 <>
-                  Request access <ArrowRight size={14} />
+                  Request access <ArrowRightIcon size={14} aria-hidden="true" />
                 </>
               )}
             </button>
@@ -363,7 +363,7 @@ export const RequestAccessModal = ({
               marginBottom: 18,
             }}
           >
-            <CheckIcon size={22} color="var(--accent)" />
+            <CheckIcon size={22} color="var(--accent)" aria-hidden="true" />
           </div>
           <h3
             className="t-display-sm ink"

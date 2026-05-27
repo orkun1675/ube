@@ -1,11 +1,11 @@
 // =====================================================================
 //  FAQ
 // =====================================================================
-import React from "react"
 
+import { PlusIcon } from "@phosphor-icons/react"
+import React from "react"
 import { FAQ_ITEMS, type FaqItem } from "@/data/faq-items"
 import { track } from "@/lib/analytics"
-import { PlusIcon } from "@/lib/assets"
 import styles from "./faq.module.css"
 
 type FaqItemProps = FaqItem & { defaultOpen?: boolean }
@@ -27,7 +27,7 @@ const FAQItem = ({ q, a, defaultOpen }: FaqItemProps) => {
       >
         <h3 className={styles["faq-question-text"]}>{q}</h3>
         <span className={styles["faq-icon"]}>
-          <PlusIcon size={12} />
+          <PlusIcon size={12} aria-hidden="true" />
         </span>
       </button>
       <div className={styles["faq-answer"]}>

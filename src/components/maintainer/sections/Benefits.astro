@@ -6,38 +6,38 @@
 // Layout-specific styling lives in the scoped <style> block at the bottom
 // of this file (Astro auto-scopes per-component, so class names won't leak).
 import {
-  ChatIcon,
-  RocketIcon,
-  ShieldIcon,
-  SparkIcon,
+  ChatCircleDotsIcon,
+  RocketLaunchIcon,
+  ShieldCheckIcon,
+  SparkleIcon,
   StarIcon,
-  TrendIcon,
-} from "@/lib/assets"
+  TrendUpIcon,
+} from "@phosphor-icons/react"
 
 type Card = {
-  Icon: typeof SparkIcon
+  Icon: typeof SparkleIcon
   title: string
   body: string
 }
 
 const cards: Card[] = [
   {
-    Icon: SparkIcon,
+    Icon: SparkleIcon,
     title: "Reclaim engineering time.",
     body: "Stop spending a third of every sprint debugging race conditions you didn't write. Hand the boring triage to Ube and continue shipping delightful features.",
   },
   {
-    Icon: ChatIcon,
+    Icon: ChatCircleDotsIcon,
     title: "Your backlog stays lean.",
     body: "Every incoming bug report is triaged, fixed, or followed up on — automatically. Nothing rots in the queue, so your task list stays short.",
   },
   {
-    Icon: ShieldIcon,
+    Icon: ShieldCheckIcon,
     title: "Catch bugs early.",
     body: "Ube becomes your manual QA agent, clicks around the app like a human would. You no longer need to wait for a beta or alpha release to discover bugs.",
   },
   {
-    Icon: TrendIcon,
+    Icon: TrendUpIcon,
     title: "Stay under Play's bad-behavior threshold.",
     body: "Apps crashing on more than 1.09% of sessions or hitting ANRs above 0.47% get demoted in Play discoverability.",
   },
@@ -47,7 +47,7 @@ const cards: Card[] = [
     body: "Faster fixes plus a personal follow-up nudges users back into the review flow. Updated reviews compound into a better average rating for your app.",
   },
   {
-    Icon: RocketIcon,
+    Icon: RocketLaunchIcon,
     title: "Keep tech debt in check.",
     body: "Agentic coding ships features faster than ever — and quietly piles up bugs and shortcuts. Ube does the unglamorous cleanup in the background so velocity doesn't come to a halt.",
   },
@@ -81,7 +81,7 @@ const cards: Card[] = [
         cards.map(({ Icon, title, body }) => (
           <div class="card card-hover benefits-card">
             <div class="benefits-icon">
-              <Icon />
+              <Icon size={20} aria-hidden="true" />
             </div>
             <h3 class="t-title-md ink benefits-card-title">
               {title}
