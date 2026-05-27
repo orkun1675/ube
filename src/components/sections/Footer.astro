@@ -11,8 +11,7 @@ import { GitHubLogo, LinkedInLogo } from "@/lib/assets"
       <div class="footer-col">
         <Wordmark size={24} />
         <p class="t-body-sm muted footer-tagline">
-          Your app's agentic watchdog that keeps dependencies up to date and
-          users happy.
+          Your app's agentic watchdog that maintains, improves, and grows your app.
         </p>
         <p class="t-caption muted footer-copyright">
           © 2026 Ube · Chunky Tofu Studios, LLC
@@ -22,19 +21,13 @@ import { GitHubLogo, LinkedInLogo } from "@/lib/assets"
         <h3>PRODUCTS</h3>
         <ul>
           <li>
-            <a href="#how">Ube Maintainer</a>
+            <a href="/">Ube Maintainer</a>
           </li>
           <li>
-            <span class="coming-soon">
-              Ube Publisher
-              <span class="tooltip">Coming soon</span>
-            </span>
+            <a href="/publisher/">Ube Publisher</a>
           </li>
           <li>
-            <span class="coming-soon">
-              Pricing
-              <span class="tooltip">Coming soon</span>
-            </span>
+            <a href="/pricing/">Pricing</a>
           </li>
         </ul>
       </div>
@@ -119,21 +112,6 @@ import { GitHubLogo, LinkedInLogo } from "@/lib/assets"
   .footer-col a:hover {
     color: var(--ink);
   }
-  /* `.coming-soon` and `.tooltip` are global utility classes — wrap in
-     :global() so the descendant selectors continue to match (they don't
-     get this component's cid attribute). */
-  .footer-col :global(.coming-soon) {
-    font-size: 14px;
-  }
-  .footer-col :global(.tooltip) {
-    top: auto;
-    bottom: calc(100% + 8px);
-    transform: translate(-50%, 4px);
-  }
-  .footer-col :global(.coming-soon):hover :global(.tooltip) {
-    transform: translate(-50%, 0);
-  }
-
   .footer-tagline {
     margin-top: 18px;
     max-width: 320px;
