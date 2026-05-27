@@ -11,7 +11,7 @@ type Step = { label: string; title: string; body: string; gate: string }
 
 const steps: Step[] = [
   {
-    label: "Audit",
+    label: "Instrument",
     title: "First, make the app measurable.",
     body: "Ube reads the app, proposes an event taxonomy, adds the SDKs in the right order, and wires user IDs so Firebase, Amplitude, RevenueCat, AppsFlyer, and your own backend can agree on who did what.",
     gate: "Code review",
@@ -47,8 +47,7 @@ const steps: Step[] = [
   <div class="container">
     <div class="eyebrow">The loop</div>
     <h2 class="t-display-lg publisher-section-title">
-      Spend a little, learn a lot, improve the app, then decide whether to
-      scale.
+      Measure how your app performs, iteratively improve it, then scale to millions.
     </h2>
     <div class="publisher-steps">
       {
