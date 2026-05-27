@@ -24,7 +24,6 @@ import {
   type HeroCopy,
   type HeroVariant,
   TWEAK_DEFAULTS,
-  type WordmarkAccent,
 } from "@/data/tweak-defaults"
 import { CARD_TONES, getUbe } from "@/lib/palette"
 import { UbeHuePicker } from "./tweaks-config"
@@ -86,16 +85,6 @@ export const TweaksPanelMount = () => {
         <UbeHuePicker
           value={tweaks.accent}
           onChange={(v) => setTweak("accent", v as AccentValue)}
-        />
-        <TweakRadio
-          label="Wordmark accent"
-          value={tweaks.wordmarkAccent}
-          onChange={(v) => setTweak("wordmarkAccent", v as WordmarkAccent)}
-          options={[
-            { value: "umlaut", label: "Umlaut" },
-            { value: "cursor", label: "Cursor" },
-            { value: "bracket", label: "Brackets" },
-          ]}
         />
       </TweakSection>
       <TweakSection title="Hero">

@@ -1,24 +1,15 @@
 ---
-// Footer — static markup rendered on every page. Lives in BaseLayout.astro.
-// Reads wordmarkAccent from TWEAK_DEFAULTS so the brand mark in the footer
-// matches the tweak panel's saved default at build time.
-//
-// Wordmark is now an `.astro` component (slice 0004) — same DOM as before,
-// just hoisted out of `sections/` and consumed natively here.
 import Wordmark from "@/components/Wordmark.astro"
 import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/constants"
-import { TWEAK_DEFAULTS } from "@/data/tweak-defaults"
 import { EnvelopeIcon } from "@phosphor-icons/react"
 import { GitHubLogo, LinkedInLogo } from "@/lib/assets"
-
-const wordmarkAccent = TWEAK_DEFAULTS.wordmarkAccent
 ---
 
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-col">
-        <Wordmark accent={wordmarkAccent} size={24} />
+        <Wordmark size={24} />
         <p class="t-body-sm muted footer-tagline">
           Your app's agentic watchdog that keeps dependencies up to date and
           users happy.

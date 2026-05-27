@@ -17,9 +17,6 @@ import {
   PlusIcon,
 } from "@phosphor-icons/react"
 import Wordmark from "@/components/Wordmark.astro"
-import { TWEAK_DEFAULTS } from "@/data/tweak-defaults"
-
-const wordmarkAccent = TWEAK_DEFAULTS.wordmarkAccent
 
 const pathname = Astro.url.pathname
 const isLandingPage = pathname === "/"
@@ -35,7 +32,7 @@ const wordmarkHref = isLandingPage ? "#top" : "/"
 <nav class="topnav" data-nav>
   <div class="container topnav-inner topnav-inner-positioned">
     <a href={wordmarkHref} class="wordmark-link">
-      <Wordmark accent={wordmarkAccent} size={30} />
+      <Wordmark size={30} />
     </a>
 
     <div class="nav-center">
@@ -86,7 +83,7 @@ const wordmarkHref = isLandingPage ? "#top" : "/"
   data-nav-menu
 >
   <div class="mobile-menu-header">
-    <Wordmark accent={wordmarkAccent} size={28} />
+    <Wordmark size={28} />
     <button
       type="button"
       class="menu-btn"

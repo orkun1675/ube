@@ -7,13 +7,12 @@ import StackMap from "@/components/publisher/mockups/StackMap.astro"
     <div>
       <div class="eyebrow">The stack</div>
       <h2 class="t-display-lg publisher-section-title">
-        Ube is the orchestrator, not one more dashboard.
+        Ube is <em>the</em> orchestrator.
       </h2>
       <p class="t-body-md body publisher-section-copy">
-        It uses the tools you would eventually need anyway. The difference is
-        that Ube knows how your app is instrumented, where the events go,
-        which campaigns use them, and which product experiments they are
-        supposed to answer.
+        Under the hood, Ube runs the same market-leading tools the top studios use.
+        Because it knows your app, it is able to wire them optimally.
+        When you outgrow the orchestrator, the stack is already yours.
       </p>
     </div>
     <StackMap />
@@ -22,9 +21,14 @@ import StackMap from "@/components/publisher/mockups/StackMap.astro"
 
 <style>
   .stack-section {
+    position: relative;
     background: var(--canvas);
+    overflow: hidden;
+    isolation: isolate;
   }
   .stack-layout {
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: minmax(0, 0.82fr) minmax(420px, 1fr);
     gap: 56px;

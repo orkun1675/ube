@@ -116,7 +116,6 @@ function parseDefaultsBody(body: string): Record<string, string> | null {
 //
 //   {
 //     accent: "lift",
-//     wordmarkAccent: "bracket",
 //     ...
 //   }
 //

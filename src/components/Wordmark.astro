@@ -1,53 +1,17 @@
 ---
-// Wordmark — the brand mark. Used by Nav (top of every page) and Footer
-// (bottom of every page). Promoted out of `components/sections/` in slice
-// 0004 because it isn't a page section — it's a top-level brand primitive.
-// Both call sites are `.astro` after slice 0005 (Nav joined Footer), so
-// the React sibling shim was deleted at that point — this is the single
-// source of truth.
-//
-// Renders zero JS — all three accent variants are static markup styled by
-// `.wordmark-*` rules in `styles.css`. The `accent` value also flows
-// through the className so existing CSS keeps matching.
-//
-// The dynamic `size` prop is plumbed through a `--wm-size` CSS custom
-// property so the scoped `<style>` block can consume it without resorting
-// to an inline `style={{ fontSize: ... }}` object.
-//
-// Note: unlike JSX, Astro preserves whitespace-only text nodes between elements
-// and around bare text literals. The umlaut variant mixes raw `u`/`be` text
-// with element children, so those characters are written flush against their
-// neighboring tags (no surrounding newlines) to match the original DOM
-// exactly — otherwise we ship `"\nu\n"` / `"\nbe\n"` text nodes that render
-// as visible width.
-import type { WordmarkAccent } from "@/data/tweak-defaults"
-
 export interface Props {
-  accent: WordmarkAccent
   size?: number
 }
 
-const { accent, size = 30 } = Astro.props
+const { size = 30 } = Astro.props
 const sizeVar = `--wm-size: ${size}px`
 ---
 
-{
-  accent === "umlaut" ? (
-    <span class="wordmark wordmark-umlaut" style={sizeVar}>
-      <span class="wm-u-wrap">u<span class="wm-umlaut" aria-hidden="true"><i /><i /></span></span>be</span>
-  ) : accent === "cursor" ? (
-    <span class="wordmark wordmark-cursor" style={sizeVar}>
-      <span class="wm-word">ube</span>
-      <span class="wm-cursor" aria-hidden="true" />
-    </span>
-  ) : (
-    <span class="wordmark wordmark-bracket" style={sizeVar}>
-      <span class="wm-bracket wm-bracket-l" aria-hidden="true" />
-      <span class="wm-word">ube</span>
-      <span class="wm-bracket wm-bracket-r" aria-hidden="true" />
-    </span>
-  )
-}
+<span class="wordmark" style={sizeVar}>
+  <span class="wm-bracket wm-bracket-l" aria-hidden="true"></span>
+  <span class="wm-word">ube</span>
+  <span class="wm-bracket wm-bracket-r" aria-hidden="true"></span>
+</span>
 
 <style>
   .wordmark {
@@ -57,69 +21,12 @@ const sizeVar = `--wm-size: ${size}px`
     letter-spacing: -0.5px;
     color: var(--ink);
     display: inline-flex;
-    align-items: baseline;
+    align-items: center;
+    gap: 3px;
     position: relative;
     line-height: 1;
-    padding-top: 6px;
   }
-
-  /* Umlaut — two accent dots over the u */
-  .wordmark-umlaut .wm-u-wrap {
-    position: relative;
-    display: inline-block;
-  }
-  .wm-umlaut {
-    position: absolute;
-    top: -3px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 3px;
-    pointer-events: none;
-  }
-  .wm-umlaut > i {
-    width: 3px;
-    height: 3px;
-    border-radius: 50%;
-    background: var(--accent);
-    display: block;
-  }
-
-  /* Cursor — blinking accent bar after the word */
-  .wordmark-cursor {
-    align-items: center;
-    gap: 4px;
-  }
-  .wordmark-cursor .wm-word {
-    display: inline-block;
-  }
-  .wm-cursor {
-    display: inline-block;
-    width: 2px;
-    height: 0.78em;
-    background: var(--accent);
-    border-radius: 1px;
-    transform: translateY(0.04em);
-    animation: wm-blink 1.05s steps(2, jump-none) infinite;
-  }
-  @keyframes wm-blink {
-    0%,
-    49% {
-      opacity: 1;
-    }
-    50%,
-    100% {
-      opacity: 0;
-    }
-  }
-
-  /* Brackets — accent square brackets flanking the word */
-  .wordmark-bracket {
-    align-items: center;
-    gap: 3px;
-    padding-top: 6px;
-  }
-  .wordmark-bracket .wm-word {
+  .wm-word {
     display: inline-block;
   }
   .wm-bracket {

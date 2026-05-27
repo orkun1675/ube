@@ -1,27 +1,32 @@
 ---
-const stackLogos: [string, string][] = [
-  ["Firebase", "/assets/integrations/firebase.svg"],
-  ["Amplitude", "/assets/integrations/amplitude.svg"],
-  ["Clarity", "/assets/integrations/clarity.png"],
-  ["RevenueCat", "/assets/integrations/revenuecat.svg"],
-  ["AppsFlyer", "/assets/integrations/appsflyer.svg"],
-  ["AdMob", "/assets/integrations/admob.svg"],
-  ["Google Ads", "/assets/integrations/google_ads.svg"],
-  ["Meta", "/assets/integrations/meta.svg"],
-  ["TikTok", "/assets/integrations/tiktok.svg"],
-  ["Creatify", "/assets/integrations/creatify.png"],
-  ["Sett", "/assets/integrations/sett.svg"],
+import Wordmark from "@/components/Wordmark.astro"
+
+type StackLogo = { name: string; src: string; invert?: boolean }
+
+const stackLogos: StackLogo[] = [
+  { name: "Firebase", src: "/assets/integrations/firebase.svg" },
+  { name: "Amplitude", src: "/assets/integrations/amplitude.svg" },
+  { name: "Clarity", src: "/assets/integrations/clarity.png" },
+  { name: "RevenueCat", src: "/assets/integrations/revenuecat.svg" },
+  { name: "AppsFlyer", src: "/assets/integrations/appsflyer.svg" },
+  { name: "AdMob", src: "/assets/integrations/admob.svg" },
+  { name: "Google Ads", src: "/assets/integrations/google_ads.svg" },
+  { name: "Meta", src: "/assets/integrations/meta.svg" },
+  { name: "TikTok", src: "/assets/integrations/tiktok.svg" },
+  { name: "Creatify", src: "/assets/integrations/creatify.png" },
+  { name: "Sett", src: "/assets/integrations/sett.svg", invert: true },
 ]
 ---
 
 <div class="stack-map" aria-label="Distribution stack integrations">
+  <div class="stack-dotgrid" aria-hidden="true"></div>
   <div class="stack-core">
-    <span class="mono">[ube]</span>
+    <Wordmark size={32} />
     <strong>company brain</strong>
   </div>
   {
-    stackLogos.map(([name, src]) => (
-      <div class="stack-node">
+    stackLogos.map(({ name, src, invert }) => (
+      <div class={`stack-node${invert ? " stack-node-invert" : ""}`}>
         <img src={src} alt="" loading="lazy" />
         <span>{name}</span>
       </div>
@@ -33,26 +38,46 @@ const stackLogos: [string, string][] = [
   .stack-map {
     position: relative;
     min-height: 480px;
-    border: 1px solid var(--hairline);
-    border-radius: var(--r-xl);
-    background:
-      radial-gradient(circle at center, var(--accent-tint), transparent 46%),
-      radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
-    background-size:
-      auto,
-      24px 24px;
-    overflow: hidden;
+    background: radial-gradient(
+      circle at center,
+      var(--accent-tint),
+      transparent 46%
+    );
+  }
+  .stack-dotgrid {
+    position: absolute;
+    inset: -8%;
+    background-image: radial-gradient(
+      rgba(255, 255, 255, 0.1) 1px,
+      transparent 1.2px
+    );
+    background-size: 22px 22px;
+    pointer-events: none;
+    mask-image:
+      linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
+      linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+    -webkit-mask-image:
+      linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
+      linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+    mask-composite: intersect;
+    -webkit-mask-composite: source-in;
+    z-index: 0;
   }
   .stack-map::before,
   .stack-map::after {
     content: "";
     position: absolute;
-    inset: 16%;
+    top: 50%;
+    left: 50%;
+    height: 68%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
     border: 1px solid color-mix(in oklab, var(--accent) 18%, transparent);
     border-radius: 50%;
+    pointer-events: none;
   }
   .stack-map::after {
-    inset: 27%;
+    height: 46%;
   }
   .stack-core {
     position: absolute;
@@ -65,15 +90,12 @@ const stackLogos: [string, string][] = [
     border-radius: 50%;
     display: grid;
     place-content: center;
+    justify-items: center;
     text-align: center;
     gap: 7px;
     background: #18181c;
     border: 1px solid var(--accent);
     box-shadow: 0 0 60px rgba(107, 63, 160, 0.28);
-  }
-  .stack-core span {
-    color: var(--ink);
-    font-size: 24px;
   }
   .stack-core strong {
     color: var(--muted);
@@ -100,49 +122,52 @@ const stackLogos: [string, string][] = [
     height: 20px;
     object-fit: contain;
   }
-  .stack-node:nth-of-type(2) {
+  .stack-node-invert img {
+    filter: invert(1);
+  }
+  .stack-node:nth-of-type(3) {
     left: 9%;
     top: 12%;
   }
-  .stack-node:nth-of-type(3) {
+  .stack-node:nth-of-type(4) {
     right: 10%;
     top: 10%;
   }
-  .stack-node:nth-of-type(4) {
+  .stack-node:nth-of-type(5) {
     left: 7%;
     top: 34%;
   }
-  .stack-node:nth-of-type(5) {
+  .stack-node:nth-of-type(6) {
     right: 6%;
     top: 32%;
   }
-  .stack-node:nth-of-type(6) {
+  .stack-node:nth-of-type(7) {
     left: 12%;
     bottom: 31%;
   }
-  .stack-node:nth-of-type(7) {
+  .stack-node:nth-of-type(8) {
     right: 9%;
     bottom: 30%;
   }
-  .stack-node:nth-of-type(8) {
+  .stack-node:nth-of-type(9) {
     left: 10%;
     bottom: 11%;
   }
-  .stack-node:nth-of-type(9) {
-    right: 12%;
+  .stack-node:nth-of-type(10) {
+    right: 18%;
     bottom: 10%;
   }
-  .stack-node:nth-of-type(10) {
-    left: 41%;
-    top: 7%;
-  }
   .stack-node:nth-of-type(11) {
-    left: 38%;
-    bottom: 7%;
+    left: 36%;
+    top: 5%;
   }
   .stack-node:nth-of-type(12) {
+    left: 41%;
+    bottom: 15%;
+  }
+  .stack-node:nth-of-type(13) {
     right: 35%;
-    top: 22%;
+    top: 16%;
   }
   @media (max-width: 1100px) {
     .stack-map {
@@ -160,6 +185,9 @@ const stackLogos: [string, string][] = [
     }
     .stack-map::before,
     .stack-map::after {
+      display: none;
+    }
+    .stack-dotgrid {
       display: none;
     }
     .stack-core,

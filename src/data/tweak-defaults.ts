@@ -5,7 +5,6 @@
 // middleware's parser expects each line in the block to be `key: "value",`,
 // so don't reformat it by hand.
 export type AccentValue = "lift" | "flesh" | "heart" | "deep" | "core" | "wine"
-export type WordmarkAccent = "umlaut" | "cursor" | "bracket"
 export type HeroVariant = "pr" | "minimal" | "split"
 export type HeroCopy = "agent" | "autopilot"
 export type CardTone = "warm" | "neutral" | "slate" | "plum" | "forest"
@@ -13,7 +12,6 @@ export type AccentStrategy = "single" | "split"
 
 export type TweakDefaults = {
   accent: AccentValue
-  wordmarkAccent: WordmarkAccent
   heroVariant: HeroVariant
   heroCopy: HeroCopy
   cardTone: CardTone
@@ -22,7 +20,6 @@ export type TweakDefaults = {
 
 export const TWEAK_DEFAULTS: TweakDefaults = /*EDITMODE-BEGIN*/ {
   accent: "lift",
-  wordmarkAccent: "bracket",
   heroVariant: "pr",
   heroCopy: "autopilot",
   cardTone: "neutral",
