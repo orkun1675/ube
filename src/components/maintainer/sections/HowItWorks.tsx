@@ -114,7 +114,7 @@ export const HowItWorks = () => {
     title: string,
     setter: (open: boolean) => void,
   ) => {
-    track("how_it_works_step_opened", { step, title })
+    track("how_it_works_step_opened", { page: "maintainer", step, title })
     setter(true)
   }
   const steps: StepProps[] = [

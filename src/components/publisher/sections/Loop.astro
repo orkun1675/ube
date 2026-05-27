@@ -116,7 +116,12 @@ const steps: Step[] = [
                   <span class="tooltip">Coming soon</span>
                 </span>
               ) : (
-                <button type="button" class="inline-link">
+                <button
+                  type="button"
+                  class="inline-link"
+                  data-loop-step={`${step.num}-${step.label.toLowerCase()}`}
+                  data-loop-title={step.label}
+                >
                   {step.learnMore}
                   <ArrowRightIcon size={12} aria-hidden="true" />
                 </button>
@@ -138,6 +143,8 @@ const steps: Step[] = [
     </div>
   </div>
 </section>
+
+<script src="./loop.client.ts"></script>
 
 <style>
   .loop-section {

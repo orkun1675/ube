@@ -8,7 +8,10 @@ import React, { type SubmitEvent } from "react"
 import { BASIN_ENDPOINT, GITHUB_URL, RECAPTCHA_SITE_KEY } from "@/constants"
 import { track } from "@/lib/analytics"
 import { Modal } from "@/lib/modal"
-import { requestAccessVariant } from "@/stores/request-access"
+import {
+  requestAccessSource,
+  requestAccessVariant,
+} from "@/stores/request-access"
 
 declare global {
   interface Window {
@@ -56,6 +59,7 @@ export const RequestAccessModal = ({
   const [productError, setProductError] = React.useState(false)
   const [submitError, setSubmitError] = React.useState("")
   const variant = useStore(requestAccessVariant)
+  const source = useStore(requestAccessSource)
   const isEnterprise = variant === "enterprise"
 
   // Kick off the reCAPTCHA script the first time the modal opens, so the
@@ -63,6 +67,26 @@ export const RequestAccessModal = ({
   React.useEffect(() => {
     if (open) loadRecaptcha().catch(() => {})
   }, [open])
+
+  const prevOpenRef = React.useRef(open)
+  React.useEffect(() => {
+    if (prevOpenRef.current && !open && step !== "success") {
+      track("request_access_modal_closed", {
+        source,
+        variant,
+        fields_filled: {
+          email: Boolean(email),
+          stack: Boolean(stack),
+          product: Boolean(product),
+          team_size: Boolean(teamSize),
+        },
+      })
+    }
+    if (prevOpenRef.current && !open) {
+      requestAccessSource.set(null)
+    }
+    prevOpenRef.current = open
+  }, [open, step, source, variant, email, stack, product, teamSize])
 
   // Reset to form when re-opened after success
   React.useEffect(() => {
@@ -101,30 +125,55 @@ export const RequestAccessModal = ({
     })
     const formEl = e.currentTarget
     setStep("submitting")
-    try {
-      await loadRecaptcha()
-      // `loadRecaptcha` resolves only after `grecaptcha.ready` fires, so
-      // `window.grecaptcha` is always defined here.
-      // biome-ignore lint/style/noNonNullAssertion: see comment above
-      const token = await window.grecaptcha!.execute(RECAPTCHA_SITE_KEY, {
-        action: "submit",
-      })
-      const formData = new FormData(formEl)
-      formData.append("g-recaptcha-response", token)
-      formData.append("g-recaptcha-version", "v3")
-      const response = await fetch(BASIN_ENDPOINT, {
-        method: "POST",
-        body: formData,
-        headers: { Accept: "application/json" },
-      })
-      if (!response.ok) throw new Error(`HTTP ${response.status}`)
-      setStep("success")
-    } catch (_err) {
+    const fail = (
+      reason: "recaptcha_failed" | "http_5xx" | "http_4xx" | "network",
+    ) => {
+      track("request_access_submit_failed", { source, variant, reason })
       setStep("form")
       setSubmitError(
         "Something went wrong submitting your request. Please try again.",
       )
     }
+    let token: string
+    try {
+      await loadRecaptcha()
+      // `loadRecaptcha` resolves only after `grecaptcha.ready` fires, so
+      // `window.grecaptcha` is always defined here.
+      // biome-ignore lint/style/noNonNullAssertion: see comment above
+      token = await window.grecaptcha!.execute(RECAPTCHA_SITE_KEY, {
+        action: "submit",
+      })
+    } catch (_err) {
+      fail("recaptcha_failed")
+      return
+    }
+    let response: Response
+    try {
+      const formData = new FormData(formEl)
+      formData.append("g-recaptcha-response", token)
+      formData.append("g-recaptcha-version", "v3")
+      response = await fetch(BASIN_ENDPOINT, {
+        method: "POST",
+        body: formData,
+        headers: { Accept: "application/json" },
+      })
+    } catch (_err) {
+      fail("network")
+      return
+    }
+    if (response.status >= 500 && response.status < 600) {
+      fail("http_5xx")
+      return
+    }
+    if (response.status >= 400 && response.status < 500) {
+      fail("http_4xx")
+      return
+    }
+    if (!response.ok) {
+      fail("network")
+      return
+    }
+    setStep("success")
   }
   const stacks = [
     "React Native",

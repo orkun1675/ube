@@ -6,6 +6,7 @@
 // Same `source: 'nav'` label fires whether the click originated on the
 // desktop CTA or the mobile-menu CTA — matches the pre-spec analytics
 // contract.
+import { track } from "@/lib/analytics"
 import { openRequestAccess } from "@/stores/request-access"
 
 const nav = document.querySelector<HTMLElement>("[data-nav]")
@@ -43,6 +44,7 @@ if (menu) {
   }
 
   const open = (): void => {
+    track("mobile_menu_opened")
     previousOverflow = document.body.style.overflow
     document.body.style.overflow = "hidden"
     setOpenState(true)

@@ -27,13 +27,16 @@ export type ModalVariant = "default" | "enterprise"
 
 export const isRequestAccessOpen = atom<boolean>(false)
 export const requestAccessVariant = atom<ModalVariant>("default")
+export const requestAccessSource = atom<ModalSource | null>(null)
 
 export const openRequestAccess = (
   source: ModalSource,
   variant: ModalVariant = "default",
+  extra?: Record<string, unknown>,
 ): void => {
   requestAccessVariant.set(variant)
-  track("request_access_modal_opened", { source, variant })
+  requestAccessSource.set(source)
+  track("request_access_modal_opened", { source, variant, ...extra })
   isRequestAccessOpen.set(true)
 }
 

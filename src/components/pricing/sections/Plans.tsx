@@ -22,7 +22,7 @@ type Plan = {
   onClick: () => void
 }
 
-const PLANS: Plan[] = [
+const buildPlans = (billingPeriod: BillingPeriod): Plan[] => [
   {
     name: "Maintainer",
     monthlyPrice: 40,
@@ -40,7 +40,10 @@ const PLANS: Plan[] = [
     ],
     buttonLabel: "Request access",
     buttonStyle: "secondary",
-    onClick: () => openRequestAccess("pricing_maintainer"),
+    onClick: () =>
+      openRequestAccess("pricing_maintainer", "default", {
+        billing_period: billingPeriod,
+      }),
   },
   {
     name: "Maintainer + Publisher",
@@ -63,7 +66,10 @@ const PLANS: Plan[] = [
       "Ad spend and optional creative-AI fees billed directly by those platforms.",
     buttonLabel: "Request access",
     buttonStyle: "primary",
-    onClick: () => openRequestAccess("pricing_full"),
+    onClick: () =>
+      openRequestAccess("pricing_full", "default", {
+        billing_period: billingPeriod,
+      }),
   },
   {
     name: "Enterprise",
@@ -80,7 +86,10 @@ const PLANS: Plan[] = [
     ],
     buttonLabel: "Contact sales",
     buttonStyle: "secondary",
-    onClick: () => openRequestAccess("pricing_enterprise", "enterprise"),
+    onClick: () =>
+      openRequestAccess("pricing_enterprise", "enterprise", {
+        billing_period: billingPeriod,
+      }),
   },
 ]
 
@@ -143,6 +152,7 @@ const PlanPrice = ({
 export const Plans = () => {
   const [billingPeriod, setBillingPeriod] =
     React.useState<BillingPeriod>("monthly")
+  const plans = React.useMemo(() => buildPlans(billingPeriod), [billingPeriod])
 
   const setPeriod = (period: BillingPeriod) => {
     setBillingPeriod(period)
@@ -177,7 +187,7 @@ export const Plans = () => {
         </fieldset>
 
         <div className={styles["plans-grid"]}>
-          {PLANS.map((plan) => (
+          {plans.map((plan) => (
             <article className={`card ${styles["plan-card"]}`} key={plan.name}>
               <div>
                 <h2 className={styles["plan-name"]}>{plan.name}</h2>
