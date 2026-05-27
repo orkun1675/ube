@@ -12,8 +12,8 @@
        `.fade-in`, `.coming-soon`, `.tooltip`, `.diff-*`, form fields)
      - modal chrome consumed by `src/lib/modal.tsx`
        (`.modal-backdrop`, `.modal-panel`, `.modal-close`)
-     - shared mockup chrome (`.mockup-chrome`, `.mockup-header`,
-       `.traffic-lights`) used by every product mockup
+     - shared mockup chrome (`.mockup-chrome`, `.mockup-header`)
+       used by every product mockup
      - the legal-page prose typography system used by both legal pages */
 
 :root {
@@ -898,16 +898,6 @@ dialog.modal-backdrop::backdrop {
     var(--surface-elevated),
     var(--surface-card)
   );
-}
-.traffic-lights {
-  display: flex;
-  gap: 6px;
-}
-.traffic-lights span {
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: var(--hairline-strong);
 }
 @media (max-width: 640px) {
   .mockup-chrome .mono {

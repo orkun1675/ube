@@ -1,10 +1,16 @@
 ---
+import { SparkleIcon } from "@phosphor-icons/react"
 ---
 
 <div class="insight-board mockup-chrome">
   <div class="mockup-header">
-    <div class="traffic-lights"><span></span><span></span><span></span></div>
-    <div class="mono muted">insights.sql → actions</div>
+    <span class="mono header-label">
+      <span class="ink">Lumin · iOS · last 7 d</span>
+    </span>
+    <span class="spacer"></span>
+    <span class="pill pill-accent">
+      <SparkleIcon size={9} aria-hidden="true" /> 4 ACTIONS
+    </span>
   </div>
   <div class="insight-board-body">
     <div class="insight-row high">
@@ -32,7 +38,7 @@
       <span>04</span>
       <div>
         <strong>Do not raise spend yet.</strong>
-        <p>CAC is promising, but activation still leaks too much.</p>
+        <p>CAC is promising, but D30 is still below competitive baseline.</p>
       </div>
     </div>
   </div>
@@ -42,6 +48,13 @@
   .insight-board {
     min-width: 0;
   }
+  .header-label {
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .spacer {
+    flex: 1;
+  }
   .insight-board-body {
     padding: 16px;
     display: grid;
@@ -50,7 +63,7 @@
   .insight-row {
     display: grid;
     grid-template-columns: 42px minmax(0, 1fr);
-    gap: 14px;
+    gap: 0px;
     padding: 15px;
     background: rgba(14, 14, 17, 0.48);
     border: 1px solid var(--hairline);
