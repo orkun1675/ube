@@ -212,3 +212,6 @@ dist
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,git,node,visualstudiocode
+
+# Claude
+.claude/worktrees
