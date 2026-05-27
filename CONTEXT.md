@@ -5,8 +5,14 @@ The marketing site at [ube.dev](https://ube.dev). Its sole job is to measure int
 ## Language
 
 **Conversion modal**:
-The Request Access modal. Reachable from every route via the Nav, Hero, and Final CTAs. Captures the Maintainer-vs-Publisher product interest signal the entire site is designed around.
+The Request Access modal. Reachable from every route via the Nav, Hero, and Final CTAs. Captures the Maintainer-vs-Publisher product interest signal the entire site is designed around. Has two **variants** (see below) that swap title, subtitle, and email-label copy while sharing the same form and submission path.
 _Avoid_: "the modal" (ambiguous — see Detail modal)
+
+**Conversion modal variant** (`default` / `enterprise`):
+A parameter passed alongside the modal-open call. `default` is the standard waitlist framing; `enterprise` is the B2B framing reached from Pricing → "Contact sales" — title and subtitle shift to a sales conversation, the email field is labelled "Work email". Same component, no fork.
+
+**Pricing tier**:
+One of `Maintainer` / `Maintainer + Publisher` / `Enterprise`. Billed per app, where **one app = one repo** (cross-platform projects shipping iOS + Android from one codebase count as one app). The Maintainer and Maintainer + Publisher tiers route to the default Conversion modal; Enterprise routes to the enterprise variant.
 
 **Detail modal**:
 A modal scoped to a single section. Today: Sources, Dedupe, and Fix Loop modals inside HowItWorks, opened from a step's "Learn more" link. Lifetime is local to its owning section.
