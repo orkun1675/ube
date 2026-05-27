@@ -1,5 +1,6 @@
 // Ube — Tweaks-only UI: the UbeHuePicker swatch grid and its CSS. Dev-only.
 // Mounted only when `import.meta.env.DEV` is true (see PageApp).
+import { CheckIcon } from "@phosphor-icons/react"
 import { getUbe, UBE_HUES } from "@/lib/palette"
 import { TweakRow } from "./tweaks-panel"
 
@@ -73,16 +74,7 @@ export function UbeHuePicker({
               <span className="ube-hue-name">{u.name}</span>
               {on && (
                 <span className="ube-hue-check">
-                  <svg viewBox="0 0 14 14" aria-hidden="true">
-                    <path
-                      d="M3 7.2 5.8 10 11 4.2"
-                      fill="none"
-                      stroke="#111"
-                      strokeWidth="2.4"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  <CheckIcon color="#111" weight="regular" aria-hidden="true" />
                 </span>
               )}
             </button>

@@ -1,5 +1,35 @@
-// Provider logos & icons — simplified, recognizable SVGs of common dev tools
-// All sized to 20×20 by default; override via size prop.
+// Provider logos & icons.
+//
+// Two flavors live here:
+//   * **Brand marks** — third-party product identities, either wrapping a file
+//     in `public/assets/integrations/` via `ImgLogo` or hand-rolled as the
+//     vendor's own glyph (GitHub Actions badge, Android bot, Expo arrow, etc.).
+//     These stay inline so the exact brand color/shape is preserved.
+//   * **Concept / UI icons** — checks, arrows, mail, chart-trend, flask, etc.
+//     These delegate to `@phosphor-icons/react` (Regular weight) so the whole
+//     site shares one icon family. The thin wrappers below keep the existing
+//     `(size?, color?) => JSX` callsite contract — every consumer's props stay
+//     the same, only the inner SVG changes.
+
+import {
+  ArrowRightIcon,
+  ChatCircleDotsIcon,
+  EnvelopeIcon,
+  ListDashesIcon,
+  BellIcon as PhBellIcon,
+  CheckIcon as PhCheckIcon,
+  ClockIcon as PhClockIcon,
+  FlaskIcon as PhFlaskIcon,
+  LinkIcon as PhLinkIcon,
+  PlusIcon as PhPlusIcon,
+  StackIcon as PhStackIcon,
+  StarIcon as PhStarIcon,
+  RocketLaunchIcon,
+  ShieldCheckIcon,
+  SparkleIcon,
+  TrayIcon,
+  TrendUpIcon,
+} from "@phosphor-icons/react"
 import type React from "react"
 
 // File-based logo wrapper — keeps a consistent square footprint for img-based marks.
@@ -126,42 +156,7 @@ export const FlutterLogo = ({ size = 20 }: { size?: number }) => (
   </svg>
 )
 
-// Support / mail icon — outline
-export const MailIcon = ({ size = 16, color = "currentColor" }: IconProps) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke={color}
-    strokeWidth="1.8"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    <rect x="3" y="5" width="18" height="14" rx="2" />
-    <path d="M3 7l9 6 9-6" />
-  </svg>
-)
-
-// Support / mail icon — filled
-export const MailIconFilled = ({
-  size = 16,
-  color = "currentColor",
-}: IconProps) => (
-  <svg
-    width={size}
-    height={size * 0.75}
-    viewBox="0 0 24 18"
-    fill={color}
-    aria-hidden="true"
-  >
-    <path d="M2 3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v.4l-10 6L2 3.4V3Z" />
-    <path d="M2 5.7V15a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V5.7l-9.47 5.6a1 1 0 0 1-1.06 0L2 5.7Z" />
-  </svg>
-)
-
-// LinkedIn
+// LinkedIn — official mark; kept inline as a third-party brand identity.
 export const LinkedInLogo = ({
   size = 18,
   color = "currentColor",
@@ -177,20 +172,30 @@ export const LinkedInLogo = ({
   </svg>
 )
 
+// =====================================================================
+//  Concept / UI icons — Phosphor (Regular weight)
+// =====================================================================
+// Thin wrappers preserve the previous (size, color) API so every caller
+// continues to work unchanged. Defaults match the original components.
+
+// Support / mail icon — outline
+export const MailIcon = ({ size = 16, color = "currentColor" }: IconProps) => (
+  <EnvelopeIcon size={size} color={color} weight="regular" aria-hidden="true" />
+)
+
+// Support / mail icon — filled variant in the legacy API. We deliberately use
+// the Regular outline here too because the migration uses one weight site-wide;
+// the filled variant disappeared with the family swap.
+export const MailIconFilled = ({
+  size = 16,
+  color = "currentColor",
+}: IconProps) => (
+  <EnvelopeIcon size={size} color={color} weight="regular" aria-hidden="true" />
+)
+
 // Plus / close
 export const PlusIcon = ({ size = 14, color = "currentColor" }: IconProps) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke={color}
-    strokeWidth="2"
-    strokeLinecap="round"
-    aria-hidden="true"
-  >
-    <path d="M12 5v14M5 12h14" />
-  </svg>
+  <PhPlusIcon size={size} color={color} weight="regular" aria-hidden="true" />
 )
 
 // Arrow right
@@ -198,62 +203,17 @@ export const ArrowRight = ({
   size = 14,
   color = "currentColor",
 }: IconProps) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke={color}
-    strokeWidth="1.8"
-    strokeLinecap="round"
-    strokeLinejoin="round"
+  <ArrowRightIcon
+    size={size}
+    color={color}
+    weight="regular"
     aria-hidden="true"
-  >
-    <path d="M5 12h14M13 5l7 7-7 7" />
-  </svg>
+  />
 )
 
 // Check
 export const CheckIcon = ({ size = 14, color = "currentColor" }: IconProps) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke={color}
-    strokeWidth="2.2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    <path d="M5 12l5 5L20 7" />
-  </svg>
-)
-
-// Generic glyphs for problem & benefit cards (purple monoline)
-type GlyphProps = {
-  paths: React.ReactNode
-  size?: number
-  color?: string
-}
-export const Glyph = ({
-  paths,
-  size = 20,
-  color = "currentColor",
-}: GlyphProps) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke={color}
-    strokeWidth="1.7"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    {paths}
-  </svg>
+  <PhCheckIcon size={size} color={color} weight="regular" aria-hidden="true" />
 )
 
 // Publisher problem + hero-chip icons
@@ -319,149 +279,45 @@ export const SeedlingIcon = ({ size = 20 }: { size?: number }) => (
 
 // Specific problem icons
 export const FlaskIcon = ({ size = 20 }: { size?: number }) => (
-  <Glyph
-    size={size}
-    paths={
-      <>
-        <path d="M9 3h6M10 3v6L4 19a2 2 0 0 0 1.7 3h12.6A2 2 0 0 0 20 19L14 9V3" />
-        <path d="M7 14h10" />
-      </>
-    }
-  />
+  <PhFlaskIcon size={size} weight="regular" aria-hidden="true" />
 )
 export const StackIcon = ({ size = 20 }: { size?: number }) => (
-  <Glyph
-    size={size}
-    paths={
-      <>
-        <rect x="3" y="4" width="18" height="5" rx="1.5" />
-        <rect x="3" y="11" width="18" height="5" rx="1.5" />
-        <path d="M7 17v3M12 17v3M17 17v3" />
-      </>
-    }
-  />
+  <PhStackIcon size={size} weight="regular" aria-hidden="true" />
 )
 export const ClockIcon = ({ size = 20 }: { size?: number }) => (
-  <Glyph
-    size={size}
-    paths={
-      <>
-        <circle cx="12" cy="12" r="9" />
-        <path d="M12 7v5l3 2" />
-      </>
-    }
-  />
+  <PhClockIcon size={size} weight="regular" aria-hidden="true" />
 )
 
 // Benefit icons
 export const SparkIcon = ({ size = 20 }: { size?: number }) => (
-  <Glyph
-    size={size}
-    paths={
-      <path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8" />
-    }
-  />
+  <SparkleIcon size={size} weight="regular" aria-hidden="true" />
 )
 export const ChatIcon = ({ size = 20 }: { size?: number }) => (
-  <Glyph
-    size={size}
-    paths={
-      <>
-        <path d="M21 12a8 8 0 1 1-3-6.2L21 4l-1 4.2A8 8 0 0 1 21 12Z" />
-        <circle cx="9" cy="12" r="0.8" fill="currentColor" />
-        <circle cx="13" cy="12" r="0.8" fill="currentColor" />
-        <circle cx="17" cy="12" r="0.8" fill="currentColor" />
-      </>
-    }
-  />
+  <ChatCircleDotsIcon size={size} weight="regular" aria-hidden="true" />
 )
 export const ShieldIcon = ({ size = 20 }: { size?: number }) => (
-  <Glyph
-    size={size}
-    paths={
-      <>
-        <path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3Z" />
-        <path d="M9 12l2 2 4-4" />
-      </>
-    }
-  />
+  <ShieldCheckIcon size={size} weight="regular" aria-hidden="true" />
 )
 export const TrendIcon = ({ size = 20 }: { size?: number }) => (
-  <Glyph
-    size={size}
-    paths={
-      <>
-        <path d="M3 17l5-5 4 4 9-9" />
-        <path d="M14 7h7v7" />
-      </>
-    }
-  />
+  <TrendUpIcon size={size} weight="regular" aria-hidden="true" />
 )
 export const StarIcon = ({ size = 20 }: { size?: number }) => (
-  <Glyph
-    size={size}
-    paths={
-      <path d="M12 3l2.7 5.7 6.3.9-4.6 4.4 1.1 6.2L12 17.3 6.5 20.2l1.1-6.2L3 9.6l6.3-.9L12 3Z" />
-    }
-  />
+  <PhStarIcon size={size} weight="regular" aria-hidden="true" />
 )
 export const RocketIcon = ({ size = 20 }: { size?: number }) => (
-  <Glyph
-    size={size}
-    paths={
-      <>
-        <path d="M14 4c4 0 6 2 6 6-1 4-5 8-9 9-2-1-3-2-4-4 1-4 5-8 9-9-1 2-2 3-2 5Z" />
-        <circle cx="14" cy="10" r="1.2" fill="currentColor" />
-        <path d="M7 17c-2 1-2 2-3 4 2-1 3-1 4-3" />
-      </>
-    }
-  />
+  <RocketLaunchIcon size={size} weight="regular" aria-hidden="true" />
 )
 
 // Lightning / inbox / list / fix / report icons used in step indicator pills
 export const InboxIcon = ({ size = 16 }: { size?: number }) => (
-  <Glyph
-    size={size}
-    paths={
-      <>
-        <path d="M3 13l3-9h12l3 9" />
-        <path d="M3 13v6a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-6h-6a3 3 0 0 1-6 0H3Z" />
-      </>
-    }
-  />
+  <TrayIcon size={size} weight="regular" aria-hidden="true" />
 )
 export const ListIcon = ({ size = 16 }: { size?: number }) => (
-  <Glyph
-    size={size}
-    paths={
-      <>
-        <path d="M8 5h13M8 12h13M8 19h13" />
-        <circle cx="4" cy="5" r="1" />
-        <circle cx="4" cy="12" r="1" />
-        <circle cx="4" cy="19" r="1" />
-      </>
-    }
-  />
+  <ListDashesIcon size={size} weight="regular" aria-hidden="true" />
 )
 export const BellIcon = ({ size = 16 }: { size?: number }) => (
-  <Glyph
-    size={size}
-    paths={
-      <>
-        <path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4l2-2Z" />
-        <path d="M10 19a2 2 0 0 0 4 0" />
-      </>
-    }
-  />
+  <PhBellIcon size={size} weight="regular" aria-hidden="true" />
 )
 export const LinkIcon = ({ size = 16 }: { size?: number }) => (
-  <Glyph
-    size={size}
-    paths={
-      <>
-        <path d="M10 14a4 4 0 0 0 5.5 0l3-3a4 4 0 1 0-5.5-5.5L11 7" />
-        <path d="M14 10a4 4 0 0 0-5.5 0l-3 3a4 4 0 1 0 5.5 5.5L13 17" />
-      </>
-    }
-  />
+  <PhLinkIcon size={size} weight="regular" aria-hidden="true" />
 )

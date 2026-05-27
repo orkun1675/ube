@@ -15,6 +15,7 @@
 import react from "@astrojs/react"
 import sitemap from "@astrojs/sitemap"
 import { defineConfig } from "astro/config"
+import icon from "astro-icon"
 
 import { tweaksWritebackPlugin } from "./src/dev/tweaks-writeback-plugin.ts"
 
@@ -32,7 +33,11 @@ export default defineConfig({
   build: {
     format: "directory",
   },
-  integrations: [react(), sitemap({ lastmod: new Date() })],
+  integrations: [
+    react(),
+    icon({ include: { ph: ["*"] } }),
+    sitemap({ lastmod: new Date() }),
+  ],
   vite: {
     plugins: [tweaksWritebackPlugin()],
   },
