@@ -2,14 +2,14 @@
 //  How It Works
 // =====================================================================
 import React from "react"
-import { FixMockup } from "@/components/mockups/FixMockup"
-import { IntakeMockup } from "@/components/mockups/IntakeMockup"
-import { ReportFailureMockup } from "@/components/mockups/ReportFailureMockup"
-import { ReportSuccessMockup } from "@/components/mockups/ReportSuccessMockup"
-import { TriageMockup } from "@/components/mockups/TriageMockup"
-import { DedupeModal } from "@/components/modals/DedupeModal"
-import { FixLoopModal } from "@/components/modals/FixLoopModal"
-import { SourcesModal } from "@/components/modals/SourcesModal"
+import { FixMockup } from "@/components/maintainer/mockups/FixMockup"
+import { IntakeMockup } from "@/components/maintainer/mockups/IntakeMockup"
+import { ReportFailureMockup } from "@/components/maintainer/mockups/ReportFailureMockup"
+import { ReportSuccessMockup } from "@/components/maintainer/mockups/ReportSuccessMockup"
+import { TriageMockup } from "@/components/maintainer/mockups/TriageMockup"
+import { DedupeModal } from "@/components/maintainer/modals/DedupeModal"
+import { FixLoopModal } from "@/components/maintainer/modals/FixLoopModal"
+import { SourcesModal } from "@/components/maintainer/modals/SourcesModal"
 import { track } from "@/lib/analytics"
 import { ArrowRight } from "@/lib/assets"
 
