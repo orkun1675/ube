@@ -1,11 +1,11 @@
 ---
 import {
-  BarChartIcon,
+  ChartBarIcon,
   GearIcon,
-  LoopIcon,
   MegaphoneIcon,
-  SparklesIcon,
-} from "@/lib/assets"
+  RepeatIcon,
+  SparkleIcon,
+} from "@phosphor-icons/react"
 
 type Card = {
   Icon: typeof GearIcon
@@ -25,7 +25,7 @@ const row1: Card[] = [
     body: "Meta, Google, TikTok, Reddit — each with its own dialect, billing, pixels, and quirks. Learning each one is a full-time job.",
   },
   {
-    Icon: LoopIcon,
+    Icon: RepeatIcon,
     title: "Growth is a feedback loop.",
     body: "Tune onboarding. Tune difficulty. Tune paywalls. All repetitive work, with a lot of waiting in between steps.",
   },
@@ -33,12 +33,12 @@ const row1: Card[] = [
 
 const row2: Card[] = [
   {
-    Icon: SparklesIcon,
+    Icon: SparkleIcon,
     title: "Ad creatives are relentless.",
     body: "Images, videos, playables, seasonal hooks. You need fresh creatives every month to keep customer acquisition costs low.",
   },
   {
-    Icon: BarChartIcon,
+    Icon: ChartBarIcon,
     title: "Dashboards need code context.",
     body: "Twenty-character event names don't explain themselves. Without the engineer who wrote them in the room, everyone is guessing.",
   },
@@ -64,7 +64,7 @@ const row2: Card[] = [
         row1.map(({ Icon, title, body }) => (
           <div class="card card-hover publisher-problem-card">
             <div class="publisher-problem-card-icon">
-              <Icon size={26} />
+              <Icon size={26} aria-hidden="true" />
             </div>
             <h3 class="t-title-md ink publisher-problem-card-title">{title}</h3>
             <p class="t-body-sm body publisher-problem-card-body">{body}</p>
@@ -78,7 +78,7 @@ const row2: Card[] = [
         row2.map(({ Icon, title, body }) => (
           <div class="card card-hover publisher-problem-card">
             <div class="publisher-problem-card-icon">
-              <Icon size={26} />
+              <Icon size={26} aria-hidden="true" />
             </div>
             <h3 class="t-title-md ink publisher-problem-card-title">{title}</h3>
             <p class="t-body-sm body publisher-problem-card-body">{body}</p>

@@ -2,10 +2,10 @@
 import {
   CheckIcon,
   ClockIcon,
-  RocketIcon,
-  SparkIcon,
-  TrendIcon,
-} from "@/lib/assets"
+  RocketLaunchIcon,
+  SparkleIcon,
+  TrendUpIcon,
+} from "@phosphor-icons/react"
 
 type Step = { label: string; title: string; body: string; gate: string }
 
@@ -65,11 +65,11 @@ const steps: Step[] = [
             </div>
             <div class="publisher-step-visual" aria-hidden="true">
               <div class="loop-node">
-                {i === 0 && <SparkIcon size={24} />}
-                {i === 1 && <CheckIcon size={24} />}
-                {i === 2 && <RocketIcon size={24} />}
-                {i === 3 && <TrendIcon size={24} />}
-                {i === 4 && <ClockIcon size={24} />}
+                {i === 0 && <SparkleIcon size={24} aria-hidden="true" />}
+                {i === 1 && <CheckIcon size={24} aria-hidden="true" />}
+                {i === 2 && <RocketLaunchIcon size={24} aria-hidden="true" />}
+                {i === 3 && <TrendUpIcon size={24} aria-hidden="true" />}
+                {i === 4 && <ClockIcon size={24} aria-hidden="true" />}
               </div>
               <div class="loop-lines">
                 <span style={`--h:${36 + i * 9}%`} />

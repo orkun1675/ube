@@ -1,5 +1,10 @@
 ---
-import { ArrowRight, ReactLogo, SeedlingIcon, SparklesIcon } from "@/lib/assets"
+import { ReactLogo } from "@/lib/assets"
+import {
+  ArrowRightIcon,
+  PlantIcon,
+  SparkleIcon,
+} from "@phosphor-icons/react"
 import WeeklyMockup from "@/components/publisher/mockups/WeeklyMockup.astro"
 ---
 
@@ -21,7 +26,7 @@ import WeeklyMockup from "@/components/publisher/mockups/WeeklyMockup.astro"
       <div class="publisher-cta-row">
         <button type="button" class="btn btn-primary" data-publisher-hero-cta>
           Request access
-          <ArrowRight size={14} />
+          <ArrowRightIcon size={14} aria-hidden="true" />
         </button>
         <a class="btn btn-secondary" href="#loop">See how it works</a>
       </div>
@@ -29,13 +34,13 @@ import WeeklyMockup from "@/components/publisher/mockups/WeeklyMockup.astro"
         <span class="builtfor-label">Built for</span>
         <span class="builtfor-chip">
           <span class="builtfor-chip-mark" style="color: var(--accent)">
-            <SparklesIcon size={12} />
+            <SparkleIcon size={12} aria-hidden="true" />
           </span>
           Vibecoders
         </span>
         <span class="builtfor-chip">
           <span class="builtfor-chip-mark" style="color: var(--success)">
-            <SeedlingIcon size={12} />
+            <PlantIcon size={12} aria-hidden="true" />
           </span>
           Solo founders
         </span>
