@@ -6,6 +6,6 @@ const ctaButtons = document.querySelectorAll<HTMLButtonElement>(
 
 for (const btn of ctaButtons) {
   btn.addEventListener("click", () => {
-    openRequestAccess("hero")
+    openRequestAccess("publisher_hero")
   })
 }

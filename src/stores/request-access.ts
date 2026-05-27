@@ -12,7 +12,12 @@ import { atom } from "nanostores"
 
 import { track } from "@/lib/analytics"
 
-export type ModalSource = "nav" | "hero" | "final_cta"
+export type ModalSource =
+  | "nav"
+  | "maintainer_hero"
+  | "publisher_hero"
+  | "maintainer_final_cta"
+  | "publisher_final_cta"
 
 export const isRequestAccessOpen = atom<boolean>(false)
 
