@@ -231,7 +231,7 @@ section[id] {
 
 @media (max-width: 1024px) {
   .t-display-mega {
-    font-size: 48px;
+    font-size: 52px;
     letter-spacing: -1.44px;
   }
   .t-display-xl {
@@ -245,7 +245,7 @@ section[id] {
 }
 @media (max-width: 640px) {
   .t-display-mega {
-    font-size: 36px;
+    font-size: 44px;
     letter-spacing: -1.08px;
   }
   .t-display-xl {
