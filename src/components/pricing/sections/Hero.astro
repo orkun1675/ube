@@ -1,0 +1,70 @@
+---
+---
+
+<section class="pricing-hero" id="top">
+  <div class="pricing-hero-grid" aria-hidden="true"></div>
+  <div class="container pricing-hero-inner">
+    <h1 class="t-display-lg">Pricing</h1>
+  </div>
+</section>
+
+<style>
+  .pricing-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 96px 0 32px;
+    background: var(--canvas);
+  }
+
+  .pricing-hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+      rgba(255, 255, 255, 0.12) 1px,
+      transparent 1px
+    );
+    background-size: 32px 32px;
+    opacity: 0.45;
+    pointer-events: none;
+    mask-image: radial-gradient(
+      ellipse 70% 58% at 50% 8%,
+      #000 0%,
+      transparent 70%
+    );
+    -webkit-mask-image: radial-gradient(
+      ellipse 70% 58% at 50% 8%,
+      #000 0%,
+      transparent 70%
+    );
+  }
+
+  .pricing-hero-inner {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  .pricing-hero h1 {
+    margin: 0;
+    color: var(--ink);
+    font-size: 44px;
+  }
+
+  @media (max-width: 1024px) {
+    .pricing-hero {
+      padding: 84px 0 30px;
+    }
+    .pricing-hero h1 {
+      font-size: 38px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .pricing-hero {
+      padding: 64px 0 24px;
+    }
+    .pricing-hero h1 {
+      font-size: 32px;
+    }
+  }
+</style>

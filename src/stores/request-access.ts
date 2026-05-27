@@ -18,11 +18,22 @@ export type ModalSource =
   | "publisher_hero"
   | "maintainer_final_cta"
   | "publisher_final_cta"
+  | "pricing_maintainer"
+  | "pricing_full"
+  | "pricing_enterprise"
+  | "pricing_final_cta"
+
+export type ModalVariant = "default" | "enterprise"
 
 export const isRequestAccessOpen = atom<boolean>(false)
+export const requestAccessVariant = atom<ModalVariant>("default")
 
-export const openRequestAccess = (source: ModalSource): void => {
-  track("request_access_modal_opened", { source })
+export const openRequestAccess = (
+  source: ModalSource,
+  variant: ModalVariant = "default",
+): void => {
+  requestAccessVariant.set(variant)
+  track("request_access_modal_opened", { source, variant })
   isRequestAccessOpen.set(true)
 }
 

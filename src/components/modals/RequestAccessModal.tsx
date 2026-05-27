@@ -2,11 +2,13 @@
 //  Request Access Modal
 // =====================================================================
 
+import { useStore } from "@nanostores/react"
 import { ArrowRightIcon, CheckIcon } from "@phosphor-icons/react"
 import React, { type SubmitEvent } from "react"
 import { BASIN_ENDPOINT, GITHUB_URL, RECAPTCHA_SITE_KEY } from "@/constants"
 import { track } from "@/lib/analytics"
 import { Modal } from "@/lib/modal"
+import { requestAccessVariant } from "@/stores/request-access"
 
 declare global {
   interface Window {
@@ -53,6 +55,8 @@ export const RequestAccessModal = ({
   const [teamSize, setTeamSize] = React.useState("")
   const [productError, setProductError] = React.useState(false)
   const [submitError, setSubmitError] = React.useState("")
+  const variant = useStore(requestAccessVariant)
+  const isEnterprise = variant === "enterprise"
 
   // Kick off the reCAPTCHA script the first time the modal opens, so the
   // token is usually ready by the time the user hits submit.
@@ -74,6 +78,7 @@ export const RequestAccessModal = ({
         setStackOther("")
         setProduct("")
         setTeamSize("")
+        setProductError(false)
         setSubmitError("")
       }, 280)
     }
@@ -92,6 +97,7 @@ export const RequestAccessModal = ({
       stack,
       stack_other: stackOther,
       team_size: teamSize,
+      variant,
     })
     const formEl = e.currentTarget
     setStep("submitting")
@@ -139,25 +145,31 @@ export const RequestAccessModal = ({
       {step !== "success" ? (
         <>
           <div className="eyebrow" style={{ marginBottom: 14 }}>
-            Request access
+            {isEnterprise ? "Talk to sales" : "Request access"}
           </div>
           <h3
             className="t-display-sm ink"
             style={{ margin: 0, marginBottom: 6 }}
           >
-            Join the first cohort.
+            {isEnterprise
+              ? "Let's talk about your stack."
+              : "Join the first cohort."}
           </h3>
           <p
             className="t-body-sm muted"
             style={{ margin: 0, marginBottom: 24, lineHeight: 1.55 }}
           >
-            Tell us what you're shipping. We'll be in touch as we open access.
+            {isEnterprise
+              ? "Tell us a bit about your team. We'll reach out to schedule a call."
+              : "Tell us what you're shipping. We'll be in touch as we open access."}
           </p>
 
           <form onSubmit={onSubmit} action={BASIN_ENDPOINT} method="POST">
+            <input type="hidden" name="variant" value={variant} />
             <div className="field">
               <label className="field-label" htmlFor="ra-email">
-                Email <span className="req-dot" />
+                {isEnterprise ? "Work email" : "Email"}{" "}
+                <span className="req-dot" />
               </label>
               <input
                 id="ra-email"
@@ -331,7 +343,8 @@ export const RequestAccessModal = ({
                 <span className="spinner" />
               ) : (
                 <>
-                  Request access <ArrowRightIcon size={14} aria-hidden="true" />
+                  {isEnterprise ? "Talk to sales" : "Request access"}{" "}
+                  <ArrowRightIcon size={14} aria-hidden="true" />
                 </>
               )}
             </button>
@@ -369,7 +382,9 @@ export const RequestAccessModal = ({
             className="t-display-sm ink"
             style={{ margin: 0, marginBottom: 8 }}
           >
-            You're on the list.
+            {isEnterprise
+              ? "Thanks — we'll be in touch."
+              : "You're on the list."}
           </h3>
           <p
             className="t-body-md body"

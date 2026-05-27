@@ -19,7 +19,7 @@
 //     gets the chosen accent / cardTone / accentStrategy without any JS.
 import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/constants"
 import { TWEAK_DEFAULTS } from "@/data/tweak-defaults"
-import { FAQ } from "@/components/maintainer/sections/FAQ"
+import { FAQ } from "@/components/sections/FAQ"
 import FinalCta from "@/components/maintainer/sections/FinalCta.astro"
 import Hero from "@/components/maintainer/sections/Hero.astro"
 import { HowItWorks } from "@/components/maintainer/sections/HowItWorks"
@@ -156,7 +156,7 @@ const jsonLd = [
     <Problems />
     <HowItWorks client:visible />
     <Benefits />
-    <FAQ client:visible />
+    <FAQ client:visible items={FAQ_ITEMS} />
     <FinalCta />
   </main>
 </BaseLayout>

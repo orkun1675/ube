@@ -1,0 +1,129 @@
+---
+import { FAQ } from "@/components/sections/FAQ"
+import TrustedBy from "@/components/maintainer/sections/TrustedBy.astro"
+import FinalCta from "@/components/pricing/sections/FinalCta.astro"
+import Hero from "@/components/pricing/sections/Hero.astro"
+import { Plans } from "@/components/pricing/sections/Plans"
+import { TWEAK_DEFAULTS } from "@/data/tweak-defaults"
+import { PRICING_FAQ_ITEMS } from "@/data/pricing-faq-items"
+import BaseLayout from "@/layouts/BaseLayout.astro"
+import { CARD_TONES, getUbe } from "@/lib/palette"
+
+const title = "Ube Pricing — App Maintenance and Growth Plans"
+const description =
+  "Pricing for Ube Maintainer, Ube Maintainer + Publisher, and Enterprise plans for mobile and cross-platform app teams."
+
+const ube = getUbe(TWEAK_DEFAULTS.accent)
+const accent = `oklch(${ube.L} ${ube.C} ${ube.H})`
+const accentHover = `oklch(${Math.min(0.72, ube.L + 0.1)} ${ube.C} ${ube.H})`
+const accentSoft = `oklch(${Math.max(0.18, ube.L - 0.26)} ${Math.max(0.06, ube.C - 0.08)} ${ube.H})`
+const accentTint = `oklch(${ube.L} ${ube.C} ${ube.H} / 0.14)`
+const cardTone = CARD_TONES[TWEAK_DEFAULTS.cardTone] ?? CARD_TONES["warm"]
+const cardBg = cardTone?.bg ?? "#1d1b15"
+const cardBorder = cardTone?.border ?? "#2a2720"
+const accentMode = TWEAK_DEFAULTS.accentStrategy
+
+const dateModified = new Date().toISOString()
+const pricingUrl = new URL("/pricing/", Astro.site).href
+const siteUrl = new URL("/", Astro.site).href
+
+const offers = [
+  {
+    "@type": "Offer",
+    name: "Maintainer",
+    url: pricingUrl,
+    price: "40",
+    priceCurrency: "USD",
+    availability: "https://schema.org/PreOrder",
+    priceSpecification: {
+      "@type": "UnitPriceSpecification",
+      price: "40",
+      priceCurrency: "USD",
+      unitText: "per app per month",
+    },
+  },
+  {
+    "@type": "Offer",
+    name: "Maintainer + Publisher",
+    url: pricingUrl,
+    price: "100",
+    priceCurrency: "USD",
+    availability: "https://schema.org/PreOrder",
+    priceSpecification: {
+      "@type": "UnitPriceSpecification",
+      price: "100",
+      priceCurrency: "USD",
+      unitText: "per app per month",
+    },
+  },
+  {
+    "@type": "Offer",
+    name: "Enterprise",
+    url: pricingUrl,
+    price: "0",
+    priceCurrency: "USD",
+    availability: "https://schema.org/PreOrder",
+    priceSpecification: {
+      "@type": "PriceSpecification",
+      priceCurrency: "USD",
+      description: "Custom pricing",
+    },
+  },
+]
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "Ube",
+    url: siteUrl,
+    applicationCategory: "DeveloperApplication",
+    operatingSystem: "Web",
+    description,
+    dateModified,
+    offers,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: PRICING_FAQ_ITEMS.map(({ q, a }) => ({
+      "@type": "Question",
+      name: q,
+      acceptedAnswer: { "@type": "Answer", text: a },
+    })),
+  },
+]
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  jsonLd={jsonLd}
+  accentMode={accentMode}
+>
+  <style
+    define:vars={{ accent, accentHover, accentSoft, accentTint, cardBg, cardBorder }}
+  >
+    main {
+      --accent-hover: var(--accentHover);
+      --accent-soft: var(--accentSoft);
+      --accent-tint: var(--accentTint);
+      --card-bg: var(--cardBg);
+      --card-border: var(--cardBorder);
+      background: var(--canvas);
+    }
+  </style>
+
+  <main>
+    <Hero />
+    <Plans client:load />
+    <TrustedBy />
+    <FAQ
+      client:visible
+      eyebrow="FAQ"
+      headline="Questions & Answers"
+      items={PRICING_FAQ_ITEMS}
+    />
+    <FinalCta />
+  </main>
+</BaseLayout>
