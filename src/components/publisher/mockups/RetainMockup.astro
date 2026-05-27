@@ -1,0 +1,213 @@
+---
+type FunnelRow = {
+  step: string
+  width: number
+  pct: string
+  delta: string
+  flag?: boolean
+}
+
+const funnel: FunnelRow[] = [
+  { step: "App open", width: 100, pct: "100 %", delta: "" },
+  { step: "Sign up start", width: 78, pct: "78 %", delta: "− 22 %" },
+  { step: "Sign up done", width: 41, pct: "41 %", delta: "− 37 %", flag: true },
+  { step: "Onboarding", width: 36, pct: "36 %", delta: "− 5 %" },
+  { step: "First action", width: 31, pct: "31 %", delta: "− 5 %" },
+]
+---
+
+<div class="mockup-chrome">
+  <div class="mockup-header">
+    <div class="traffic-lights"><span></span><span></span><span></span></div>
+    <span class="mono header-label">retention · onboarding funnel</span>
+    <span class="spacer"></span>
+    <span class="pill pill-error">37 % DROP</span>
+  </div>
+  <div class="funnel-mockup">
+    {
+      funnel.map((f) => (
+        <div class={`funnel-row ${f.flag ? "flagged" : ""}`}>
+          <span class="step mono">{f.step}</span>
+          <span class="bar">
+            <span class="fill" style={`width: ${f.width}%`} />
+          </span>
+          <span class="pct mono">{f.pct}</span>
+          <span class={`delta mono ${f.flag ? "down" : ""}`}>{f.delta}</span>
+        </div>
+      ))
+    }
+
+    <div class="ab-mockup">
+      <div class="ab-head">
+        <span class="eyebrow ab-eyebrow">A/B TEST · OPTIONAL SIGN-UP</span>
+        <span class="spacer"></span>
+        <span class="mono ab-meta">n=4,218 · 95 % conf</span>
+      </div>
+      <div class="ab-grid">
+        <div class="ab-variant">
+          <span class="lbl mono">A · control</span>
+          <span class="name mono">required signup</span>
+          <div class="pct">41 %</div>
+          <span class="sub mono">complete signup</span>
+        </div>
+        <div class="ab-variant winner">
+          <span class="winner-pill mono">WINNER · +14 %</span>
+          <span class="lbl mono">B · variant</span>
+          <span class="name mono">signup optional</span>
+          <div class="pct">55 %</div>
+          <span class="sub mono">complete signup</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .header-label {
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .spacer {
+    flex: 1;
+  }
+  .funnel-mockup {
+    padding: 18px;
+  }
+  .funnel-row {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr) 70px 60px;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+  }
+  .funnel-row .step {
+    font-size: 11px;
+    color: var(--body);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .funnel-row .bar {
+    height: 14px;
+    background: var(--canvas-soft);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .funnel-row .bar > .fill {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+  }
+  .funnel-row .pct {
+    font-size: 11px;
+    color: var(--ink);
+    text-align: right;
+  }
+  .funnel-row .delta {
+    font-size: 10px;
+    text-align: right;
+    letter-spacing: 0.3px;
+    color: var(--muted);
+  }
+  .funnel-row .delta.down {
+    color: var(--error);
+  }
+  .funnel-row.flagged .bar {
+    box-shadow: inset 0 0 0 1px var(--error);
+  }
+  .funnel-row.flagged .step {
+    color: var(--error);
+  }
+  .ab-mockup {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--hairline);
+  }
+  .ab-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .ab-eyebrow {
+    font-size: 10px;
+    color: var(--accent-2);
+    margin: 0;
+  }
+  .ab-eyebrow::before {
+    background: var(--accent-2);
+  }
+  .ab-meta {
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .ab-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .ab-variant {
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-md);
+    padding: 14px;
+    background: var(--canvas);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .ab-variant.winner {
+    border-color: color-mix(in oklab, var(--success) 50%, transparent);
+    background: color-mix(in oklab, var(--success) 5%, var(--canvas));
+  }
+  .ab-variant .lbl {
+    font-size: 9.5px;
+    color: var(--muted);
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+  }
+  .ab-variant .name {
+    font-size: 12px;
+    color: var(--ink);
+    margin-top: 4px;
+  }
+  .ab-variant .pct {
+    font-size: 24px;
+    color: var(--ink);
+    letter-spacing: -0.5px;
+    margin-top: 10px;
+    font-weight: 500;
+  }
+  .ab-variant.winner .pct {
+    color: var(--success);
+  }
+  .ab-variant .sub {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .ab-variant .winner-pill {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 2px 6px;
+    background: color-mix(in oklab, var(--success) 18%, transparent);
+    color: var(--success);
+    font-size: 8.5px;
+    letter-spacing: 0.7px;
+    border-radius: 4px;
+  }
+  @media (max-width: 540px) {
+    .funnel-row {
+      grid-template-columns: 80px minmax(0, 1fr) 50px 50px;
+      gap: 8px;
+    }
+    .ab-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

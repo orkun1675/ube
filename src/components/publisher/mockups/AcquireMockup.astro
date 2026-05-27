@@ -1,0 +1,190 @@
+---
+type CreativeRow = {
+  thumb: "v1" | "v2" | "v3" | "v4"
+  name: string
+  network: string
+  spend: string
+  cac: string
+  roas: string
+  winner?: boolean
+}
+
+const rows: CreativeRow[] = [
+  {
+    thumb: "v1",
+    name: "playable · word puzzle",
+    network: "Meta",
+    spend: "$48",
+    cac: "$1.42",
+    roas: "38 %",
+    winner: true,
+  },
+  {
+    thumb: "v2",
+    name: "video · jump-cut hook",
+    network: "TikTok",
+    spend: "$36",
+    cac: "$1.71",
+    roas: "29 %",
+  },
+  {
+    thumb: "v3",
+    name: "static · daily challenge",
+    network: "Google",
+    spend: "$22",
+    cac: "$2.04",
+    roas: "21 %",
+  },
+  {
+    thumb: "v4",
+    name: "ugc · founder reel",
+    network: "Meta",
+    spend: "$18",
+    cac: "$2.88",
+    roas: "14 %",
+  },
+]
+---
+
+<div class="camp-mockup">
+  <div class="mockup-chrome">
+    <div class="mockup-header">
+      <div class="traffic-lights"><span></span><span></span><span></span></div>
+      <span class="mono header-label">
+        campaigns · <span class="ink">iOS install</span>
+      </span>
+      <span class="spacer"></span>
+      <span class="pill pill-success">$124 / DAY</span>
+    </div>
+    <div class="camp-rows">
+      <span class="head">Creative</span>
+      <span class="head">Spend</span>
+      <span class="head">CAC</span>
+      <span class="head">D7 ROAS</span>
+      {
+        rows.map((r) => (
+          <>
+            <span class={`cell ${r.winner ? "winner" : ""}`}>
+              <span class={`creative-thumb ${r.thumb}`} aria-hidden="true">
+                {r.thumb.toUpperCase()}
+              </span>
+              <span class="creative-name">{r.name}</span>
+              <span class="camp-network">{r.network}</span>
+            </span>
+            <span class="cell num">{r.spend}</span>
+            <span class={`cell num ${r.winner ? "good" : ""}`}>{r.cac}</span>
+            <span class={`cell num ${r.winner ? "good" : ""}`}>{r.roas}</span>
+          </>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .header-label {
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .spacer {
+    flex: 1;
+  }
+  .camp-mockup {
+    width: 100%;
+    min-width: 0;
+  }
+  .camp-rows {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 70px 70px 70px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+  }
+  .camp-rows .head {
+    font-size: 9.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 12px 14px 10px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .camp-rows .head:not(:first-child) {
+    text-align: right;
+  }
+  .camp-rows .cell {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--hairline-soft);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    color: var(--body);
+  }
+  .camp-rows .cell.winner {
+    color: var(--ink);
+  }
+  .camp-rows .cell.num {
+    justify-content: flex-end;
+    color: var(--ink);
+  }
+  .camp-rows .cell.num.good {
+    color: var(--success);
+  }
+  .camp-rows .cell:nth-last-child(-n + 4) {
+    border-bottom: none;
+  }
+  .creative-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+  .creative-thumb {
+    width: 28px;
+    height: 28px;
+    border-radius: 5px;
+    flex-shrink: 0;
+    background: var(--surface-elevated);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mark);
+    font-size: 10px;
+    font-weight: 600;
+  }
+  .creative-thumb.v1 {
+    background: linear-gradient(135deg, oklch(0.42 0.13 322), oklch(0.32 0.08 322));
+  }
+  .creative-thumb.v2 {
+    background: linear-gradient(135deg, oklch(0.46 0.1 60), oklch(0.32 0.05 60));
+  }
+  .creative-thumb.v3 {
+    background: linear-gradient(135deg, oklch(0.42 0.14 200), oklch(0.3 0.06 200));
+  }
+  .creative-thumb.v4 {
+    background: linear-gradient(135deg, oklch(0.42 0.14 140), oklch(0.3 0.06 140));
+  }
+  .camp-network {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--surface-elevated);
+    color: var(--muted);
+    border: 1px solid var(--hairline);
+    flex-shrink: 0;
+  }
+  @media (max-width: 540px) {
+    .camp-rows {
+      grid-template-columns: minmax(0, 1fr) 56px 56px 56px;
+      font-size: 10.5px;
+    }
+    .camp-rows .head,
+    .camp-rows .cell {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .camp-network {
+      display: none;
+    }
+  }
+</style>

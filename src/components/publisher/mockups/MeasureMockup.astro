@@ -1,0 +1,174 @@
+---
+type Kpi = { label: string; value: string; delta: string; up: boolean }
+
+const kpis: Kpi[] = [
+  { label: "DAU", value: "8,412", delta: "+ 12 %", up: true },
+  { label: "D7", value: "32 %", delta: "+ 2 %", up: true },
+  { label: "CAC", value: "$1.42", delta: "− 8 %", up: true },
+  { label: "LTV/30", value: "$3.18", delta: "+ 4 %", up: true },
+]
+---
+
+<div class="mockup-chrome">
+  <div class="mockup-header">
+    <div class="traffic-lights"><span></span><span></span><span></span></div>
+    <span class="mono header-label">
+      dashboard · <span class="ink">top-line · last 30 d</span>
+    </span>
+    <span class="spacer"></span>
+    <img
+      src="/assets/integrations/amplitude.svg"
+      alt="Amplitude"
+      width="14"
+      height="14"
+      loading="lazy"
+    />
+  </div>
+  <div class="dash-mockup">
+    <div class="dash-kpi-row">
+      {
+        kpis.map((k) => (
+          <div class="dash-kpi">
+            <div class="l mono">{k.label}</div>
+            <div class="v mono">{k.value}</div>
+            <div class={`d mono ${k.up ? "up" : "down"}`}>{k.delta}</div>
+          </div>
+        ))
+      }
+    </div>
+    <div class="dash-chart">
+      <div class="dash-chart-head">
+        <span class="mono dash-chart-title">D7 retention by cohort</span>
+        <span class="spacer"></span>
+        <span class="mono dash-legend control">
+          <span class="legend-swatch"></span> control
+        </span>
+        <span class="mono dash-legend variant">
+          <span class="legend-swatch"></span> variant B
+        </span>
+      </div>
+      <svg viewBox="0 0 540 130" width="100%" height="130" aria-hidden="true">
+        <line x1="0" y1="30" x2="540" y2="30" stroke="var(--hairline)" stroke-width="0.5"></line>
+        <line x1="0" y1="60" x2="540" y2="60" stroke="var(--hairline)" stroke-width="0.5"></line>
+        <line x1="0" y1="90" x2="540" y2="90" stroke="var(--hairline)" stroke-width="0.5"></line>
+        <line x1="0" y1="120" x2="540" y2="120" stroke="var(--hairline)" stroke-width="0.5"></line>
+        <path
+          d="M10 100 L80 90 L150 84 L220 78 L290 76 L360 72 L430 71 L510 70"
+          fill="none"
+          stroke="var(--accent)"
+          stroke-width="1.5"
+          stroke-linecap="round"></path>
+        <path
+          d="M10 100 L80 84 L150 70 L220 60 L290 50 L360 42 L430 36 L510 30"
+          fill="none"
+          stroke="var(--success)"
+          stroke-width="1.5"
+          stroke-linecap="round"></path>
+        <circle cx="510" cy="70" r="3" fill="var(--accent)"></circle>
+        <circle cx="510" cy="30" r="3" fill="var(--success)"></circle>
+        <text x="10" y="125" fill="var(--muted)" font-size="9" font-family="var(--font-mono)">D0</text>
+        <text x="81" y="125" fill="var(--muted)" font-size="9" font-family="var(--font-mono)">D1</text>
+        <text x="152" y="125" fill="var(--muted)" font-size="9" font-family="var(--font-mono)">D2</text>
+        <text x="223" y="125" fill="var(--muted)" font-size="9" font-family="var(--font-mono)">D3</text>
+        <text x="294" y="125" fill="var(--muted)" font-size="9" font-family="var(--font-mono)">D4</text>
+        <text x="365" y="125" fill="var(--muted)" font-size="9" font-family="var(--font-mono)">D5</text>
+        <text x="436" y="125" fill="var(--muted)" font-size="9" font-family="var(--font-mono)">D6</text>
+        <text x="507" y="125" fill="var(--muted)" font-size="9" font-family="var(--font-mono)">D7</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<style>
+  .header-label {
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .spacer {
+    flex: 1;
+  }
+  .dash-mockup {
+    padding: 18px;
+  }
+  .dash-kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .dash-kpi {
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-md);
+    padding: 10px 12px;
+    background: var(--canvas);
+    min-width: 0;
+  }
+  .dash-kpi .l {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+  }
+  .dash-kpi .v {
+    font-size: 15px;
+    color: var(--ink);
+    margin-top: 4px;
+  }
+  .dash-kpi .d {
+    font-size: 9.5px;
+    margin-top: 2px;
+  }
+  .dash-kpi .d.up {
+    color: var(--success);
+  }
+  .dash-kpi .d.down {
+    color: var(--error);
+  }
+  .dash-chart {
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-md);
+    padding: 14px;
+    background: var(--canvas);
+  }
+  .dash-chart-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .dash-chart-title {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+  .dash-legend {
+    font-size: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .dash-legend.control {
+    color: var(--accent);
+  }
+  .dash-legend.variant {
+    color: var(--success);
+  }
+  .dash-legend .legend-swatch {
+    width: 8px;
+    height: 2px;
+    display: inline-block;
+  }
+  .dash-legend.control .legend-swatch {
+    background: var(--accent);
+  }
+  .dash-legend.variant .legend-swatch {
+    background: var(--success);
+  }
+  @media (max-width: 640px) {
+    .dash-kpi-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

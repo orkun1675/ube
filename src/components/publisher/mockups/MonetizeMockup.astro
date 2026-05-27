@@ -1,0 +1,187 @@
+---
+import { SparkleIcon } from "@phosphor-icons/react"
+---
+
+<div class="mockup-chrome">
+  <div class="mockup-header">
+    <div class="traffic-lights"><span></span><span></span><span></span></div>
+    <span class="mono header-label">
+      paywall · <span class="ink">pricing A/B</span>
+    </span>
+    <span class="spacer"></span>
+    <img
+      src="/assets/integrations/revenuecat.svg"
+      alt="RevenueCat"
+      width="14"
+      height="14"
+      loading="lazy"
+    />
+  </div>
+  <div class="paywall-mockup">
+    <div class="mono paywall-meta">Test 12 · Day 9 of 14</div>
+    <div class="paywall-grid">
+      <div class="paywall-variant">
+        <span class="lbl mono">A · control</span>
+        <div class="paywall-frame">
+          <span class="h">Unlock Pro</span>
+          <span class="price mono">$9.99 / mo</span>
+          <span class="btn-fake">Start</span>
+        </div>
+        <div class="paywall-stats">
+          <div class="stat">
+            <div class="l mono">Trial start</div>
+            <div class="v mono">6.1 %</div>
+          </div>
+          <div class="stat">
+            <div class="l mono">ARPU</div>
+            <div class="v mono">$0.61</div>
+          </div>
+        </div>
+      </div>
+      <div class="paywall-variant winner">
+        <span class="lbl mono">B · variant</span>
+        <div class="paywall-frame paywall-frame-winner">
+          <span class="h">Try Pro free</span>
+          <span class="price mono">
+            <span class="strike">$9.99</span>$4.99 / mo · 3 d free
+          </span>
+          <span class="btn-fake">Start free trial</span>
+        </div>
+        <div class="paywall-stats">
+          <div class="stat win">
+            <div class="l mono">Trial start</div>
+            <div class="v mono">11.4 %</div>
+          </div>
+          <div class="stat win">
+            <div class="l mono">ARPU</div>
+            <div class="v mono">$0.94</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="paywall-suggest mono">
+      <SparkleIcon size={12} aria-hidden="true" />
+      <span class="paywall-suggest-prefix">Ube suggests:</span>
+      <span>roll variant B to 100 % · expected lift +54 % ARPU</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .header-label {
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .spacer {
+    flex: 1;
+  }
+  .paywall-mockup {
+    padding: 18px;
+  }
+  .paywall-meta {
+    font-size: 10.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+  .paywall-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .paywall-variant {
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-md);
+    padding: 12px;
+    background: var(--canvas);
+    min-width: 0;
+  }
+  .paywall-variant.winner {
+    border-color: color-mix(in oklab, var(--accent) 60%, transparent);
+  }
+  .paywall-variant .lbl {
+    font-size: 9.5px;
+    color: var(--muted);
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+  }
+  .paywall-frame {
+    margin-top: 8px;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    padding: 16px 12px;
+    background: var(--canvas-soft);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+  .paywall-frame-winner {
+    border-color: color-mix(in oklab, var(--accent) 40%, var(--hairline));
+  }
+  .paywall-frame .h {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .paywall-frame .price {
+    color: var(--ink);
+    font-size: 14px;
+  }
+  .paywall-frame .price .strike {
+    color: var(--muted);
+    text-decoration: line-through;
+    margin-right: 6px;
+    font-size: 11px;
+  }
+  .paywall-frame .btn-fake {
+    background: var(--accent);
+    color: var(--cta-text);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 500;
+  }
+  .paywall-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .paywall-stats .stat .v {
+    font-size: 12px;
+    color: var(--ink);
+  }
+  .paywall-stats .stat.win .v {
+    color: var(--success);
+  }
+  .paywall-stats .stat .l {
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .paywall-suggest {
+    margin-top: 14px;
+    padding: 10px 12px;
+    border: 1px solid var(--hairline);
+    background: var(--canvas);
+    border-radius: 6px;
+    font-size: 11px;
+    color: var(--body);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .paywall-suggest-prefix {
+    color: var(--accent);
+  }
+  @media (max-width: 540px) {
+    .paywall-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

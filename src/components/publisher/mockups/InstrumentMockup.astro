@@ -1,0 +1,93 @@
+---
+import { CheckIcon, SparkleIcon } from "@phosphor-icons/react"
+---
+
+<div class="mockup-chrome sdk-mockup">
+  <div class="mockup-header">
+    <div class="traffic-lights"><span></span><span></span><span></span></div>
+    <span class="mono header-label">
+      diff · <span class="ink">app/lib/analytics.ts</span>
+    </span>
+    <span class="spacer"></span>
+    <span class="pill pill-accent">
+      <SparkleIcon size={9} aria-hidden="true" /> AGENT EDIT
+    </span>
+  </div>
+  <div class="code">
+    <span class="diff-ctx">{"  import { initFirebase } from './firebase';"}</span>
+    <span class="diff-add">{"+ import { initAmplitude, identify } from './amplitude';"}</span>
+    <span class="diff-add">{"+ import { initRevenueCat } from './revenuecat';"}</span>
+    <span class="diff-ctx">{"  "}</span>
+    <span class="diff-ctx">{"  export async function bootstrap(userId: string) {"}</span>
+    <span class="diff-add">{"+   const rc = await initRevenueCat(userId);"}</span>
+    <span class="diff-add">{"+   await initFirebase({ userId, rcId: rc.appUserID });"}</span>
+    <span class="diff-add">{"+   await initAmplitude({ userId, rcId: rc.appUserID });"}</span>
+    <span class="diff-add">{"+   identify('signup_complete');"}</span>
+    <span class="diff-ctx">{"  }"}</span>
+  </div>
+  <div class="instrument-footer">
+    <span class="mono footer-label">IDs synced across</span>
+    <img
+      src="/assets/integrations/firebase.svg"
+      alt=""
+      width="14"
+      height="14"
+      loading="lazy"
+    />
+    <img
+      src="/assets/integrations/amplitude.svg"
+      alt=""
+      width="14"
+      height="14"
+      loading="lazy"
+    />
+    <img
+      src="/assets/integrations/revenuecat.svg"
+      alt=""
+      width="14"
+      height="14"
+      loading="lazy"
+    />
+    <span class="spacer"></span>
+    <span class="pill pill-success">
+      <CheckIcon size={9} aria-hidden="true" /> 18 EVENTS
+    </span>
+  </div>
+</div>
+
+<style>
+  .sdk-mockup {
+    min-width: 0;
+  }
+  .header-label {
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .footer-label {
+    font-size: 10.5px;
+    color: var(--muted);
+  }
+  .spacer {
+    flex: 1;
+  }
+  .code {
+    padding: 14px 18px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.65;
+    overflow-x: auto;
+  }
+  .instrument-footer {
+    padding: 10px 18px;
+    border-top: 1px solid var(--hairline-soft);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .instrument-footer img {
+    flex-shrink: 0;
+    display: block;
+    object-fit: contain;
+  }
+</style>

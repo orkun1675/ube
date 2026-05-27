@@ -1,82 +1,134 @@
 ---
-import {
-  CheckIcon,
-  ClockIcon,
-  RocketLaunchIcon,
-  SparkleIcon,
-  TrendUpIcon,
-} from "@phosphor-icons/react"
+import { ArrowRightIcon } from "@phosphor-icons/react"
+import AcquireMockup from "@/components/publisher/mockups/AcquireMockup.astro"
+import AttributeMockup from "@/components/publisher/mockups/AttributeMockup.astro"
+import InstrumentMockup from "@/components/publisher/mockups/InstrumentMockup.astro"
+import MeasureMockup from "@/components/publisher/mockups/MeasureMockup.astro"
+import MonetizeMockup from "@/components/publisher/mockups/MonetizeMockup.astro"
+import RetainMockup from "@/components/publisher/mockups/RetainMockup.astro"
 
-type Step = { label: string; title: string; body: string; gate: string }
+type Step = {
+  num: string
+  label: string
+  title: string
+  body: string
+  learnMore: string
+  disabled?: boolean
+  reversed: boolean
+}
 
 const steps: Step[] = [
   {
+    num: "01",
     label: "Instrument",
-    title: "First, make the app measurable.",
-    body: "Ube reads the app, proposes an event taxonomy, adds the SDKs in the right order, and wires user IDs so Firebase, Amplitude, RevenueCat, AppsFlyer, and your own backend can agree on who did what.",
-    gate: "Code review",
+    reversed: true,
+    title: "Analytics, wired up right.",
+    body: "SDKs installed, user IDs aligned across platforms, events annotated in plain language. No data soup — a clean taxonomy you can reason about later.",
+    learnMore: "Why annotation order matters",
   },
   {
-    label: "Route",
-    title: "Then connect the distribution stack.",
-    body: "Dashboards, MMP imports, SKAdNetwork schema, ad-network forwarding, revenue events, and the central data lake. Ube does not invent a new stack. It sets up the market-leading tools without making you become an account manager.",
-    gate: "Service access",
+    num: "02",
+    label: "Attribute",
+    reversed: false,
+    title: "Closes the loop.",
+    body: "MMP set up, SKAdNetwork configured, revenue forwarded to your ad networks. The full ad → click → install → in-app event chain, working end to end.",
+    learnMore: "How attribution works",
   },
   {
-    label: "Launch",
-    title: "Use paid ads as a learning engine.",
-    body: "Small budgets bring a steady stream of real users. Ube tests creative angles, finds what gets people to install, and watches what they do after the install instead of pretending that a cheap click is the goal.",
-    gate: "Spend approval",
+    num: "03",
+    label: "Measure",
+    reversed: true,
+    title: "Dashboards that mean something.",
+    body: "D7, CAC, LTV, funnel drop-offs — readable in plain language. Internal users filtered out by default. The numbers you see are the numbers you can act on.",
+    learnMore: "Picking metrics that matter",
   },
   {
-    label: "Improve",
-    title: "Turn the traffic into product work.",
-    body: "Where do people drop off? Which feature earns repeat sessions? Should sign up be optional? Ube recommends A/B tests, deploys them through Firebase or RevenueCat, and keeps the experiment context alive.",
-    gate: "Experiment approval",
+    num: "04",
+    label: "Acquire",
+    reversed: false,
+    title: "Runs your ads. Tunes them.",
+    body: "Generates creatives, launches campaigns on Meta, Google, and TikTok, and shifts budget toward whatever earns installs at your target CAC. You set the cap.",
+    learnMore: "How creatives get made",
+    disabled: true,
   },
   {
-    label: "Scale",
-    title: "Only scale when the math deserves it.",
-    body: "If retention, monetization, and creative performance look good, Ube can move budget toward the channels that are buying the best users. If the app is leaking users, it tells you where to patch the product first.",
-    gate: "Budget increase",
+    num: "05",
+    label: "Retain",
+    reversed: true,
+    title: "Spots drop-offs. Tests fixes.",
+    body: "Reads your funnel, proposes an A/B test, ships it through Firebase Remote Config, calls the winner once it's statistically conclusive.",
+    learnMore: "A/B test policies",
+    disabled: true,
+  },
+  {
+    num: "06",
+    label: "Monetize",
+    reversed: false,
+    title: "Finds what people will pay.",
+    body: "Trial length, price points, plan order — tested through RevenueCat once retention is sticky. You never have to guess what to charge.",
+    learnMore: "When monetization unlocks",
+    disabled: true,
   },
 ]
 ---
 
 <section class="section loop-section" id="loop">
   <div class="container">
-    <div class="eyebrow">The loop</div>
+    <div class="eyebrow">The solution</div>
     <h2 class="t-display-lg publisher-section-title">
       Measure how your app performs, iteratively improve it, then scale to millions.
     </h2>
+    <p class="t-body-md body publisher-section-copy">
+      Six steps from "I shipped an app" to "people are paying for it." Same
+      tools a senior growth team would pick — set up for you, then run.
+    </p>
     <div class="publisher-steps">
       {
-        steps.map((step, i) => (
-          <article class="card-band publisher-step">
+        steps.map((step) => (
+          <article class={`card-band step-band ${step.reversed ? "reversed" : "normal"}`}>
+            {!step.reversed && (
+              <div class="step-visual">
+                {step.num === "01" && <InstrumentMockup />}
+                {step.num === "02" && <AttributeMockup />}
+                {step.num === "03" && <MeasureMockup />}
+                {step.num === "04" && <AcquireMockup />}
+                {step.num === "05" && <RetainMockup />}
+                {step.num === "06" && <MonetizeMockup />}
+              </div>
+            )}
             <div class="step-copy">
               <div class="step-kicker">
-                <span class="step-num">{String(i + 1).padStart(2, "0")}</span>
+                <span class="step-num">{step.num}</span>
                 <span class="eyebrow">{step.label}</span>
               </div>
               <h3 class="t-display-md ink">{step.title}</h3>
               <p class="t-body-md body">{step.body}</p>
-              <span class="pill pill-muted">{step.gate}</span>
+              {step.disabled ? (
+                <span
+                  class="inline-link coming-soon"
+                  aria-disabled="true"
+                >
+                  {step.learnMore}
+                  <ArrowRightIcon size={12} aria-hidden="true" />
+                  <span class="tooltip">Coming soon</span>
+                </span>
+              ) : (
+                <button type="button" class="inline-link">
+                  {step.learnMore}
+                  <ArrowRightIcon size={12} aria-hidden="true" />
+                </button>
+              )}
             </div>
-            <div class="publisher-step-visual" aria-hidden="true">
-              <div class="loop-node">
-                {i === 0 && <SparkleIcon size={24} aria-hidden="true" />}
-                {i === 1 && <CheckIcon size={24} aria-hidden="true" />}
-                {i === 2 && <RocketLaunchIcon size={24} aria-hidden="true" />}
-                {i === 3 && <TrendUpIcon size={24} aria-hidden="true" />}
-                {i === 4 && <ClockIcon size={24} aria-hidden="true" />}
+            {step.reversed && (
+              <div class="step-visual">
+                {step.num === "01" && <InstrumentMockup />}
+                {step.num === "02" && <AttributeMockup />}
+                {step.num === "03" && <MeasureMockup />}
+                {step.num === "04" && <AcquireMockup />}
+                {step.num === "05" && <RetainMockup />}
+                {step.num === "06" && <MonetizeMockup />}
               </div>
-              <div class="loop-lines">
-                <span style={`--h:${36 + i * 9}%`} />
-                <span style={`--h:${58 + i * 6}%`} />
-                <span style={`--h:${44 + i * 11}%`} />
-                <span style={`--h:${68 - i * 5}%`} />
-              </div>
-            </div>
+            )}
           </article>
         ))
       }
@@ -93,77 +145,62 @@ const steps: Step[] = [
     margin: 18px 0 0;
     max-width: 840px;
   }
-  .publisher-steps {
-    display: grid;
-    gap: 24px;
-    margin-top: 52px;
-  }
-  .publisher-step {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 280px;
-    gap: 40px;
-    align-items: center;
-  }
-  .publisher-step .step-kicker {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 18px;
-  }
-  .publisher-step h3,
-  .publisher-step p {
-    margin: 0;
-  }
-  .publisher-step p {
-    margin-top: 14px;
-    margin-bottom: 20px;
+  .publisher-section-copy {
+    margin: 24px 0 0;
+    max-width: 640px;
     line-height: 1.65;
   }
-  .publisher-step-visual {
-    min-height: 178px;
-    position: relative;
-    border-radius: var(--r-lg);
-    background: #17171b;
-    border: 1px solid var(--hairline);
-    overflow: hidden;
-  }
-  .loop-node {
-    position: absolute;
-    z-index: 2;
-    left: 50%;
-    top: 50%;
-    width: 72px;
-    height: 72px;
-    transform: translate(-50%, -50%);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--mark);
-    background: var(--mark-tint);
-    border: 1px solid color-mix(in oklab, var(--mark) 28%, transparent);
-    border-radius: 50%;
-  }
-  .loop-lines {
-    position: absolute;
-    inset: 20px 24px;
+  .publisher-steps {
+    margin-top: 64px;
     display: flex;
-    align-items: end;
-    justify-content: center;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .step-band {
+    display: grid;
+    gap: 64px;
+    align-items: center;
+  }
+  .step-band.reversed {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  }
+  .step-band.normal {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  }
+  .step-copy {
+    min-width: 0;
+  }
+  .step-visual {
+    min-width: 0;
+  }
+  .step-kicker {
+    display: flex;
+    align-items: center;
     gap: 12px;
+    margin-bottom: 22px;
   }
-  .loop-lines span {
-    width: 28px;
-    height: var(--h);
-    border-radius: var(--r-pill) var(--r-pill) 0 0;
-    background: linear-gradient(180deg, var(--accent), rgba(255, 255, 255, 0.05));
-    opacity: 0.82;
+  .step-copy h3 {
+    margin-bottom: 20px;
+    line-height: 1.15;
   }
-  @media (max-width: 800px) {
-    .publisher-step {
+  .step-copy p {
+    margin: 0 0 22px;
+    line-height: 1.65;
+  }
+  .step-copy .inline-link.coming-soon {
+    opacity: 0.4;
+  }
+  @media (max-width: 1024px) {
+    .step-band.reversed,
+    .step-band.normal {
       grid-template-columns: 1fr;
+      gap: 36px;
     }
-    .publisher-step-visual {
-      min-height: 150px;
+    .step-visual {
+      order: 2;
+    }
+    .step-copy {
+      order: 1;
     }
   }
 </style>
