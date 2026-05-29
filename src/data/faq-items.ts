@@ -12,7 +12,7 @@ export type FaqItem = {
 export const FAQ_ITEMS: FaqItem[] = [
   {
     q: "Does Ube auto-merge, or does it only open PRs for review?",
-    a: "Ube always opens PRs — you stay in control of what ships. Auto-merge is opt-in per repository, and even then it's gated behind your existing branch protections and required checks.",
+    a: "Ube always opens PRs, so you stay in control of what ships. Auto-merge is opt-in per repository, and even then it's gated behind your existing branch protections and required checks.",
   },
   {
     q: "Where does my code go?",
@@ -20,10 +20,10 @@ export const FAQ_ITEMS: FaqItem[] = [
   },
   {
     q: "Which frameworks and platforms does Ube support?",
-    a: "React Native, Expo, Flutter, native iOS (Swift / Obj-C), native Android (Kotlin / Java), and Capacitor / Ionic out of the box. Other stacks can be onboarded on request — get in touch.",
+    a: "React Native, Expo, Flutter, native iOS (Swift / Obj-C), native Android (Kotlin / Java), and Capacitor / Ionic out of the box. Other stacks can be onboarded on request. Get in touch.",
   },
   {
     q: "What if Ube AI makes a bad fix?",
-    a: "Every PR runs your tests plus a generated regression suite before opening, and the diff is yours to review. Marking a fix rejected teaches Ube to avoid that approach for the same signature — it gets better at your codebase over time.",
+    a: "Every PR runs your tests plus a generated regression suite before opening, and the diff is yours to review. Marking a fix rejected teaches Ube to avoid that approach for the same signature, so it gets better at your codebase over time.",
   },
 ]

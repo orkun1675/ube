@@ -192,7 +192,7 @@ export const ReportSuccessMockup = () => {
                       fontStyle: "italic",
                     }}
                   >
-                    “Hi Tara — thank you for the report. The crash you hit when
+                    “Hi Tara, thank you for the report. The crash you hit when
                     opening saved recipes is fixed in v2.4.3, which rolled out
                     to your device this morning. Please, let us know if you see
                     it again.”

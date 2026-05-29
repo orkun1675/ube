@@ -432,7 +432,7 @@ export const RequestAccessModal = ({
             style={{ margin: 0, marginBottom: 8 }}
           >
             {isEnterprise
-              ? "Thanks — we'll be in touch."
+              ? "Thanks! We'll be in touch."
               : "You're on the list."}
           </h3>
           <p

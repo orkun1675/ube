@@ -7,7 +7,7 @@ export const PRICING_FAQ_ITEMS: FaqItem[] = [
   },
   {
     q: "What counts as one PR?",
-    a: "Anything Ube opens against your repo — bug fixes, dependency upgrades, regression patches. Customer follow-ups and upstream issue filings on dependencies are free side-effects of resolving an issue and don't count.",
+    a: "Anything Ube opens against your repo: bug fixes, dependency upgrades, regression patches. Customer follow-ups and upstream issue filings on dependencies are free side-effects of resolving an issue and don't count.",
   },
   {
     q: "What happens if I exceed my monthly PR cap?",
@@ -15,10 +15,10 @@ export const PRICING_FAQ_ITEMS: FaqItem[] = [
   },
   {
     q: "Are ad platform fees included in Maintainer + Publisher?",
-    a: "No. Ad spend (Meta, Google, TikTok, etc.) is paid directly to those platforms with your own credit card. Same for optional creative-generation AI fees — Ube doesn't mark these up.",
+    a: "No. Ad spend (Meta, Google, TikTok, etc.) is paid directly to those platforms with your own credit card. Same for optional creative-generation AI fees (Ube doesn't mark these up).",
   },
   {
     q: "What does scholarship access mean?",
-    a: "We help eligible startups apply to programs like Amplitude for Startups and the AppsFlyer Startup Program. We're not a partner and don't get a referral fee — we just know the application playbook and can shepherd you through it.",
+    a: "We help eligible startups apply to programs like Amplitude for Startups and the AppsFlyer Startup Program. We're not a partner and don't get a referral fee. We just know the application playbook and can shepherd you through it.",
   },
 ]
