@@ -8,6 +8,7 @@ type BillingPeriod = "monthly" | "yearly"
 
 type Plan = {
   name: string
+  chip?: string
   monthlyPrice?: number
   yearlyMonthlyPrice?: number
   yearlySavings?: string
@@ -25,6 +26,7 @@ type Plan = {
 const buildPlans = (billingPeriod: BillingPeriod): Plan[] => [
   {
     name: "Maintainer",
+    chip: "7-day free trial",
     monthlyPrice: 40,
     yearlyMonthlyPrice: 32,
     yearlySavings: "Save $96/yr",
@@ -38,7 +40,7 @@ const buildPlans = (billingPeriod: BillingPeriod): Plan[] => [
       "Verified PRs against your repo",
       "Upstream issue filing for unfixable bugs",
     ],
-    buttonLabel: "Request access",
+    buttonLabel: "Join waitlist",
     buttonStyle: "secondary",
     onClick: () =>
       openRequestAccess("pricing_maintainer", "default", {
@@ -64,7 +66,7 @@ const buildPlans = (billingPeriod: BillingPeriod): Plan[] => [
     ],
     footnote:
       "Ad spend and optional creative-AI fees billed directly by those platforms.",
-    buttonLabel: "Request access",
+    buttonLabel: "Join waitlist",
     buttonStyle: "primary",
     onClick: () =>
       openRequestAccess("pricing_full", "default", {
@@ -190,7 +192,14 @@ export const Plans = () => {
           {plans.map((plan) => (
             <article className={`card ${styles["plan-card"]}`} key={plan.name}>
               <div>
-                <h2 className={styles["plan-name"]}>{plan.name}</h2>
+                <div className={styles["plan-name-row"]}>
+                  <h2 className={styles["plan-name"]}>{plan.name}</h2>
+                  {plan.chip && (
+                    <span className={`pill pill-accent ${styles["plan-chip"]}`}>
+                      {plan.chip}
+                    </span>
+                  )}
+                </div>
                 <PlanPrice plan={plan} billingPeriod={billingPeriod} />
                 {plan.caption && (
                   <p className={styles["plan-caption"]}>{plan.caption}</p>
