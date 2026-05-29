@@ -22,7 +22,7 @@ const steps: Step[] = [
     num: "01",
     label: "Instrument",
     reversed: true,
-    title: "Analytics, wired up right.",
+    title: "Wires up analytics.",
     body: "SDKs installed, user IDs aligned across platforms, and every event labeled in plain language. The result is a clean taxonomy you can understand months from now.",
     learnMore: "Why annotation order matters",
     disabled: true,
@@ -40,7 +40,7 @@ const steps: Step[] = [
     num: "03",
     label: "Measure",
     reversed: true,
-    title: "Dashboards that mean something.",
+    title: "Creates actionable dashboards.",
     body: "D7, CAC, LTV, funnel drop-offs — readable in plain language. Internal users filtered out by default. The numbers you see are simple and actionable.",
     learnMore: "Picking metrics that matter",
     disabled: true,
@@ -83,7 +83,7 @@ const steps: Step[] = [
     </h2>
     <p class="t-body-md body publisher-section-copy">
       Six steps from the v1 release to establishing recurring revenue.
-      The loop runs daily to generate insights and recommendations.
+      The agentic loop runs daily to generate insights and recommendations.
     </p>
     <div class="publisher-steps">
       {
@@ -106,16 +106,7 @@ const steps: Step[] = [
               </div>
               <h3 class="t-display-md ink">{step.title}</h3>
               <p class="t-body-md body">{step.body}</p>
-              {step.disabled ? (
-                <span
-                  class="inline-link coming-soon"
-                  aria-disabled="true"
-                >
-                  {step.learnMore}
-                  <ArrowRightIcon size={12} aria-hidden="true" />
-                  <span class="tooltip">Coming soon</span>
-                </span>
-              ) : (
+              {!step.disabled && (
                 <button
                   type="button"
                   class="inline-link"
@@ -196,9 +187,6 @@ const steps: Step[] = [
   .step-copy p {
     margin: 0 0 22px;
     line-height: 1.65;
-  }
-  .step-copy .inline-link.coming-soon {
-    opacity: 0.4;
   }
   @media (max-width: 1024px) {
     .step-band.reversed,

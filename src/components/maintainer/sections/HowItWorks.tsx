@@ -80,21 +80,11 @@ const Step = ({
       >
         {body}
       </p>
-      {learnMore &&
-        (disabled ? (
-          <span
-            className="inline-link coming-soon"
-            aria-disabled="true"
-            style={{ opacity: 0.4 }}
-          >
-            {learnMore} <ArrowRightIcon size={12} aria-hidden="true" />
-            <span className="tooltip">Coming soon</span>
-          </span>
-        ) : (
-          <button type="button" className="inline-link" onClick={onLearnMore}>
-            {learnMore} <ArrowRightIcon size={12} aria-hidden="true" />
-          </button>
-        ))}
+      {learnMore && !disabled && (
+        <button type="button" className="inline-link" onClick={onLearnMore}>
+          {learnMore} <ArrowRightIcon size={12} aria-hidden="true" />
+        </button>
+      )}
     </div>
 
     {reversed && (
@@ -185,9 +175,9 @@ export const HowItWorks = () => {
           className="t-display-lg"
           style={{ margin: 0, marginBottom: 14, maxWidth: 760 }}
         >
-          Ube runs on your repo
+          Ube agent runs on your
           <br />
-          around the clock.
+          repo around the clock.
         </h2>
         <p
           className="t-body-md body"

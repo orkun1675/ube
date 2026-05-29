@@ -23,7 +23,7 @@ export const FAQ_ITEMS: FaqItem[] = [
     a: "React Native, Expo, Flutter, native iOS (Swift / Obj-C), native Android (Kotlin / Java), and Capacitor / Ionic out of the box. Other stacks can be onboarded on request — get in touch.",
   },
   {
-    q: "What if Ube makes a bad fix?",
+    q: "What if Ube AI makes a bad fix?",
     a: "Every PR runs your tests plus a generated regression suite before opening, and the diff is yours to review. Marking a fix rejected teaches Ube to avoid that approach for the same signature — it gets better at your codebase over time.",
   },
 ]
