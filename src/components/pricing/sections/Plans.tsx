@@ -156,6 +156,31 @@ export const Plans = () => {
     React.useState<BillingPeriod>("monthly")
   const plans = React.useMemo(() => buildPlans(billingPeriod), [billingPeriod])
 
+  const monthlyRef = React.useRef<HTMLButtonElement>(null)
+  const yearlyRef = React.useRef<HTMLButtonElement>(null)
+  const [thumb, setThumb] = React.useState<{
+    left: number
+    top: number
+    width: number
+    height: number
+  } | null>(null)
+
+  React.useLayoutEffect(() => {
+    const el =
+      billingPeriod === "monthly" ? monthlyRef.current : yearlyRef.current
+    if (!el) return
+    const measure = () =>
+      setThumb({
+        left: el.offsetLeft,
+        top: el.offsetTop,
+        width: el.offsetWidth,
+        height: el.offsetHeight,
+      })
+    measure()
+    window.addEventListener("resize", measure)
+    return () => window.removeEventListener("resize", measure)
+  }, [billingPeriod])
+
   const setPeriod = (period: BillingPeriod) => {
     setBillingPeriod(period)
     track("pricing_billing_period_changed", { period })
@@ -166,7 +191,20 @@ export const Plans = () => {
       <div className="container">
         <fieldset className={styles["billing-toggle"]}>
           <legend className={styles["billing-legend"]}>Billing period</legend>
+          {thumb && (
+            <span
+              className={styles["billing-thumb"]}
+              aria-hidden="true"
+              style={{
+                transform: `translateX(${thumb.left}px)`,
+                top: thumb.top,
+                width: thumb.width,
+                height: thumb.height,
+              }}
+            />
+          )}
           <button
+            ref={monthlyRef}
             type="button"
             className={`${styles["billing-option"]} ${
               billingPeriod === "monthly" ? styles["is-active"] : ""
@@ -177,6 +215,7 @@ export const Plans = () => {
             Monthly
           </button>
           <button
+            ref={yearlyRef}
             type="button"
             className={`${styles["billing-option"]} ${
               billingPeriod === "yearly" ? styles["is-active"] : ""
