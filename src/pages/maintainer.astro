@@ -19,6 +19,7 @@
 //     gets the chosen accent / cardTone / accentStrategy without any JS.
 import { TWEAK_DEFAULTS } from "@/data/tweak-defaults"
 import { FAQ } from "@/components/sections/FAQ"
+import CrossPromo from "@/components/maintainer/sections/CrossPromo.astro"
 import FinalCta from "@/components/maintainer/sections/FinalCta.astro"
 import Hero from "@/components/maintainer/sections/Hero.astro"
 import { HowItWorks } from "@/components/maintainer/sections/HowItWorks"
@@ -121,6 +122,7 @@ const jsonLd = buildJsonLdGraph([
     <HowItWorks client:visible />
     <Benefits />
     <FAQ client:visible items={FAQ_ITEMS} />
+    <CrossPromo />
     <FinalCta />
   </main>
 </BaseLayout>

@@ -26,7 +26,10 @@ import { ArrowRightIcon } from "@phosphor-icons/react"
     overflow: hidden;
     padding: 136px 0;
     text-align: center;
-    border-top: 1px solid var(--hairline-soft);
+    /* No top border — the CrossPromo band directly above shares this same
+       `--canvas` surface and carries the hairline that separates the dark
+       closing region from the lighter section above it. A border here would
+       draw a seam between two intentionally-blended same-color bands. */
   }
   .publisher-final::before {
     content: "";

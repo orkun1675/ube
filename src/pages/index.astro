@@ -3,6 +3,7 @@
 // Publisher product. The Maintainer page lives at /maintainer/.
 import { TWEAK_DEFAULTS } from "@/data/tweak-defaults"
 import { CARD_TONES, getUbe } from "@/lib/palette"
+import CrossPromo from "@/components/publisher/sections/CrossPromo.astro"
 import FinalCta from "@/components/publisher/sections/FinalCta.astro"
 import Hero from "@/components/publisher/sections/Hero.astro"
 import Insights from "@/components/publisher/sections/Insights.astro"
@@ -79,6 +80,7 @@ const jsonLd = buildJsonLdGraph([
     <Loop />
     <Insights />
     <Moat />
+    <CrossPromo />
     <FinalCta />
   </main>
 </BaseLayout>
