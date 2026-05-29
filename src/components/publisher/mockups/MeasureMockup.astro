@@ -1,4 +1,6 @@
 ---
+import { integrationLogos } from "@/lib/integration-logos"
+
 type Kpi = { label: string; value: string; delta: string; up: boolean }
 
 const kpis: Kpi[] = [
@@ -16,7 +18,7 @@ const kpis: Kpi[] = [
     </span>
     <span class="spacer"></span>
     <img
-      src="/assets/integrations/amplitude.svg"
+      src={integrationLogos.amplitude.src}
       alt="Amplitude"
       width="14"
       height="14"

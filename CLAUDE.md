@@ -39,11 +39,14 @@ src/
   data/                        # faq-items.ts (single source of truth for the
                                #   FAQ component + the FAQPage JSON-LD)
                                # tweak-defaults.ts (EDITMODE-marked block)
-  lib/                         # analytics, palette, modal primitive, asset registry
+  lib/                         # analytics, palette, modal primitive,
+                               #   integration-logos.ts (typed logo registry)
+  assets/                      # bundled imagery imported via @/assets/* — hashed
+                               #   at build (customers/, integrations/)
   dev/                         # tweaks panel (dev-only; gated by import.meta.env.DEV)
   styles.css                   # tokens + components + mockups
 public/                        # copied verbatim to dist/ — served at site root
-  assets/                      # customer logos, integration icons, favicons, og image
+  assets/                      # favicons, og image, social (unhashed, stable URLs)
   CNAME, robots.txt
 ```
 
@@ -52,5 +55,6 @@ public/                        # copied verbatim to dist/ — served at site roo
 - **Two-product positioning is intentional.** The homepage (`/`) leans Publisher and `/maintainer/` leans Maintainer, but the modal surfaces both — preserve both signals unless explicitly narrowing focus.
 - **Tweaks panel is dev-only** (`src/dev/tweaks-panel.tsx`, gated by `import.meta.env.DEV`). Each knob mutation POSTs (debounced ~120ms) to `POST /__tweaks`, a Vite dev-middleware endpoint (`src/dev/tweaks-writeback-plugin.ts`, registered in `astro.config.mjs` with `apply: "serve"`) that rewrites the `EDITMODE-BEGIN`/`EDITMODE-END` region of `src/data/tweak-defaults.ts` on disk. Vite's HMR then re-renders the page with the new defaults. The endpoint is excluded from production builds entirely — see ADR 0005. Don't reformat the EDITMODE block by hand; the plugin's parser expects `key: "string-value",` pairs.
 - **Amplitude is gated to production.** `BaseLayout.astro` injects the Amplitude Unified Script tag dynamically — only when `location.hostname` is `ube.dev` or a subdomain. On `localhost` the script is never loaded, so no events or replays fire and no connection to Amplitude is opened. Escape hatch for local verification: append `?amplitude=1` to the URL. Why dynamic injection instead of a static `<script src>` with a runtime gate: the Unified Script auto-initializes from dashboard config the moment it executes, so gating only the `window.amplitude.init()` call doesn't actually stop tracking — the script tag itself has to be conditional. **Only test Amplitude locally if explicitly asked.**
+- **Integration logos are typed, not path strings.** Reference them via the `integrationLogos` registry in `src/lib/integration-logos.ts` (e.g. `integrationLogos.firebase.src`), never as `"/assets/integrations/…"` literals. The files live in `src/assets/integrations/` (bundled, hashed) — a wrong key is a compile error (`astro check`) and a missing file fails `npm run build`. This closed a class of silent 404s where a relative path resolved against `/maintainer/`.
 - **TypeScript is strict** (per ADR 0004): `noUnusedLocals`, `noUnusedParameters`, `noUncheckedIndexedAccess`, `noPropertyAccessFromIndexSignature`. Match what's already in the codebase rather than weakening the config.
 - No test suite. Don't add tooling unless asked.

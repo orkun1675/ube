@@ -1,20 +1,22 @@
 ---
+import type { ImageMetadata } from "astro"
 import Wordmark from "@/components/Wordmark.astro"
+import { integrationLogos } from "@/lib/integration-logos"
 
-type StackLogo = { name: string; src: string; invert?: boolean }
+type StackLogo = { name: string; src: ImageMetadata; invert?: boolean }
 
 const stackLogos: StackLogo[] = [
-  { name: "Firebase", src: "/assets/integrations/firebase.svg" },
-  { name: "Amplitude", src: "/assets/integrations/amplitude.svg" },
-  { name: "Clarity", src: "/assets/integrations/clarity.png" },
-  { name: "RevenueCat", src: "/assets/integrations/revenuecat.svg" },
-  { name: "AppsFlyer", src: "/assets/integrations/appsflyer.svg" },
-  { name: "AdMob", src: "/assets/integrations/admob.svg" },
-  { name: "Google Ads", src: "/assets/integrations/google_ads.svg" },
-  { name: "Meta", src: "/assets/integrations/meta.svg" },
-  { name: "TikTok", src: "/assets/integrations/tiktok.svg" },
-  { name: "Creatify", src: "/assets/integrations/creatify.png" },
-  { name: "Sett", src: "/assets/integrations/sett.svg", invert: true },
+  { name: "Firebase", src: integrationLogos.firebase },
+  { name: "Amplitude", src: integrationLogos.amplitude },
+  { name: "Clarity", src: integrationLogos.clarity },
+  { name: "RevenueCat", src: integrationLogos.revenuecat },
+  { name: "AppsFlyer", src: integrationLogos.appsflyer },
+  { name: "AdMob", src: integrationLogos.admob },
+  { name: "Google Ads", src: integrationLogos.googleAds },
+  { name: "Meta", src: integrationLogos.meta },
+  { name: "TikTok", src: integrationLogos.tiktok },
+  { name: "Creatify", src: integrationLogos.creatify },
+  { name: "Sett", src: integrationLogos.sett, invert: true },
 ]
 ---
 
@@ -27,7 +29,7 @@ const stackLogos: StackLogo[] = [
   {
     stackLogos.map(({ name, src, invert }) => (
       <div class={`stack-node${invert ? " stack-node-invert" : ""}`}>
-        <img src={src} alt="" loading="lazy" />
+        <img src={src.src} alt="" loading="lazy" />
         <span>{name}</span>
       </div>
     ))

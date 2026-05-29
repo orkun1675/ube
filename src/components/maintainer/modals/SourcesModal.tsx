@@ -2,7 +2,9 @@
 //  Sources Modal — signal sources Ube listens to
 // =====================================================================
 import { EnvelopeIcon } from "@phosphor-icons/react"
+import type { ImageMetadata } from "astro"
 import { CONTACT_EMAIL } from "@/constants"
+import { integrationLogos } from "@/lib/integration-logos"
 import { Modal } from "@/lib/modal"
 import styles from "./sources-modal.module.css"
 
@@ -11,7 +13,7 @@ type SourcesModalProps = { open: boolean; onClose: () => void }
 type SourceEntry = {
   name: string
   desc: string
-  logo?: string
+  logo?: ImageMetadata
   logoInvert?: boolean
   icon?: string
   mono?: string
@@ -28,12 +30,12 @@ export const SourcesModal = ({ open, onClose }: SourcesModalProps) => {
       label: "Crash & errors",
       sources: [
         {
-          logo: "assets/integrations/firebase.svg",
+          logo: integrationLogos.firebase,
           name: "Firebase Crashlytics",
           desc: "Native crashes, ANRs, custom events",
         },
         {
-          logo: "assets/integrations/sentry.svg",
+          logo: integrationLogos.sentry,
           logoInvert: true,
           name: "Sentry",
           desc: "JS / native errors with stack traces & releases",
@@ -44,12 +46,12 @@ export const SourcesModal = ({ open, onClose }: SourcesModalProps) => {
       label: "Store signals",
       sources: [
         {
-          logo: "assets/integrations/google-play.png",
+          logo: integrationLogos.googlePlay,
           name: "Play Console",
           desc: "ANRs, vitals, store reviews",
         },
         {
-          logo: "assets/integrations/apple.svg",
+          logo: integrationLogos.apple,
           logoInvert: true,
           name: "App Store Connect",
           desc: "iOS reviews, crash reports",
@@ -66,17 +68,17 @@ export const SourcesModal = ({ open, onClose }: SourcesModalProps) => {
       label: "Dependency feeds",
       sources: [
         {
-          logo: "assets/integrations/npm.svg",
+          logo: integrationLogos.npm,
           name: "npm",
           desc: "JS / TS package releases & security advisories",
         },
         {
-          logo: "assets/integrations/bun.svg",
+          logo: integrationLogos.bun,
           name: "Bun",
           desc: "Bun runtime + registry release feed",
         },
         {
-          logo: "assets/integrations/dart.svg",
+          logo: integrationLogos.dart,
           name: "pub.dev",
           desc: "Dart & Flutter package releases",
         },
@@ -86,7 +88,7 @@ export const SourcesModal = ({ open, onClose }: SourcesModalProps) => {
       label: "Build & symbols",
       sources: [
         {
-          logo: "assets/integrations/codemagic.svg",
+          logo: integrationLogos.codemagic,
           name: "Codemagic",
           desc: "Pulls dSYMs & ProGuard mappings for de-obfuscated stack traces",
         },
@@ -162,7 +164,7 @@ export const SourcesModal = ({ open, onClose }: SourcesModalProps) => {
                     >
                       {s.logo ? (
                         <img
-                          src={s.logo}
+                          src={s.logo.src}
                           alt=""
                           className={s.logoInvert ? "logo-invert" : ""}
                         />

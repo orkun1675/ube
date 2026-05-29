@@ -1,12 +1,13 @@
-// Brand marks — third-party product identities, either wrapping a file in
-// `public/assets/integrations/` via `ImgLogo` or hand-rolled as the vendor's
-// own glyph (GitHub Actions badge, Android bot, Expo arrow, etc.). Kept inline
-// so the exact brand color/shape is preserved.
+// Brand marks — third-party product identities, either wrapping a bundled
+// asset from the typed `integrationLogos` registry via `ImgLogo` or hand-rolled
+// as the vendor's own glyph (GitHub Actions badge, Android bot, Expo arrow,
+// etc.). Kept inline so the exact brand color/shape is preserved.
 //
 // Concept / UI icons (checks, arrows, mail, trends, etc.) are imported
 // directly from `@phosphor-icons/react` at each callsite — no wrappers here.
 
 import type React from "react"
+import { integrationLogos } from "@/lib/integration-logos"
 
 // File-based logo wrapper — keeps a consistent square footprint for img-based marks.
 type ImgLogoProps = {
@@ -40,27 +41,27 @@ export const ImgLogo = ({
 
 // GitHub octocat
 export const GitHubLogo = ({ size = 20 }: { size?: number }) => (
-  <ImgLogo src="/assets/integrations/github.svg" size={size} />
+  <ImgLogo src={integrationLogos.github.src} size={size} />
 )
 
 // Sentry — official glyph (dark mark inverted on dark backgrounds)
 export const SentryLogo = ({ size = 20 }: { size?: number }) => (
-  <ImgLogo src="/assets/integrations/sentry.svg" size={size} invert />
+  <ImgLogo src={integrationLogos.sentry.src} size={size} invert />
 )
 
 // Firebase Crashlytics — official flame mark
 export const CrashlyticsLogo = ({ size = 20 }: { size?: number }) => (
-  <ImgLogo src="/assets/integrations/firebase.svg" size={size} />
+  <ImgLogo src={integrationLogos.firebase.src} size={size} />
 )
 
 // Google Play Console — official mark
 export const PlayLogo = ({ size = 20 }: { size?: number }) => (
-  <ImgLogo src="/assets/integrations/google-play.png" size={size} />
+  <ImgLogo src={integrationLogos.googlePlay.src} size={size} />
 )
 
 // App Store / Apple — official Apple mark (inverted on dark)
 export const AppStoreLogo = ({ size = 20 }: { size?: number }) => (
-  <ImgLogo src="/assets/integrations/apple.svg" size={size} invert />
+  <ImgLogo src={integrationLogos.apple.src} size={size} invert />
 )
 
 // GitHub Actions — green play badge
@@ -73,7 +74,7 @@ export const ActionsLogo = ({ size = 20 }: { size?: number }) => (
 
 // Apple — official mark, inverted on dark
 export const AppleLogo = ({ size = 20 }: { size?: number }) => (
-  <ImgLogo src="/assets/integrations/apple.svg" size={size} invert />
+  <ImgLogo src={integrationLogos.apple.src} size={size} invert />
 )
 
 // Android — green bot
