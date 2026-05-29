@@ -395,7 +395,7 @@ section[id] {
   gap: 8px;
   color: var(--accent);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.88px;
   text-transform: uppercase;
@@ -415,6 +415,7 @@ section[id] {
    layout-only marker class; this rule only needs the descendant selector. */
 .step-copy .eyebrow {
   color: var(--accent-2);
+  font-size: 11px;
 }
 .step-copy .eyebrow::before {
   background: var(--accent-2);
