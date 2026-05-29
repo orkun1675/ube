@@ -9,6 +9,7 @@
 import type { ImageMetadata } from "astro"
 import admob from "@/assets/integrations/admob.svg"
 import amplitude from "@/assets/integrations/amplitude.svg"
+import android from "@/assets/integrations/android.svg"
 import apple from "@/assets/integrations/apple.svg"
 import appsflyer from "@/assets/integrations/appsflyer.svg"
 import bun from "@/assets/integrations/bun.svg"
@@ -19,12 +20,17 @@ import codex from "@/assets/integrations/codex.svg"
 import creatify from "@/assets/integrations/creatify.png"
 import dart from "@/assets/integrations/dart.svg"
 import docker from "@/assets/integrations/docker.svg"
+import expo from "@/assets/integrations/expo.svg"
 import firebase from "@/assets/integrations/firebase.svg"
+import flutter from "@/assets/integrations/flutter.svg"
 import github from "@/assets/integrations/github.svg"
+import githubActions from "@/assets/integrations/github_actions.svg"
 import googleAds from "@/assets/integrations/google_ads.svg"
 import googlePlay from "@/assets/integrations/google-play.png"
+import linkedin from "@/assets/integrations/linkedin.svg"
 import meta from "@/assets/integrations/meta.svg"
 import npm from "@/assets/integrations/npm.svg"
+import react from "@/assets/integrations/react.svg"
 import revenuecat from "@/assets/integrations/revenuecat.svg"
 import sentry from "@/assets/integrations/sentry.svg"
 import sett from "@/assets/integrations/sett.svg"
@@ -33,6 +39,7 @@ import tiktok from "@/assets/integrations/tiktok.svg"
 export const integrationLogos = {
   admob,
   amplitude,
+  android,
   apple,
   appsflyer,
   bun,
@@ -43,12 +50,17 @@ export const integrationLogos = {
   creatify,
   dart,
   docker,
+  expo,
   firebase,
+  flutter,
   github,
+  githubActions,
   googleAds,
   googlePlay,
+  linkedin,
   meta,
   npm,
+  react,
   revenuecat,
   sentry,
   sett,

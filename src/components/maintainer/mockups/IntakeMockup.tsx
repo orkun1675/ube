@@ -2,20 +2,14 @@
 //  STEP 1: Intake — multi-source inbox
 // =====================================================================
 import { EnvelopeIcon, TrayIcon } from "@phosphor-icons/react"
-import {
-  AppStoreLogo,
-  CrashlyticsLogo,
-  PlayLogo,
-  ReactLogo,
-  SentryLogo,
-} from "@/lib/assets"
+import { Logo } from "@/lib/logo"
 import styles from "./intake-mockup.module.css"
 
 export const IntakeMockup = () => {
   const items = [
     {
       src: "crashlytics",
-      logo: <CrashlyticsLogo size={16} />,
+      logo: <Logo name="firebase" size={16} />,
       label: "Crashlytics",
       title: "java.lang.NullPointerException",
       meta: "WidgetUnmount.dispose:42 · 2,184 users",
@@ -24,7 +18,7 @@ export const IntakeMockup = () => {
     },
     {
       src: "sentry",
-      logo: <SentryLogo size={16} />,
+      logo: <Logo name="sentry" size={16} />,
       label: "Sentry",
       title: "TypeError: cannot read 'items' of undefined",
       meta: "RecipeList.tsx · 14 events · 8 users",
@@ -33,7 +27,7 @@ export const IntakeMockup = () => {
     },
     {
       src: "play",
-      logo: <PlayLogo size={16} />,
+      logo: <Logo name="googlePlay" size={16} />,
       label: "Play Console",
       title: "ANR: Input dispatching timed out",
       meta: "0.4% of sessions · Pixel 7, Galaxy S22",
@@ -42,7 +36,7 @@ export const IntakeMockup = () => {
     },
     {
       src: "appstore",
-      logo: <AppStoreLogo size={16} />,
+      logo: <Logo name="apple" size={16} />,
       label: "App Store",
       title: "“It crashes when I open my saved recipes”",
       meta: "★ · @marisol_22 · v2.4.1",
@@ -60,7 +54,7 @@ export const IntakeMockup = () => {
     },
     {
       src: "deps",
-      logo: <ReactLogo size={16} />,
+      logo: <Logo name="react" size={16} />,
       label: "react-native",
       title: "0.76.3 → 0.77.0 available",
       meta: "minor · 3 breaking notes",

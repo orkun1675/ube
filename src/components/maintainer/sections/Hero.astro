@@ -16,13 +16,7 @@
 // `.hero-eyebrow` won't leak).
 import { ArrowRightIcon } from "@phosphor-icons/react"
 import { TWEAK_DEFAULTS } from "@/data/tweak-defaults"
-import {
-  AndroidLogo,
-  AppleLogo,
-  ExpoLogo,
-  FlutterLogo,
-  ReactLogo,
-} from "@/lib/assets"
+import { Logo } from "@/lib/logo"
 import HeroMinimal from "@/components/maintainer/mockups/HeroMinimal.astro"
 import HeroPr from "@/components/maintainer/mockups/HeroPr.astro"
 import HeroSplit from "@/components/maintainer/mockups/HeroSplit.astro"
@@ -74,19 +68,19 @@ const heroCopy = TWEAK_DEFAULTS.heroCopy
         <div class="hero-builtfor">
           <span class="hero-builtfor__label">Built for</span>
           <span class="hero-builtfor__chip">
-            <FlutterLogo size={14} /> Flutter
+            <Logo name="flutter" size={14} /> Flutter
           </span>
           <span class="hero-builtfor__chip">
-            <ReactLogo size={14} /> React Native
+            <Logo name="react" size={14} /> React Native
           </span>
           <span class="hero-builtfor__chip">
-            <ExpoLogo size={14} /> Expo
+            <Logo name="expo" size={14} /> Expo
           </span>
           <span class="hero-builtfor__chip">
-            <AppleLogo size={14} /> iOS
+            <Logo name="apple" size={14} /> iOS
           </span>
           <span class="hero-builtfor__chip">
-            <AndroidLogo size={14} /> Android
+            <Logo name="android" size={14} /> Android
           </span>
         </div>
       </div>

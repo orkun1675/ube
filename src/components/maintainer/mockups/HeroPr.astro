@@ -11,7 +11,7 @@
 // numeric values (unlike React). Every length below is written as an explicit
 // string with units so it serializes to valid CSS.
 import { CheckIcon, LinkIcon } from "@phosphor-icons/react"
-import { ActionsLogo, CrashlyticsLogo, GitHubLogo } from "@/lib/assets"
+import { Logo } from "@/lib/logo"
 
 type Tab = {
   name: string
@@ -63,7 +63,7 @@ const checks: Check[] = [
         background: "var(--surface-elevated)",
       }}
     >
-      <GitHubLogo size={18} />
+      <Logo name="github" size={18} />
       <span class="mono" style={{ fontSize: "12px", color: "var(--body)" }}>
         chunkytofu / cookcam{" "}
         <span style={{ color: "var(--muted)" }}>/ pull / </span>
@@ -219,7 +219,7 @@ const checks: Check[] = [
               borderTop: "1px solid var(--hairline-soft)",
             }}
           >
-            <ActionsLogo size={14} />
+            <Logo name="githubActions" size={14} />
             <span
               class="mono"
               style={{
@@ -266,7 +266,7 @@ const checks: Check[] = [
         marginBottom: "8px",
       }}
     >
-      <CrashlyticsLogo size={16} />
+      <Logo name="firebase" size={16} />
       <span
         class="mono"
         style={{

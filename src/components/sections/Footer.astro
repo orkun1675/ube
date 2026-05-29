@@ -2,7 +2,7 @@
 import Wordmark from "@/components/Wordmark.astro"
 import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/constants"
 import { EnvelopeIcon } from "@phosphor-icons/react"
-import { GitHubLogo, LinkedInLogo } from "@/lib/assets"
+import { Logo } from "@/lib/logo"
 ---
 
 <footer class="footer">
@@ -57,7 +57,7 @@ import { GitHubLogo, LinkedInLogo } from "@/lib/assets"
               rel="noopener noreferrer"
               class="footer-contact-link"
             >
-              <LinkedInLogo size={13} /> Chunky Tofu Studios
+              <Logo name="linkedin" size={13} /> Chunky Tofu Studios
             </a>
           </li>
           <li>
@@ -67,7 +67,7 @@ import { GitHubLogo, LinkedInLogo } from "@/lib/assets"
               rel="noopener noreferrer"
               class="footer-contact-link"
             >
-              <GitHubLogo size={13} /> github.com/orkun1675/ube
+              <Logo name="github" size={13} /> github.com/orkun1675/ube
             </a>
           </li>
         </ul>

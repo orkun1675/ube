@@ -8,7 +8,7 @@
 // numeric values (unlike React). Every length below is written as an explicit
 // string with units so it serializes to valid CSS.
 import { CheckIcon } from "@phosphor-icons/react"
-import { CrashlyticsLogo, GitHubLogo } from "@/lib/assets"
+import { Logo } from "@/lib/logo"
 ---
 
 <div
@@ -31,7 +31,7 @@ import { CrashlyticsLogo, GitHubLogo } from "@/lib/assets"
         marginBottom: "12px",
       }}
     >
-      <CrashlyticsLogo size={16} />
+      <Logo name="firebase" size={16} />
       <span class="mono" style={{ fontSize: "11px", color: "var(--muted)" }}>
         Crashlytics
       </span>
@@ -78,7 +78,7 @@ import { CrashlyticsLogo, GitHubLogo } from "@/lib/assets"
         marginBottom: "12px",
       }}
     >
-      <GitHubLogo size={16} />
+      <Logo name="github" size={16} />
       <span class="mono" style={{ fontSize: "11px", color: "var(--muted)" }}>
         Pull request
       </span>

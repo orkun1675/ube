@@ -2,7 +2,7 @@
 //  STEP 3: Fix — emulator + verified Actions checks (clean two-pane)
 // =====================================================================
 import { CheckIcon } from "@phosphor-icons/react"
-import { ActionsLogo, AndroidLogo, GitHubLogo } from "@/lib/assets"
+import { Logo } from "@/lib/logo"
 import styles from "./fix-mockup.module.css"
 
 export const FixMockup = () => (
@@ -18,7 +18,7 @@ export const FixMockup = () => (
         background: "var(--surface-elevated)",
       }}
     >
-      <GitHubLogo size={14} />
+      <Logo name="github" size={14} />
       <span
         className="mono"
         style={{
@@ -47,7 +47,7 @@ export const FixMockup = () => (
             alignSelf: "stretch",
           }}
         >
-          <AndroidLogo size={11} />
+          <Logo name="android" size={11} />
           <span
             className="mono"
             style={{
@@ -291,7 +291,7 @@ export const FixMockup = () => (
             marginBottom: 14,
           }}
         >
-          <ActionsLogo size={13} />
+          <Logo name="githubActions" size={13} />
           <span
             className="mono"
             style={{
@@ -365,7 +365,7 @@ export const FixMockup = () => (
                     : "1px solid var(--hairline-soft)",
               }}
             >
-              <ActionsLogo size={13} />
+              <Logo name="githubActions" size={13} />
               <span
                 className="mono"
                 style={{
