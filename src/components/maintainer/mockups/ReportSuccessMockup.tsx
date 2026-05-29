@@ -19,16 +19,7 @@ export const ReportSuccessMockup = () => {
       pill: <span className="pill pill-success">MERGED</span>,
     },
     {
-      icon: (
-        <span
-          style={{
-            width: 14,
-            height: 14,
-            borderRadius: "50%",
-            background: "var(--accent-2)",
-          }}
-        />
-      ),
+      icon: <Logo name="apple" size={14} />,
       title: (
         <>
           Released in <span className="mono">v2.4.3 · beta</span>
