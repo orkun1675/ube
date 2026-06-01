@@ -952,7 +952,10 @@ dialog.modal-backdrop::backdrop {
 @media (max-width: 640px) {
   dialog.modal-backdrop[open] {
     padding: 16px;
-    align-items: flex-start;
+    /* Stay vertically centered (inherited from the base rule) when the panel
+       fits. The panel is capped at the backdrop's content height below and
+       scrolls internally, so centering can never clip its top — it just fills
+       the space when content is tall. */
   }
   .modal-panel {
     padding: 24px 20px;
