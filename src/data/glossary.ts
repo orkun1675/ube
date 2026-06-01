@@ -42,6 +42,11 @@ export const glossary = {
     expansion: "lifetime value",
     gloss: "Total revenue an average user brings before they churn.",
   },
+  ltv30: {
+    term: "LTV/30",
+    expansion: "30-day lifetime value",
+    gloss: "Revenue an average user brings in their first 30 days.",
+  },
   arpu: {
     term: "ARPU",
     expansion: "average revenue per user",
@@ -56,6 +61,11 @@ export const glossary = {
     term: "ROAS",
     expansion: "return on ad spend",
     gloss: "Revenue per $1 of ad spend (above 1× = profitable).",
+  },
+  d7roas: {
+    term: "D7 ROAS",
+    expansion: "7-day return on ad spend",
+    gloss: "Revenue per $1 of ad spend over each user's first 7 days.",
   },
   d1: {
     term: "D1",
