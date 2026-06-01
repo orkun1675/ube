@@ -17,6 +17,7 @@ const INVERTED_BY_DEFAULT: ReadonlySet<IntegrationLogoKey> = new Set([
   "apple",
   "sentry",
   "expo",
+  "unity",
 ])
 
 type LogoProps = {

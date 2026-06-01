@@ -35,6 +35,7 @@ import revenuecat from "@/assets/integrations/revenuecat.svg"
 import sentry from "@/assets/integrations/sentry.svg"
 import sett from "@/assets/integrations/sett.svg"
 import tiktok from "@/assets/integrations/tiktok.svg"
+import unity from "@/assets/integrations/unity.svg"
 
 export const integrationLogos = {
   admob,
@@ -65,6 +66,7 @@ export const integrationLogos = {
   sentry,
   sett,
   tiktok,
+  unity,
 } satisfies Record<string, ImageMetadata>
 
 export type IntegrationLogoKey = keyof typeof integrationLogos
