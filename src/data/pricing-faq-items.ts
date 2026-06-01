@@ -6,7 +6,7 @@ export const PRICING_FAQ_ITEMS: FaqItem[] = [
     a: "One repo = one app. Cross-platform projects (React Native, Flutter, Capacitor, etc.) ship to both stores under a single subscription.",
   },
   {
-    q: "What counts as one PR?",
+    q: "What counts as one pull request (PR)?",
     a: "Anything Ube opens against your repo: bug fixes, dependency upgrades, regression patches. Customer follow-ups and upstream issue filings on dependencies are free side-effects of resolving an issue and don't count.",
   },
   {

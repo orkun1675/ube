@@ -34,7 +34,7 @@ const buildPlans = (billingPeriod: BillingPeriod): Plan[] => [
     includesLabel: "Includes:",
     bullets: [
       "1 repo (cross-platform counts as one)",
-      "8 PRs/mo (bug fixes, dependency upgrades, regression patches)",
+      "8 pull requests (PRs)/mo (bug fixes, dependency upgrades, regression patches)",
       "Crashlytics + Sentry + Play Console intake",
       "App-store review monitoring",
       "Verified PRs against your repo",

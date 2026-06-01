@@ -11,7 +11,7 @@ export type FaqItem = {
 
 export const FAQ_ITEMS: FaqItem[] = [
   {
-    q: "Does Ube auto-merge, or does it only open PRs for review?",
+    q: "Does Ube auto-merge, or does it only open pull requests (PRs) for review?",
     a: "Ube always opens PRs, so you stay in control of what ships. Auto-merge is opt-in per repository, and even then it's gated behind your existing branch protections and required checks.",
   },
   {
@@ -24,6 +24,6 @@ export const FAQ_ITEMS: FaqItem[] = [
   },
   {
     q: "What if Ube AI makes a bad fix?",
-    a: "Every PR runs your tests plus a generated regression suite before opening, and the diff is yours to review. Marking a fix rejected teaches Ube to avoid that approach for the same signature, so it gets better at your codebase over time.",
+    a: "Every pull request runs your tests plus a generated regression suite before opening, and the diff is yours to review. Marking a fix rejected teaches Ube to avoid that approach for the same signature, so it gets better at your codebase over time.",
   },
 ]

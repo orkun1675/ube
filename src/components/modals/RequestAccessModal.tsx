@@ -287,7 +287,7 @@ export const RequestAccessModal = ({
                   {
                     id: "maintainer",
                     label: "Ube Maintainer",
-                    sub: "Automated triage, fixes, and PRs for production issues.",
+                    sub: "Automated triage, fixes, and pull requests (PRs) for production issues.",
                   },
                   {
                     id: "publisher",

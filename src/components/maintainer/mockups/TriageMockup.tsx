@@ -2,10 +2,12 @@
 //  STEP 2: Triage — Kanban board grouped by state
 // =====================================================================
 import { LinkIcon, ListDashesIcon } from "@phosphor-icons/react"
+import type { ReactNode } from "react"
+import { Term } from "@/components/Term"
 import styles from "./triage-mockup.module.css"
 
 type TriageCard = {
-  sig: string
+  sig: ReactNode
   versions: string
   dep: string
   linked?: boolean
@@ -27,13 +29,21 @@ export const TriageMockup = () => {
       color: "var(--error)",
       cards: [
         {
-          sig: "NPE in WidgetUnmount",
+          sig: (
+            <>
+              <Term term="npe" /> in WidgetUnmount
+            </>
+          ),
           versions: "v2.4.1 · v2.4.2",
           dep: "expo-camera@13.x",
           linked: true,
         },
         {
-          sig: "ANR · onTouchEvent",
+          sig: (
+            <>
+              <Term term="anr" /> · onTouchEvent
+            </>
+          ),
           versions: "v2.4.2",
           dep: "react-native@0.76",
         },

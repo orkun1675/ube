@@ -6,28 +6,47 @@ import {
   RepeatIcon,
   SparkleIcon,
 } from "@phosphor-icons/react"
+import Term from "@/components/Term.astro"
+import type { GlossaryKey } from "@/data/glossary"
 
+// Card bodies are split into fragments so jargon can render as an inline
+// <Term> (tap-to-reveal) in the middle of running copy.
+type BodyPart = string | { term: GlossaryKey; label?: string }
 type Card = {
   Icon: typeof GearIcon
   title: string
-  body: string
+  body: BodyPart[]
 }
 
 const row1: Card[] = [
   {
     Icon: GearIcon,
     title: "Setup takes months.",
-    body: "Three analytics SDKs. An MMP. An SKAdNetwork schema. Months of setup and debugging before your first ad goes live.",
+    body: [
+      "Three analytics ",
+      { term: "sdk", label: "SDKs" },
+      ". An ",
+      { term: "mmp" },
+      ". An ",
+      { term: "skadnetwork" },
+      " schema. Months of setup and debugging before your first ad goes live.",
+    ],
   },
   {
     Icon: MegaphoneIcon,
     title: "Advertising is a full-time job.",
-    body: "Meta, Google, TikTok, Reddit, all have their own dialect, billing, SDKs, and quirks. Learning each one is a full-time job.",
+    body: [
+      "Meta, Google, TikTok, Reddit, all have their own dialect, billing, ",
+      { term: "sdk", label: "SDKs" },
+      ", and quirks. Learning each one is a full-time job.",
+    ],
   },
   {
     Icon: RepeatIcon,
     title: "Growth is a feedback loop.",
-    body: "Tune onboarding. Tune difficulty. Tune paywalls. All repetitive work, with a lot of waiting in between steps.",
+    body: [
+      "Tune onboarding. Tune difficulty. Tune paywalls. All repetitive work, with a lot of waiting in between steps.",
+    ],
   },
 ]
 
@@ -35,12 +54,16 @@ const row2: Card[] = [
   {
     Icon: SparkleIcon,
     title: "Ad creatives are relentless.",
-    body: "Images, videos, playables, seasonal hooks. You need fresh creatives every month to keep customer acquisition costs low.",
+    body: [
+      "Images, videos, playables, seasonal hooks. You need fresh creatives every month to keep customer acquisition costs low.",
+    ],
   },
   {
     Icon: ChartBarIcon,
     title: "Dashboards need code context.",
-    body: "Twenty-character event names are hard to decipher, requiring the engineer to be in the room when desiging dashboards.",
+    body: [
+      "Twenty-character event names are hard to decipher, requiring the engineer to be in the room when desiging dashboards.",
+    ],
   },
 ]
 ---
@@ -67,7 +90,17 @@ const row2: Card[] = [
               <Icon size={26} aria-hidden="true" />
             </div>
             <h3 class="t-title-md ink publisher-problem-card-title">{title}</h3>
-            <p class="t-body-sm body publisher-problem-card-body">{body}</p>
+            <p class="t-body-sm body publisher-problem-card-body">
+              {
+                body.map((part) =>
+                  typeof part === "string" ? (
+                    part
+                  ) : (
+                    <Term term={part.term} label={part.label} />
+                  ),
+                )
+              }
+            </p>
           </div>
         ))
       }
@@ -81,7 +114,17 @@ const row2: Card[] = [
               <Icon size={26} aria-hidden="true" />
             </div>
             <h3 class="t-title-md ink publisher-problem-card-title">{title}</h3>
-            <p class="t-body-sm body publisher-problem-card-body">{body}</p>
+            <p class="t-body-sm body publisher-problem-card-body">
+              {
+                body.map((part) =>
+                  typeof part === "string" ? (
+                    part
+                  ) : (
+                    <Term term={part.term} label={part.label} />
+                  ),
+                )
+              }
+            </p>
           </div>
         ))
       }

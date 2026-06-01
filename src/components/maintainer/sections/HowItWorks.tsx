@@ -12,13 +12,14 @@ import { TriageMockup } from "@/components/maintainer/mockups/TriageMockup"
 import { DedupeModal } from "@/components/maintainer/modals/DedupeModal"
 import { FixLoopModal } from "@/components/maintainer/modals/FixLoopModal"
 import { SourcesModal } from "@/components/maintainer/modals/SourcesModal"
+import { Term } from "@/components/Term"
 import { track } from "@/lib/analytics"
 
 type StepProps = {
   num: string
   label: string
-  title: string
-  body: string
+  title: React.ReactNode
+  body: React.ReactNode
   learnMore?: string
   onLearnMore?: () => void
   disabled?: boolean
@@ -113,7 +114,14 @@ export const HowItWorks = () => {
       label: "Intake",
       reversed: true,
       title: "Monitors all platforms.",
-      body: "Firebase Crashlytics, Sentry, Play Console ANRs, App Store reviews, support inboxes, dependency releases, all funneled into one timeline. Nothing slips through.",
+      body: (
+        <>
+          Firebase Crashlytics, Sentry, Play Console{" "}
+          <Term term="anr" label="ANRs" />, App Store reviews, support inboxes,
+          dependency releases, all funneled into one timeline. Nothing slips
+          through.
+        </>
+      ),
       learnMore: "Supported sources",
       onLearnMore: () => openStep("01-intake", "Intake", setSourcesOpen),
       visual: <IntakeMockup />,
@@ -132,8 +140,20 @@ export const HowItWorks = () => {
       num: "03",
       label: "Fix",
       reversed: true,
-      title: "Reproduce, patch, verify, then open the PR.",
-      body: "Ube reproduces the bug on an emulator, writes the patch, and runs your test suite. Then it QAs the app by hand, clicking through like a real user. Once the issue is verified fixed and nothing else broke, it opens a PR. Watch the GIFs, read the diff, merge.",
+      title: (
+        <>
+          Reproduce, patch, verify, then open the <Term term="pr" />.
+        </>
+      ),
+      body: (
+        <>
+          Ube reproduces the bug on an emulator, writes the patch, and runs your
+          test suite. Then it <Term term="qa" label="QAs" /> the app by hand,
+          clicking through like a real user. Once the issue is verified fixed
+          and nothing else broke, it opens a <Term term="pr" />. Watch the GIFs,
+          read the diff, merge.
+        </>
+      ),
       learnMore: "Inside the fix loop",
       onLearnMore: () => openStep("03-fix", "Fix", setFixLoopOpen),
       visual: <FixMockup />,

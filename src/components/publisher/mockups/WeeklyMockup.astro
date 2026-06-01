@@ -4,6 +4,8 @@ import type { ImageMetadata } from "astro"
 import beehive from "@/assets/customers/beehive.webp"
 import dozy from "@/assets/customers/dozy.webp"
 import pixelBuddy from "@/assets/customers/pixel-buddy.webp"
+import Term from "@/components/Term.astro"
+import type { GlossaryKey } from "@/data/glossary"
 
 type FunnelStep = { step: string; value: number; pct: number }
 const funnel: FunnelStep[] = [
@@ -17,12 +19,13 @@ type Customer = {
   src: ImageMetadata
   name: string
   metric: string
+  term: GlossaryKey
   delta: string
 }
 const customers: Customer[] = [
-  { src: beehive, name: "Beehive", metric: "D7", delta: "+14%" },
-  { src: dozy, name: "Dozy", metric: "CAC", delta: "-22%" },
-  { src: pixelBuddy, name: "Pixel Buddy", metric: "LTV", delta: "+31%" },
+  { src: beehive, name: "Beehive", metric: "D7", term: "d7", delta: "+14%" },
+  { src: dozy, name: "Dozy", metric: "CAC", term: "cac", delta: "-22%" },
+  { src: pixelBuddy, name: "Pixel Buddy", metric: "LTV", term: "ltv", delta: "+31%" },
 ]
 
 const deltaTone = (metric: string, delta: string): "good" | "bad" => {
@@ -92,7 +95,7 @@ const deltaTone = (metric: string, delta: string): "good" | "bad" => {
           <div class="weekly-customer-body">
             <div class="weekly-customer-name">{c.name}</div>
             <div class="weekly-customer-metric mono">
-              <span class="m-lbl">{c.metric}</span>
+              <span class="m-lbl"><Term term={c.term} label={c.metric} /></span>
               <span class={`m-delta ${deltaTone(c.metric, c.delta)}`}>
                 {c.delta}
               </span>

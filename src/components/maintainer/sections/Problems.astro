@@ -3,28 +3,40 @@
 // Icons are React components rendered server-side with no client:* directive,
 // so they ship as inline SVG with zero JS.
 import { ClockIcon, FlaskIcon, StackIcon } from "@phosphor-icons/react"
+import Term from "@/components/Term.astro"
+import type { GlossaryKey } from "@/data/glossary"
 
+// Card bodies are fragment arrays so jargon renders as an inline tap <Term>.
+type BodyPart = string | { term: GlossaryKey; label?: string }
 type Card = {
   Icon: typeof FlaskIcon
   title: string
-  body: string
+  body: BodyPart[]
 }
 
 const cards: Card[] = [
   {
     Icon: FlaskIcon,
     title: "Tests get skipped.",
-    body: 'Engineers read the stacktrace or eyeball the migration doc. They ship "simple fixes" without proper QA. The bug survives the release and results in customer churn.',
+    body: [
+      'Engineers read the stacktrace or eyeball the migration doc. They ship "simple fixes" without proper ',
+      { term: "qa" },
+      ". The bug survives the release and results in customer churn.",
+    ],
   },
   {
     Icon: StackIcon,
     title: "Unfixable bugs pile up.",
-    body: "Dependency issues, hardware specific edge cases, intermittent crashes — all require hours of debugging. And when the root cause is upstream, filing a proper bug report is rarely worth the effort.",
+    body: [
+      "Dependency issues, hardware specific edge cases, intermittent crashes — all require hours of debugging. And when the root cause is upstream, filing a proper bug report is rarely worth the effort.",
+    ],
   },
   {
     Icon: ClockIcon,
     title: "Maintenance delays releases.",
-    body: "Internal testers find a missing null check moments before release. Engineering gets pulled back in. The exciting feature you actually shipped this sprint slips to next.",
+    body: [
+      "Internal testers find a missing null check moments before release. Engineering gets pulled back in. The exciting feature you actually shipped this sprint slips to next.",
+    ],
   },
 ]
 ---
@@ -49,7 +61,15 @@ const cards: Card[] = [
               {title}
             </h3>
             <p class="t-body-sm body problems-card-body">
-              {body}
+              {
+                body.map((part) =>
+                  typeof part === "string" ? (
+                    part
+                  ) : (
+                    <Term term={part.term} label={part.label} />
+                  ),
+                )
+              }
             </p>
           </div>
         ))

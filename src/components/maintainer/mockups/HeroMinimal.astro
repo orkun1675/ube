@@ -8,6 +8,7 @@
 // numeric values (unlike React). Every length below is written as an explicit
 // string with units so it serializes to valid CSS.
 import { CheckIcon } from "@phosphor-icons/react"
+import Term from "@/components/Term.astro"
 ---
 
 <div style={{ width: "100%", maxWidth: "560px", marginLeft: "auto" }}>
@@ -28,7 +29,7 @@ import { CheckIcon } from "@phosphor-icons/react"
         u
       </span>
       <span class="mono" style={{ fontSize: "12px", color: "var(--body)" }}>
-        ube[bot] · opened a PR
+        ube[bot] · opened a <Term term="pr" />
       </span>
       <span style={{ flex: "1" }}></span>
       <span class="mono" style={{ fontSize: "11px", color: "var(--muted)" }}>

@@ -2,6 +2,7 @@
 //  STEP 4: Report (success) — timeline
 // =====================================================================
 import { BellIcon, CheckIcon, EnvelopeIcon } from "@phosphor-icons/react"
+import { Term } from "@/components/Term"
 import { Logo } from "@/lib/logo"
 
 export const ReportSuccessMockup = () => {
@@ -10,7 +11,8 @@ export const ReportSuccessMockup = () => {
       icon: <Logo name="github" size={14} />,
       title: (
         <>
-          PR <span style={{ color: "var(--accent)" }}>#1847</span> merged into{" "}
+          <Term term="pr" />{" "}
+          <span style={{ color: "var(--accent)" }}>#1847</span> merged into{" "}
           <span className="mono">main</span>
         </>
       ),

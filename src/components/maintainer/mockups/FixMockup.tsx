@@ -2,6 +2,7 @@
 //  STEP 3: Fix — emulator + verified Actions checks (clean two-pane)
 // =====================================================================
 import { CheckIcon } from "@phosphor-icons/react"
+import { Term } from "@/components/Term"
 import { Logo } from "@/lib/logo"
 import styles from "./fix-mockup.module.css"
 
@@ -28,7 +29,7 @@ export const FixMockup = () => (
           letterSpacing: 0.6,
         }}
       >
-        PR #1847
+        <Term term="pr" /> #1847
       </span>
       <span className="mono" style={{ fontSize: 11, color: "var(--muted)" }}>
         waiting for review

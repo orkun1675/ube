@@ -3,6 +3,8 @@
 // =====================================================================
 import { EnvelopeIcon } from "@phosphor-icons/react"
 import type { ImageMetadata } from "astro"
+import type { ReactNode } from "react"
+import { Term } from "@/components/Term"
 import { CONTACT_EMAIL } from "@/constants"
 import { integrationLogos } from "@/lib/integration-logos"
 import { Modal } from "@/lib/modal"
@@ -12,7 +14,7 @@ type SourcesModalProps = { open: boolean; onClose: () => void }
 
 type SourceEntry = {
   name: string
-  desc: string
+  desc: ReactNode
   logo?: ImageMetadata
   logoInvert?: boolean
   icon?: string
@@ -32,7 +34,11 @@ export const SourcesModal = ({ open, onClose }: SourcesModalProps) => {
         {
           logo: integrationLogos.firebase,
           name: "Firebase Crashlytics",
-          desc: "Native crashes, ANRs, custom events",
+          desc: (
+            <>
+              Native crashes, <Term term="anr" label="ANRs" />, custom events
+            </>
+          ),
         },
         {
           logo: integrationLogos.sentry,
@@ -48,7 +54,11 @@ export const SourcesModal = ({ open, onClose }: SourcesModalProps) => {
         {
           logo: integrationLogos.googlePlay,
           name: "Play Console",
-          desc: "ANRs, vitals, store reviews",
+          desc: (
+            <>
+              <Term term="anr" label="ANRs" />, vitals, store reviews
+            </>
+          ),
         },
         {
           logo: integrationLogos.apple,

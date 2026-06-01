@@ -1,4 +1,6 @@
 ---
+import Term from "@/components/Term.astro"
+
 type FunnelRow = {
   step: string
   width: number
@@ -51,14 +53,14 @@ const funnel: FunnelRow[] = [
           <span class="lbl mono">A · control</span>
           <span class="name mono">required signup</span>
           <div class="pct">21 %</div>
-          <span class="sub mono">D1 retention</span>
+          <span class="sub mono"><Term term="d1" /> retention</span>
         </div>
         <div class="ab-variant winner">
           <span class="winner-pill mono">WINNER · +14 %</span>
           <span class="lbl mono">B · variant</span>
           <span class="name mono">signup optional</span>
           <div class="pct">24 %</div>
-          <span class="sub mono">D1 retention</span>
+          <span class="sub mono"><Term term="d1" /> retention</span>
         </div>
       </div>
     </div>

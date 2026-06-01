@@ -13,43 +13,63 @@ import {
   StarIcon,
   TrendUpIcon,
 } from "@phosphor-icons/react"
+import Term from "@/components/Term.astro"
+import type { GlossaryKey } from "@/data/glossary"
 
+// Card bodies are fragment arrays so jargon renders as an inline tap <Term>.
+type BodyPart = string | { term: GlossaryKey; label?: string }
 type Card = {
   Icon: typeof SparkleIcon
   title: string
-  body: string
+  body: BodyPart[]
 }
 
 const cards: Card[] = [
   {
     Icon: SparkleIcon,
     title: "Reclaim engineering time.",
-    body: "Stop spending a third of every sprint debugging race conditions you didn't write. Hand the boring triage to Ube and continue shipping delightful features.",
+    body: [
+      "Stop spending a third of every sprint debugging race conditions you didn't write. Hand the boring triage to Ube and continue shipping delightful features.",
+    ],
   },
   {
     Icon: ChatCircleDotsIcon,
     title: "Your backlog stays lean.",
-    body: "Every incoming bug report is triaged, fixed, or followed up on, automatically. Nothing rots in the queue, so your task list stays short.",
+    body: [
+      "Every incoming bug report is triaged, fixed, or followed up on, automatically. Nothing rots in the queue, so your task list stays short.",
+    ],
   },
   {
     Icon: ShieldCheckIcon,
     title: "Catch bugs early.",
-    body: "Ube becomes your manual QA agent, clicks around the app like a human would. You no longer need to wait for a beta or alpha release to discover bugs.",
+    body: [
+      "Ube becomes your manual ",
+      { term: "qa" },
+      " agent, clicks around the app like a human would. You no longer need to wait for a beta or alpha release to discover bugs.",
+    ],
   },
   {
     Icon: TrendUpIcon,
     title: "Stay under Play's bad-behavior threshold.",
-    body: "Apps crashing on more than 1.09% of sessions or hitting ANRs above 0.47% get demoted in Play discoverability.",
+    body: [
+      "Apps crashing on more than 1.09% of sessions or hitting ",
+      { term: "anr", label: "ANRs" },
+      " above 0.47% get demoted in Play discoverability.",
+    ],
   },
   {
     Icon: StarIcon,
     title: "Higher app-store ratings.",
-    body: "Faster fixes plus a personal follow-up nudges users back into the review flow. Updated reviews compound into a better average rating for your app.",
+    body: [
+      "Faster fixes plus a personal follow-up nudges users back into the review flow. Updated reviews compound into a better average rating for your app.",
+    ],
   },
   {
     Icon: RocketLaunchIcon,
     title: "Keep tech debt in check.",
-    body: "Agentic coding ships features faster than ever, and quietly piles up bugs and shortcuts. Ube does the unglamorous cleanup in the background so velocity doesn't come to a halt.",
+    body: [
+      "Agentic coding ships features faster than ever, and quietly piles up bugs and shortcuts. Ube does the unglamorous cleanup in the background so velocity doesn't come to a halt.",
+    ],
   },
 ]
 ---
@@ -87,7 +107,15 @@ const cards: Card[] = [
               {title}
             </h3>
             <p class="t-body-sm body benefits-card-body">
-              {body}
+              {
+                body.map((part) =>
+                  typeof part === "string" ? (
+                    part
+                  ) : (
+                    <Term term={part.term} label={part.label} />
+                  ),
+                )
+              }
             </p>
           </div>
         ))

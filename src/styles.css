@@ -527,6 +527,91 @@ section[id] {
   border: 1px solid var(--hairline);
 }
 
+/* Glossary terms — tap-to-reveal definitions for jargon / abbreviations
+   (DAU, CAC, MMP, ANR …). The term carries a dotted underline; tapping opens
+   an anchored pop-over (native HTML Popover API, rendered in the top layer)
+   that floats over the page without reflowing it. Open/close is native;
+   positioning + caret alignment live in src/layouts/terms.client.ts.
+   Markup: src/components/Term.*. */
+.gloss {
+  display: inline;
+}
+.gloss-term {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: help;
+  text-decoration: underline dotted;
+  text-decoration-color: var(--muted);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  transition:
+    color 120ms ease-out,
+    text-decoration-color 120ms ease-out;
+}
+.gloss-term:hover,
+.gloss-term[aria-expanded="true"] {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+
+/* The pop-over. Hidden by default everywhere; shown only once the Popover API
+   opens it — so a browser without the API degrades to plain underlined text
+   rather than dumping the gloss inline. JS sets left / top / data-placement. */
+.gloss-pop {
+  display: none;
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  box-sizing: border-box;
+  max-width: min(280px, calc(100vw - 24px));
+  padding: 8px 11px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--r-md);
+  background: var(--surface-elevated);
+  box-shadow:
+    0 8px 24px -6px rgba(0, 0, 0, 0.55),
+    0 2px 6px rgba(0, 0, 0, 0.3);
+  overflow: visible;
+  /* Reset inheritance from tiny / mono / uppercase contexts (KPI labels). */
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  text-align: left;
+  line-height: 1.5;
+  color: var(--body);
+  white-space: normal;
+}
+.gloss-pop:popover-open {
+  display: block;
+}
+/* Caret: a small square rotated into a diamond, half-tucked behind the
+   pop-over edge so only its tip shows. JS sets `left` to the term's centre;
+   margin-left re-centres the box on that point. */
+.gloss-caret {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  margin-left: -4.5px;
+  background: var(--surface-elevated);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+.gloss-pop[data-placement="bottom"] .gloss-caret {
+  top: -5px;
+  border-top: 1px solid var(--hairline-strong);
+  border-left: 1px solid var(--hairline-strong);
+}
+.gloss-pop[data-placement="top"] .gloss-caret {
+  bottom: -5px;
+  border-right: 1px solid var(--hairline-strong);
+  border-bottom: 1px solid var(--hairline-strong);
+}
+
 /* Code surfaces */
 .code-block {
   background: var(--canvas);

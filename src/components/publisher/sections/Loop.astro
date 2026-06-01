@@ -6,12 +6,18 @@ import InstrumentMockup from "@/components/publisher/mockups/InstrumentMockup.as
 import MeasureMockup from "@/components/publisher/mockups/MeasureMockup.astro"
 import MonetizeMockup from "@/components/publisher/mockups/MonetizeMockup.astro"
 import RetainMockup from "@/components/publisher/mockups/RetainMockup.astro"
+import Term from "@/components/Term.astro"
+import type { GlossaryKey } from "@/data/glossary"
 
+// Step bodies are split into fragments so a still-jargon term (MMP,
+// SKAdNetwork) can render as an inline tap <Term> mid-sentence. Terms with a
+// readable spelled-out form are written out as plain copy instead.
+type BodyPart = string | { term: GlossaryKey; label?: string }
 type Step = {
   num: string
   label: string
   title: string
-  body: string
+  body: BodyPart[]
   learnMore: string
   disabled?: boolean
   reversed: boolean
@@ -23,7 +29,9 @@ const steps: Step[] = [
     label: "Instrument",
     reversed: true,
     title: "Wires up analytics.",
-    body: "SDKs installed, user IDs aligned across platforms, and every event labeled in plain language. The result is a clean taxonomy you can understand months from now.",
+    body: [
+      "Software development kits (SDKs) installed, user IDs aligned across platforms, and every event labeled in plain language. The result is a clean taxonomy you can understand months from now.",
+    ],
     learnMore: "Why annotation order matters",
     disabled: true,
   },
@@ -32,7 +40,12 @@ const steps: Step[] = [
     label: "Attribute",
     reversed: false,
     title: "Closes the feedback loop.",
-    body: "MMP set up, SKAdNetwork configured, revenue forwarded to your ad networks. The full ad → click → install → in-app event chain, working end to end.",
+    body: [
+      { term: "mmp" },
+      " set up, ",
+      { term: "skadnetwork" },
+      " configured, revenue forwarded to your ad networks. The full ad → click → install → in-app event chain, working end to end.",
+    ],
     learnMore: "How attribution works",
     disabled: true,
   },
@@ -41,7 +54,9 @@ const steps: Step[] = [
     label: "Measure",
     reversed: true,
     title: "Creates actionable dashboards.",
-    body: "D7, CAC, LTV, funnel drop-offs, all readable in plain language. Internal users filtered out by default. The numbers you see are simple and actionable.",
+    body: [
+      "7-day retention, customer acquisition cost (CAC), lifetime value (LTV), funnel drop-offs, all readable in plain language. Internal users filtered out by default. The numbers you see are simple and actionable.",
+    ],
     learnMore: "Picking metrics that matter",
     disabled: true,
   },
@@ -50,7 +65,9 @@ const steps: Step[] = [
     label: "Acquire",
     reversed: false,
     title: "Runs and tunes your ads.",
-    body: "Generates creatives, launches campaigns on Meta, Google, Reddit, and TikTok, and shifts budget toward the channel that has the best customer acquisition cost.",
+    body: [
+      "Generates creatives, launches campaigns on Meta, Google, Reddit, and TikTok, and shifts budget toward the channel that has the best customer acquisition cost.",
+    ],
     learnMore: "How creatives get made",
     disabled: true,
   },
@@ -59,7 +76,9 @@ const steps: Step[] = [
     label: "Retain",
     reversed: true,
     title: "Spots drop-offs. Tests fixes.",
-    body: "Reads your funnel, proposes an A/B test, ships it through Firebase Remote Config, calls the winner once it's statistically conclusive.",
+    body: [
+      "Reads your funnel, proposes an A/B test, ships it through Firebase Remote Config, calls the winner once it's statistically conclusive.",
+    ],
     learnMore: "How we run A/B tests",
     disabled: true,
   },
@@ -68,7 +87,9 @@ const steps: Step[] = [
     label: "Monetize",
     reversed: false,
     title: "Optimizes pricing.",
-    body: "Tests price points and trial lengths via RevenueCat. Ad formats and placements via AdMob. Helps you monetize effectively without hurting retention.",
+    body: [
+      "Tests price points and trial lengths via RevenueCat. Ad formats and placements via AdMob. Helps you monetize effectively without hurting retention.",
+    ],
     learnMore: "When monetization matters",
     disabled: true,
   },
@@ -105,7 +126,17 @@ const steps: Step[] = [
                 <span class="eyebrow">{step.label}</span>
               </div>
               <h3 class="t-display-md ink">{step.title}</h3>
-              <p class="t-body-md body">{step.body}</p>
+              <p class="t-body-md body">
+                {
+                  step.body.map((part) =>
+                    typeof part === "string" ? (
+                      part
+                    ) : (
+                      <Term term={part.term} label={part.label} />
+                    ),
+                  )
+                }
+              </p>
               {!step.disabled && (
                 <button
                   type="button"

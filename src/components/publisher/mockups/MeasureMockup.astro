@@ -1,13 +1,21 @@
 ---
+import Term from "@/components/Term.astro"
+import type { GlossaryKey } from "@/data/glossary"
 import { integrationLogos } from "@/lib/integration-logos"
 
-type Kpi = { label: string; value: string; delta: string; up: boolean }
+type Kpi = {
+  label: string
+  term: GlossaryKey
+  value: string
+  delta: string
+  up: boolean
+}
 
 const kpis: Kpi[] = [
-  { label: "DAU", value: "8,412", delta: "+ 12 %", up: true },
-  { label: "D7", value: "32 %", delta: "+ 2 %", up: true },
-  { label: "CAC", value: "$1.42", delta: "− 8 %", up: true },
-  { label: "LTV/30", value: "$3.18", delta: "+ 4 %", up: true },
+  { label: "DAU", term: "dau", value: "8,412", delta: "+ 12 %", up: true },
+  { label: "D7", term: "d7", value: "32 %", delta: "+ 2 %", up: true },
+  { label: "CAC", term: "cac", value: "$1.42", delta: "− 8 %", up: true },
+  { label: "LTV/30", term: "ltv", value: "$3.18", delta: "+ 4 %", up: true },
 ]
 ---
 
@@ -30,7 +38,9 @@ const kpis: Kpi[] = [
       {
         kpis.map((k) => (
           <div class="dash-kpi">
-            <div class="l mono">{k.label}</div>
+            <div class="l mono">
+              <Term term={k.term} label={k.label} />
+            </div>
             <div class="v mono">{k.value}</div>
             <div class={`d mono ${k.up ? "up" : "down"}`}>{k.delta}</div>
           </div>

@@ -1,0 +1,39 @@
+---
+// Tap-to-reveal glossary term. Shows an abbreviation with a dotted underline;
+// tapping opens an anchored pop-over with a short plain-language gloss
+// (treatment 2 in src/data/glossary.ts). Use this in tight spaces — mockups,
+// 2–3 line cards — and for any `alwaysTap` term.
+//
+// The pop-over is a native HTML `popover` (auto state) toggled by the button's
+// `popovertarget`, so tap-to-toggle, one-open-at-a-time, light-dismiss, Esc,
+// and focus handling all come from the platform — and it renders in the top
+// layer, escaping the `overflow:hidden` clipping of the mockups. Positioning
+// (anchor / flip / clamp / caret) is handled globally by
+// src/layouts/terms.client.ts via one delegated handler, so the behaviour is
+// identical whether Astro or React (Term.tsx) rendered it.
+import { glossary, type GlossaryKey } from "@/data/glossary"
+import { uniqueId } from "@/lib/unique-id"
+
+interface Props {
+  /** Key into the glossary registry. */
+  term: GlossaryKey
+  /** Visible text override, e.g. "PRs" or "LTV/30". Defaults to the term. */
+  label?: string
+}
+
+const { term, label } = Astro.props
+const entry = glossary[term]
+const popId = uniqueId("gloss")
+---
+
+<span class="gloss"><button
+    type="button"
+    class="gloss-term"
+    popovertarget={popId}
+    aria-describedby={popId}
+    aria-expanded="false">{label ?? entry.term}</button><span
+    id={popId}
+    popover
+    class="gloss-pop"
+    role="tooltip"
+    data-placement="bottom">{entry.gloss}<span class="gloss-caret" aria-hidden="true"></span></span></span>

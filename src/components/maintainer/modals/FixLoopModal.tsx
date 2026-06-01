@@ -1,6 +1,8 @@
 // =====================================================================
 //  Fix Loop Modal — sealed sandbox where two agents review each other
 // =====================================================================
+
+import { Term } from "@/components/Term"
 import { integrationLogos } from "@/lib/integration-logos"
 import { Modal } from "@/lib/modal"
 import styles from "./fix-loop-modal.module.css"
@@ -100,7 +102,9 @@ export const FixLoopModal = ({ open, onClose }: FixLoopModalProps) => {
       <div className={styles["fl-rails"]}>
         <div className={styles["fl-rail"]} style={{ animationDelay: "60ms" }}>
           <div className={styles["fl-rail-head"]}>
-            <span className={styles["fl-rail-name"]}>ADB</span>
+            <span className={styles["fl-rail-name"]}>
+              <Term term="adb" />
+            </span>
           </div>
           <div className={styles["fl-phone"]}>
             <div className={styles["fl-phone-screen"]}>

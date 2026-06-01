@@ -2,6 +2,7 @@
 //  STEP 1: Intake — multi-source inbox
 // =====================================================================
 import { EnvelopeIcon, TrayIcon } from "@phosphor-icons/react"
+import { Term } from "@/components/Term"
 import { Logo } from "@/lib/logo"
 import styles from "./intake-mockup.module.css"
 
@@ -29,7 +30,11 @@ export const IntakeMockup = () => {
       src: "play",
       logo: <Logo name="googlePlay" size={16} />,
       label: "Play Console",
-      title: "ANR: Input dispatching timed out",
+      title: (
+        <>
+          <Term term="anr" />: Input dispatching timed out
+        </>
+      ),
       meta: "0.4% of sessions · Pixel 7, Galaxy S22",
       badge: <span className="pill pill-warning">ANR</span>,
       tag: "SPIKE",

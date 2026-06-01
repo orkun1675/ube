@@ -6,6 +6,7 @@ import {
   HandTapIcon,
   MegaphoneIcon,
 } from "@phosphor-icons/react"
+import Term from "@/components/Term.astro"
 
 type Stage = {
   Icon: typeof MegaphoneIcon
@@ -24,7 +25,7 @@ const stages: Stage[] = [
 <div class="mockup-chrome">
   <div class="mockup-header">
     <span class="mono header-label">
-      Attribution Loop · iOS · SKAdNetwork
+      Attribution Loop · iOS · <Term term="skadnetwork" />
     </span>
   </div>
   <div class="loop-mockup">
