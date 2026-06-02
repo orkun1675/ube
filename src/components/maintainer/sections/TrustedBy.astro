@@ -10,20 +10,53 @@
 // attributes (no CLS) and hash-fingerprint the files for long-term caching.
 import { Image } from "astro:assets"
 import type { ImageMetadata } from "astro"
+import alorma from "@/assets/customers/alorma.webp"
 import beehive from "@/assets/customers/beehive.webp"
+import blitzRush from "@/assets/customers/blitz-rush.webp"
 import dozy from "@/assets/customers/dozy.webp"
+import erun from "@/assets/customers/erun.webp"
+import greenly from "@/assets/customers/greenly.webp"
+import grinder from "@/assets/customers/grinder.webp"
+import gymBuddies from "@/assets/customers/gym-buddies.webp"
+import idelify from "@/assets/customers/idelify.webp"
+import joinUp from "@/assets/customers/join-up.webp"
+import joule from "@/assets/customers/joule.webp"
+import localWeather from "@/assets/customers/local-weather.webp"
+import orienteering from "@/assets/customers/orienteering.webp"
+import paperMach from "@/assets/customers/paper-mach.webp"
+import performa from "@/assets/customers/performa.webp"
 import pixelBuddy from "@/assets/customers/pixel-buddy.webp"
+import pixelQuest from "@/assets/customers/pixel-quest.webp"
+import trink from "@/assets/customers/trink.webp"
+import wordPlay from "@/assets/customers/word-play.webp"
 
 type TrustedApp = { src: ImageMetadata; name: string }
 
 const TRUSTED_APPS: TrustedApp[] = [
+  { src: alorma, name: "Alorma — Sleep Sounds" },
   { src: beehive, name: "Beehive — Word Puzzle Challenge" },
+  { src: blitzRush, name: "Blitz Rush — Endless Arcade Runner" },
   { src: dozy, name: "Dozy — Commute Companion" },
+  { src: erun, name: "eRun — GPS Run Tracker" },
+  { src: greenly, name: "Greenly — Plant Care Companion" },
+  { src: grinder, name: "Grinder — Coffee Brew Guide" },
+  { src: gymBuddies, name: "Gym Buddies — Workout Partner Finder" },
+  { src: idelify, name: "Idelify — Page Layout Studio" },
+  { src: joinUp, name: "Join Up — Group Messaging" },
+  { src: joule, name: "Joule — Media Player" },
+  { src: localWeather, name: "Local Weather — Hyperlocal Forecasts" },
+  { src: orienteering, name: "Orienteering — Trail Navigation" },
+  { src: paperMach, name: "Paper Mach — Notes & Docs" },
+  { src: performa, name: "Performa — Performance Analytics" },
   { src: pixelBuddy, name: "Pixel Buddy — Coloring Book" },
+  { src: pixelQuest, name: "Pixel Quest — Voxel Adventure" },
+  { src: trink, name: "Trink — Hydration Tracker" },
+  { src: wordPlay, name: "Word Play — Word Connect Game" },
 ]
 
-// Repeat the 3-app set, then double the whole strip so translateX(-50%) loops seamlessly.
-const halfRepeats = 6
+// Repeat the full app set, then double the whole strip so translateX(-50%) loops seamlessly.
+// 19 unique icons × 2 already overfills the widest viewports — more would just bloat the DOM.
+const halfRepeats = 2
 const half: TrustedApp[] = []
 for (let i = 0; i < halfRepeats; i++) half.push(...TRUSTED_APPS)
 const sequence: TrustedApp[] = [...half, ...half]
@@ -44,6 +77,7 @@ const sequence: TrustedApp[] = [...half, ...half]
               alt={app.name}
               width={88}
               height={88}
+              densities={[2, 3]}
               loading="lazy"
               draggable={false}
             />
