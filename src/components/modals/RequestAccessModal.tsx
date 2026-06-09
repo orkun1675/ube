@@ -7,6 +7,7 @@ import { ArrowRightIcon, CheckIcon } from "@phosphor-icons/react"
 import React, { type SubmitEvent } from "react"
 import { BASIN_ENDPOINT, GITHUB_URL, RECAPTCHA_SITE_KEY } from "@/constants"
 import { track } from "@/lib/analytics"
+import { getAttribution } from "@/lib/attribution"
 import { Modal } from "@/lib/modal"
 import {
   requestAccessSource,
@@ -58,9 +59,20 @@ export const RequestAccessModal = ({
   const [teamSize, setTeamSize] = React.useState("")
   const [productError, setProductError] = React.useState(false)
   const [submitError, setSubmitError] = React.useState("")
+  const [attribution, setAttribution] = React.useState<Record<string, string>>(
+    {},
+  )
   const variant = useStore(requestAccessVariant)
   const source = useStore(requestAccessSource)
   const isEnterprise = variant === "enterprise"
+
+  // Read persisted ad click IDs / UTM tags once on mount and carry them into
+  // the Basin submission as hidden fields. Amplitude already captures these
+  // natively, so this is purely so Basin has the IDs for retargeting / offline
+  // conversion import.
+  React.useEffect(() => {
+    setAttribution(getAttribution())
+  }, [])
 
   // Kick off the reCAPTCHA script the first time the modal opens, so the
   // token is usually ready by the time the user hits submit.
@@ -216,6 +228,11 @@ export const RequestAccessModal = ({
 
           <form onSubmit={onSubmit} action={BASIN_ENDPOINT} method="POST">
             <input type="hidden" name="variant" value={variant} />
+            {/* Ad click IDs / UTM tags captured from the landing URL, so each
+                Basin lead carries its attribution for later retargeting. */}
+            {Object.entries(attribution).map(([name, value]) => (
+              <input key={name} type="hidden" name={name} value={value} />
+            ))}
             <div className="field">
               <label className="field-label" htmlFor="ra-email">
                 {isEnterprise ? "Work email" : "Email"}{" "}

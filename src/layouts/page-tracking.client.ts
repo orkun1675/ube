@@ -11,6 +11,10 @@ import {
   initEngagementTracking,
   initScrollDepthTracking,
 } from "@/lib/analytics"
+import { captureAttribution } from "@/lib/attribution"
 
+// Stash any ad click IDs / UTM tags from the landing URL before the user
+// navigates deeper — the Request-access form reads them back as hidden fields.
+captureAttribution()
 initEngagementTracking()
 initScrollDepthTracking()

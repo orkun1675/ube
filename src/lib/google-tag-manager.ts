@@ -58,8 +58,24 @@ const toDataLayerEvent = (
     // POST — the immediate, valid-submission lead signal. `generate_lead` is
     // GA4's canonical lead event (and Google Ads recognizes it as a
     // conversion); `form_id` scopes it to the one signup form we have today.
-    case "request_access_submitted":
-      return { event: "generate_lead", form_id: "signup" }
+    //
+    // `user_email` carries the submitted email so the container can power
+    // Reddit Advanced Matching / Google Enhanced Conversions. We pass it raw
+    // (lowercased + trimmed only) on purpose: Reddit and Google normalize and
+    // SHA-256-hash it differently on their side, so each platform's tag must do
+    // its own hashing — a single in-app hash couldn't satisfy both. The tags
+    // hash client-side before transmission, so the networks still only ever
+    // receive a hash. GTM reads this via a `user_email` Data Layer Variable.
+    case "request_access_submitted": {
+      const email = props?.["email"]
+      const normalized =
+        typeof email === "string" ? email.trim().toLowerCase() : ""
+      return {
+        event: "generate_lead",
+        form_id: "signup",
+        ...(normalized ? { user_email: normalized } : {}),
+      }
+    }
     // Engagement: whichever of 30s-active / 50%-scroll trips first, once.
     case "engaged_30s":
       return engagedOnce()
