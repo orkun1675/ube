@@ -33,7 +33,9 @@
 import { RequestAccessIsland } from "@/components/modals/RequestAccessIsland"
 import Nav from "@/components/nav/Nav.astro"
 import Footer from "@/components/sections/Footer.astro"
+import { GTM_CONTAINER_ID } from "@/constants"
 import Amplitude from "./Amplitude.astro"
+import GoogleTagManager from "./GoogleTagManager.astro"
 
 // Self-hosted variable fonts (cuts ~180ms median LCP vs. the Google CDN).
 // One file per family covers every weight we use — see styles.css where
@@ -86,6 +88,13 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Tag Manager — placed as high in <head> as possible (after the
+         charset/viewport metas, which must come first). Loads only in
+         production; see GoogleTagManager.astro. All ad pixels (Reddit, etc.)
+         are configured inside the container, not here. -->
+    <GoogleTagManager />
+
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -157,6 +166,23 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
     <Amplitude />
   </head>
   <body data-accent-mode={accentMode}>
+    {
+      // Google Tag Manager (noscript) — fallback for JS-disabled visitors.
+      // Gated to prod builds: no runtime host check is possible without JS,
+      // so it's omitted from `npm run dev` entirely (it would otherwise load
+      // GTM on localhost). See GoogleTagManager.astro for the main loader.
+      import.meta.env.PROD && (
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_CONTAINER_ID}`}
+            height="0"
+            width="0"
+            style="display:none;visibility:hidden"
+            title="Google Tag Manager"
+          />
+        </noscript>
+      )
+    }
     <!-- The page itself acts as a "curtain" that lifts off the wordmark
          below. Everything that scrolls naturally with the page goes inside
          `.page-content`; the fixed wordmark is a sibling, pinned to the

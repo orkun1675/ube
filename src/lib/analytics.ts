@@ -9,6 +9,13 @@
 // `<script>` in `BaseLayout.astro`. The cleanup contract returns a
 // disposer; for now BaseLayout just fires-and-forgets since these run for
 // the lifetime of the document.
+//
+// `track()` is the single dispatch point for every event in the app. It fans
+// each call out to two sinks: Amplitude (product analytics) and the GTM
+// dataLayer (ad platforms — Reddit today, Google Ads / Meta / LinkedIn
+// later). The dataLayer mapping lives in `lib/google-tag-manager.ts`; keeping
+// the fan-out inside `track()` means no call site has to know GTM exists.
+import { pushConversion } from "@/lib/google-tag-manager"
 
 // Loose Amplitude shape — we only use `.track` and the dynamic plugins are
 // initialized inline in BaseLayout.astro. Keep this an `any` rather than
@@ -24,6 +31,10 @@ declare global {
 export const track = (name: string, props?: Record<string, unknown>): void => {
   try {
     window.amplitude?.track(name, props)
+  } catch {}
+  // Separate try/catch so a GTM hiccup can never take down Amplitude tracking.
+  try {
+    pushConversion(name, props)
   } catch {}
 }
 
