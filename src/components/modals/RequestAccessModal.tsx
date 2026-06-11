@@ -8,6 +8,7 @@ import React, { type SubmitEvent } from "react"
 import { BASIN_ENDPOINT, GITHUB_URL, RECAPTCHA_SITE_KEY } from "@/constants"
 import { track } from "@/lib/analytics"
 import { getAttribution } from "@/lib/attribution"
+import { newEventId } from "@/lib/conversions"
 import { Modal } from "@/lib/modal"
 import {
   requestAccessSource,
@@ -59,20 +60,12 @@ export const RequestAccessModal = ({
   const [teamSize, setTeamSize] = React.useState("")
   const [productError, setProductError] = React.useState(false)
   const [submitError, setSubmitError] = React.useState("")
-  const [attribution, setAttribution] = React.useState<Record<string, string>>(
-    {},
-  )
+  // One lead id per form-fill, reused across retries (reset on close, below) so
+  // a failed-then-resubmitted lead keeps the same id instead of double-counting.
+  const eventIdRef = React.useRef<string | null>(null)
   const variant = useStore(requestAccessVariant)
   const source = useStore(requestAccessSource)
   const isEnterprise = variant === "enterprise"
-
-  // Read persisted ad click IDs / UTM tags once on mount and carry them into
-  // the Basin submission as hidden fields. Amplitude already captures these
-  // natively, so this is purely so Basin has the IDs for retargeting / offline
-  // conversion import.
-  React.useEffect(() => {
-    setAttribution(getAttribution())
-  }, [])
 
   // Kick off the reCAPTCHA script the first time the modal opens, so the
   // token is usually ready by the time the user hits submit.
@@ -116,6 +109,7 @@ export const RequestAccessModal = ({
         setTeamSize("")
         setProductError(false)
         setSubmitError("")
+        eventIdRef.current = null
       }, 280)
     }
   }, [open, step])
@@ -127,6 +121,12 @@ export const RequestAccessModal = ({
     }
     setProductError(false)
     setSubmitError("")
+    // One id per form-fill (held in a ref) and reused across retries, so a
+    // failed-then-resubmitted lead keeps the SAME id — shared by the Zaraz
+    // `generate_lead` event and the Basin record, and deduped by the ad tools
+    // instead of counting two leads.
+    if (eventIdRef.current === null) eventIdRef.current = newEventId()
+    const eventId = eventIdRef.current
     track("request_access_submitted", {
       email,
       product_interest: product,
@@ -134,6 +134,7 @@ export const RequestAccessModal = ({
       stack_other: stackOther,
       team_size: teamSize,
       variant,
+      event_id: eventId,
     })
     const formEl = e.currentTarget
     setStep("submitting")
@@ -162,6 +163,13 @@ export const RequestAccessModal = ({
     let response: Response
     try {
       const formData = new FormData(formEl)
+      formData.append("event_id", eventId)
+      // Attribution (UTMs, ad-click IDs, Meta _fbp/_fbc) appended explicitly at
+      // submit time rather than via React-rendered hidden inputs — read fresh
+      // from storage so delivery never depends on render/effect timing.
+      for (const [key, value] of Object.entries(getAttribution())) {
+        formData.append(key, value)
+      }
       formData.append("g-recaptcha-response", token)
       formData.append("g-recaptcha-version", "v3")
       response = await fetch(BASIN_ENDPOINT, {
@@ -228,11 +236,6 @@ export const RequestAccessModal = ({
 
           <form onSubmit={onSubmit} action={BASIN_ENDPOINT} method="POST">
             <input type="hidden" name="variant" value={variant} />
-            {/* Ad click IDs / UTM tags captured from the landing URL, so each
-                Basin lead carries its attribution for later retargeting. */}
-            {Object.entries(attribution).map(([name, value]) => (
-              <input key={name} type="hidden" name={name} value={value} />
-            ))}
             <div className="field">
               <label className="field-label" htmlFor="ra-email">
                 {isEnterprise ? "Work email" : "Email"}{" "}

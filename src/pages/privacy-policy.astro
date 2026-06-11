@@ -20,7 +20,7 @@ import {
 
 const pageUrl = new URL("/privacy-policy/", Astro.site).href
 const siteUrl = new URL("/", Astro.site).href
-const dateModified = "2026-05-24"
+const dateModified = "2026-06-10"
 const title = "Privacy Policy — Ube"
 const description =
   "Privacy Policy for Ube, a software platform by Chunky Tofu Studios, LLC."
@@ -51,7 +51,7 @@ const jsonLd = buildJsonLdGraph([
 
       <article class="legal-content">
         <h1>Privacy Policy</h1>
-        <p class="legal-meta">Last updated May 24, 2026</p>
+        <p class="legal-meta">Last updated June 10, 2026</p>
 
         <p>
           Chunky Tofu Studios, LLC (<strong>"Chunky Tofu Studios,"</strong>
@@ -154,9 +154,23 @@ const jsonLd = buildJsonLdGraph([
           <strong>Cookies and Similar Technologies.</strong> We and our service
           providers use cookies, pixels, scripts, local storage, and similar
           technologies to operate the Service, remember your preferences,
-          measure engagement, and analyze usage. You can generally control
-          cookies through your browser settings, although some features of the
-          Service may not function properly without them.
+          measure engagement, analyze usage, and measure and deliver
+          advertising. You can generally control cookies through your browser
+          settings, although some features of the Service may not function
+          properly without them.
+        </p>
+
+        <p>
+          <strong>Advertising and Attribution Identifiers.</strong> When you
+          arrive from an online advertisement, we capture and store advertising
+          click identifiers from the link (for example, Google "gclid," Meta
+          "fbclid," or Reddit "rdt_cid") and campaign parameters (UTM tags), and
+          we set first-party advertising cookies, including identifiers
+          associated with the Meta advertising platform (the "_fbp" and "_fbc"
+          cookies). We use these — together with a hashed version of your email
+          address when you submit a form — to attribute sign-ups to the ads that
+          drove them and to measure and deliver advertising. See "How We Share
+          Personal Data" and "Your Rights and Choices" below.
         </p>
 
         <p>
@@ -199,6 +213,12 @@ const jsonLd = buildJsonLdGraph([
             <strong>Measure demand:</strong> understand interest in Ube and in
             specific products (for example, Ube Maintainer vs. Ube Publisher),
             and decide what to build next.
+          </li>
+          <li>
+            <strong>Advertise and measure:</strong> measure the performance of
+            our advertising, attribute sign-ups to the ads that drove them, and
+            show you relevant ads on other platforms through our advertising
+            partners.
           </li>
           <li>
             <strong>Manage accounts and access:</strong> create and administer
@@ -307,6 +327,37 @@ const jsonLd = buildJsonLdGraph([
               Terms of Service
             </a>.
           </li>
+          <li>
+            <strong>Cloudflare Zaraz</strong> (tag management) — to load and
+            manage our analytics and advertising tags from Cloudflare's edge
+            network. See Cloudflare's privacy disclosures at{" "}
+            <a
+              href="https://www.cloudflare.com/privacypolicy/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              cloudflare.com/privacypolicy
+            </a>.
+          </li>
+          <li>
+            <strong>Advertising platforms</strong> — to measure advertising
+            performance and deliver relevant ads. These currently include or are
+            expected to include Reddit (see{" "}
+            <a
+              href="https://www.reddit.com/policies/privacy-policy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              reddit.com/policies/privacy-policy
+            </a>) and Meta (see{" "}
+            <a
+              href="https://www.facebook.com/privacy/policy/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              facebook.com/privacy/policy
+            </a>), and we may add others such as Google or LinkedIn.
+          </li>
         </ul>
 
         <p>
@@ -338,8 +389,19 @@ const jsonLd = buildJsonLdGraph([
         </p>
 
         <p>
-          We do not sell personal data, and we do not share personal data for
-          cross-context behavioral advertising or targeted advertising purposes.
+          <strong>Advertising Partners.</strong> We share certain online
+          identifiers and activity — including cookies and similar identifiers
+          (such as the Meta "_fbp" and "_fbc" identifiers), advertising click
+          identifiers, and a hashed version of your email address — with
+          advertising platforms and the tools that manage our advertising tags,
+          so that we can measure the performance of our advertising, attribute
+          sign-ups to the ads that drove them, and show you relevant ads on
+          other services. We do not share the content of your Inputs or
+          Suggestions for advertising. Depending on your jurisdiction, this
+          activity may be considered "targeted advertising," "cross-context
+          behavioral advertising," or a "sale" or "sharing" of personal data
+          under applicable law. See <a href="#rights">Your Rights and Choices</a>
+          {" "}for how to opt out.
         </p>
 
         <h2 id="retention">4. Retention</h2>
@@ -396,6 +458,10 @@ const jsonLd = buildJsonLdGraph([
             consent (withdrawal does not affect prior processing).
           </li>
           <li>
+            <strong>Opt out</strong> of targeted advertising and of the "sale"
+            or "sharing" of personal data.
+          </li>
+          <li>
             <strong>Lodge a complaint</strong> with a data protection authority
             in your jurisdiction.
           </li>
@@ -425,6 +491,18 @@ const jsonLd = buildJsonLdGraph([
           <strong>Cookies.</strong> Most browsers let you refuse or delete
           cookies. Some parts of the Service may not function properly if you
           disable cookies.
+        </p>
+
+        <p>
+          <strong>Targeted Advertising and "Do Not Sell or Share."</strong> You
+          can opt out of our use of advertising and attribution identifiers by
+          refusing or deleting non-essential cookies in your browser, by
+          limiting ad personalization directly with the advertising platforms
+          (for example, through Meta's and Reddit's ad-preference settings), or
+          by contacting us at{" "}
+          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. Opting out
+          does not stop you from seeing ads, but the ads you see will be less
+          tailored to you.
         </p>
 
         <h2 id="children">7. Children</h2>
