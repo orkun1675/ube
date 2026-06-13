@@ -1,0 +1,38 @@
+---
+// RB2B — person-level (US) website-visitor identification.
+// Dashboard / canonical snippet: https://app.rb2b.com/script
+//
+// Mirrors Amplitude.astro: the loader is injected dynamically so it only
+// runs on ube.dev (or a subdomain) — never on localhost or preview builds,
+// where it would otherwise burn the free-tier quota (150 resolutions/mo)
+// and pollute the dashboard with our own dev traffic. Escape hatch for
+// local verification: ?rb2b=1 (note: a real load DOES count a resolution).
+//
+// The loaded script (reb2b.js.gz) resolves visitors fully automatically on
+// each page view; there are no client-side identify()/collect() methods to
+// call, and RB2B's enrichment Identity APIs are a separate paid Partner
+// Program — so there is nothing to wire up beyond loading the pixel as
+// early as possible on every route. It sits in <head> (not deferred to
+// idle) and loads async, so it fires before slow/bouncing visitors leave,
+// maximizing the share of sessions RB2B can resolve. Because BaseLayout
+// renders on every route and Astro ships an MPA (each route is a full page
+// load), this runs on every page automatically.
+const RB2B_KEY = "0NW1GHZ9LRO4"
+---
+
+<script is:inline define:vars={{ RB2B_KEY }}>
+  {
+    const h = location.hostname
+    const enabled =
+      h === "ube.dev" ||
+      h.endsWith(".ube.dev") ||
+      location.search.includes("rb2b=1")
+    if (enabled && !window.reb2b) {
+      window.reb2b = { loaded: true }
+      const s = document.createElement("script")
+      s.async = true
+      s.src = `https://ddwl4m2hdecbv.cloudfront.net/b/${RB2B_KEY}/${RB2B_KEY}.js.gz`
+      document.head.appendChild(s)
+    }
+  }
+</script>

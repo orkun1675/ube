@@ -20,7 +20,7 @@ import {
 
 const pageUrl = new URL("/privacy-policy/", Astro.site).href
 const siteUrl = new URL("/", Astro.site).href
-const dateModified = "2026-06-10"
+const dateModified = "2026-06-13"
 const title = "Privacy Policy — Ube"
 const description =
   "Privacy Policy for Ube, a software platform by Chunky Tofu Studios, LLC."
@@ -51,7 +51,7 @@ const jsonLd = buildJsonLdGraph([
 
       <article class="legal-content">
         <h1>Privacy Policy</h1>
-        <p class="legal-meta">Last updated June 10, 2026</p>
+        <p class="legal-meta">Last updated June 13, 2026</p>
 
         <p>
           Chunky Tofu Studios, LLC (<strong>"Chunky Tofu Studios,"</strong>
@@ -174,6 +174,31 @@ const jsonLd = buildJsonLdGraph([
         </p>
 
         <p>
+          <strong>Visitor Identification.</strong> When you visit or log in to
+          our website, cookies and similar technologies may be used by our
+          online data partners or vendors to associate these activities with
+          other personal information they or others have about you, including by
+          association with your email. We (or service providers on our behalf)
+          may then send communications and marketing to these email addresses.
+          You may opt out of receiving this advertising by visiting{" "}
+          <a
+            href="https://app.retention.com/optout"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            app.retention.com/optout
+          </a>. You also have the option to opt out of the collection of your
+          personal data in compliance with GDPR by visiting{" "}
+          <a
+            href="https://www.rb2b.com/rb2b-gdpr-opt-out"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            rb2b.com/rb2b-gdpr-opt-out
+          </a>.
+        </p>
+
+        <p>
           <strong>Session Replay.</strong> We may record anonymized sessions of
           how visitors interact with <a href="https://ube.dev">ube.dev</a> —
           including mouse movements, clicks, and pages viewed — to understand
@@ -291,6 +316,20 @@ const jsonLd = buildJsonLdGraph([
               rel="noopener noreferrer"
             >
               amplitude.com/privacy
+            </a>.
+          </li>
+          <li>
+            <strong>RB2B</strong> (website-visitor identification) — to identify
+            business visitors to <a href="https://ube.dev">ube.dev</a> and
+            associate site activity with professional contact information,
+            including by association with your email. See RB2B's privacy
+            disclosures at{" "}
+            <a
+              href="https://www.rb2b.com/privacy-policy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              rb2b.com/privacy-policy
             </a>.
           </li>
           <li>
@@ -503,6 +542,27 @@ const jsonLd = buildJsonLdGraph([
           <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. Opting out
           does not stop you from seeing ads, but the ads you see will be less
           tailored to you.
+        </p>
+
+        <p>
+          <strong>Visitor Identification.</strong> To opt out of
+          website-visitor identification and any associated marketing emails,
+          visit{" "}
+          <a
+            href="https://app.retention.com/optout"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            app.retention.com/optout
+          </a>. To opt out of the collection of your personal data in compliance
+          with GDPR, visit{" "}
+          <a
+            href="https://www.rb2b.com/rb2b-gdpr-opt-out"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            rb2b.com/rb2b-gdpr-opt-out
+          </a>.
         </p>
 
         <h2 id="children">7. Children</h2>
