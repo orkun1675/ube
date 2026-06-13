@@ -11,6 +11,7 @@ import Loop from "@/components/publisher/sections/Loop.astro"
 import Moat from "@/components/publisher/sections/Moat.astro"
 import Problems from "@/components/publisher/sections/Problems.astro"
 import Stack from "@/components/publisher/sections/Stack.astro"
+import TrustedBy from "@/components/sections/TrustedBy.astro"
 import BaseLayout from "@/layouts/BaseLayout.astro"
 import {
   buildBreadcrumbSchema,
@@ -75,6 +76,7 @@ const jsonLd = buildJsonLdGraph([
 
   <main class="publisher-page">
     <Hero />
+    <TrustedBy />
     <Problems />
     <Stack />
     <Loop />

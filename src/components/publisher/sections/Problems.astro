@@ -135,7 +135,10 @@ const row2: Card[] = [
 <style>
   .publisher-problems {
     background: var(--canvas-soft);
-    border-block: 1px solid var(--hairline-soft);
+    /* Only a bottom groove — the TrustedBy band directly above shares this
+       same --canvas-soft surface, so a top border here would stack with the
+       band's edge into a visible dark seam. Let them read as one panel. */
+    border-bottom: 1px solid var(--hairline-soft);
   }
   .publisher-problems-headline {
     margin: 18px 0 0;
